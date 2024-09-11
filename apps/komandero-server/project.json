@@ -1,0 +1,63 @@
+{
+  "name": "komandero-server",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/komandero-server/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/komandero-server",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "apps/komandero-server/src/main.ts",
+        "tsConfig": "apps/komandero-server/tsconfig.app.json",
+        "assets": ["apps/komandero-server/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "komandero-server:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "komandero-server:build:development"
+        },
+        "production": {
+          "buildTarget": "komandero-server:build:production"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/komandero-server/jest.config.ts"
+      }
+    }
+  }
+}
