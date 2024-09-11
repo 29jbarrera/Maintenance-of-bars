@@ -1,0 +1,52 @@
+.container-ticket {
+  margin: 30px auto 0 auto;
+  max-width: 480px;
+  background-color: rgb(253, 242, 222);
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px,
+    rgba(0, 0, 0, 0.05) 0px 5px 10px;
+  white-space: pre-wrap;
+  font-family: 'Courier New', Courier, monospace;
+
+  .spikes-before,
+  .spikes-after {
+    position: relative;
+    background-color: inherit; // Using inherit for better maintainability
+  }
+
+  .spikes-before::after,
+  .spikes-after::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    left: 0;
+    z-index: 10;
+    display: block;
+    height: 10px;
+    background-size: 10px 100%;
+    background-position: 0 0;
+  }
+
+  .spikes-before::after {
+    top: -10px;
+    background-image: linear-gradient(304deg, rgb(253, 242, 222) 25%, transparent 25%),
+                      linear-gradient(48deg, rgb(253, 242, 222) 25%, transparent 25%);
+  }
+
+  .spikes-after::after {
+    top: 100%;
+    background-image: linear-gradient(135deg, rgb(253, 242, 222) 25%, transparent 25%),
+                      linear-gradient(225deg, rgb(253, 242, 222) 25%, transparent 25%);
+  }
+
+  .surface-wheat:hover {
+    background-color: rgba(231, 223, 208, 0.6) !important;
+    border-radius: 5px !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .container-ticket {
+    margin: 30px 5px 0 5px !important;
+    font-size: 0.84rem;
+  }
+}

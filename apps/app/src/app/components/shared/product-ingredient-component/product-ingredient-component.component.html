@@ -1,0 +1,19 @@
+<ion-card class="ion-padding" *ngIf="product">
+  <ion-card-header class="text-center mb-3">
+    <ion-card-title class="text-600">
+      {{ product.name }}
+    </ion-card-title>
+  </ion-card-header>
+  <ion-card-content
+    class="flex flex-wrap align-items-center justify-content-center gap-3"
+  >
+    <app-pill-checkbox-component
+      *ngFor="let ingredient of product.ingredient_product"
+      [is_active]="ingredient.default"
+      [name]="ingredient.ingredient.name"
+      [item]="ingredient"
+      (add_or_remove)="add_or_remove.emit($event)"
+    >
+    </app-pill-checkbox-component>
+  </ion-card-content>
+</ion-card>

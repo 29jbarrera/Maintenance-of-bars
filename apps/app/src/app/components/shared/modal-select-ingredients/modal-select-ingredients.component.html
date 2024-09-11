@@ -1,0 +1,56 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-title class="ion-text-center"> Selección de Ingredientes </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon color="danger" slot="icon-only" name="close-outline">
+        </ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="ion-padding">
+    <ion-checkbox
+      mode="ios"
+      labelPlacement="end"
+      class="mb-4"
+      (ionChange)="selectAllIngredients($event)"
+    >
+      Seleccionar Todos
+    </ion-checkbox>
+
+    <ion-searchbar
+      mode="ios"
+      animated="true"
+      (ionInput)="search_ingredient($event)"
+      placeholder="Buscar Ingrediente..."
+    ></ion-searchbar>
+
+    <ion-item *ngFor="let ingredient of ingredients | filterIngredients : search_term;">
+      <ion-checkbox
+        mode="ios"
+        justify="space-between"
+        [checked]="isCheckedIngredient(ingredient.id)"
+        (ionChange)="addRemoveIngredient($event, ingredient)"
+      >
+        {{ ingredient.name }}
+      </ion-checkbox>
+    </ion-item>
+    <!-- TODO: Mejorar componente y ver si recibe listado de ingredientes -->
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button
+      expand="block"
+      fill="solid"
+      color="primary"
+      (click)="confirm_selection()"
+    >
+      <ion-text class="font-bold text-0">Confirmar</ion-text>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

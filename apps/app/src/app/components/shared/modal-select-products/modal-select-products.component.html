@@ -1,0 +1,79 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-title class="ion-text-center"> Selección de Productos </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon color="danger" slot="icon-only" name="close-outline">
+        </ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid  *ngIf="loading">
+    <p-progressBar mode="indeterminate" [style]="{ height: '6px' }" />
+
+  </ion-grid>
+  <ion-grid class="ion-padding">
+    <div class="surface-200 border-1 surface-border p-2 mb-2">
+      <ion-checkbox
+        mode="ios"
+        labelPlacement="end"
+        justify="space-between"
+        (ionChange)="selectAllProducts($event)"
+        (click)="$event.stopPropagation()"
+      >
+        Seleccionar todos los productos
+      </ion-checkbox>
+    </div>
+
+    <p-accordion>
+      <div *ngFor="let category of product_categories">
+        <div class="w-full">
+          <p-accordionTab [headerStyleClass]="getColorOfHeader(category)">
+
+            <ng-template pTemplate="header" >
+              <div class="flex align-items-center gap-3 ">
+                <ion-checkbox
+                  mode="ios"
+                  justify="space-between"
+                  [checked]="is_checked_category(category)"
+                  (ionChange)="selectAllProductsOfCategory($event, category)"
+                  (click)="$event.stopPropagation()"
+                ></ion-checkbox>
+                {{ category.name }} 
+                <span  class="text-600 text-xs">({{getElementsSelected(category).length}} seleccionados )</span>
+              
+              </div>
+            </ng-template>
+
+            <ion-item *ngFor="let product of getProductsOfCategory(category)">
+              <ion-checkbox
+                mode="ios"
+                justify="space-between"
+                [checked]="isCheckedProduct(product.id)"
+                (ionChange)="addRemoveProduct($event, product)"
+              >
+                {{ product.name }}
+              </ion-checkbox>
+            </ion-item>
+          </p-accordionTab>
+        </div>
+      </div>
+    </p-accordion>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button
+      expand="block"
+      fill="solid"
+      color="primary"
+      (click)="confirm_selection()"
+    >
+      <ion-text class="font-bold text-0">Confirmar</ion-text>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

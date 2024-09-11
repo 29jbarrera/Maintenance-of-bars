@@ -1,0 +1,26 @@
+<div class="container-ticket">
+  <div class="spikes-before"></div>
+  <ion-grid>
+    <ion-row *ngFor="let line of getLinesToPrint(); let i = index">
+      <ion-col
+        [ngClass]="{
+          'font-bold': line.style === 'B' && line.font === 'B',
+          'font-light': line.style !== 'B' && line.font !== 'B',
+          'text-center': line.align === 'ct',
+          'text-left': line.align === 'left',
+          'text-right': line.align === 'right'
+        }"
+        (click)="point_line.emit(i)"
+      >
+        <div [ngClass]="{'surface-wheat cursor-pointer' : editMode}">
+          {{ getText(line.text) }}
+        </div>
+      </ion-col>
+    </ion-row>
+    <!-- Mensaje de Error -->
+    <div class="text-center py-4" *ngIf="!getLinesToPrint().length">
+      {{ errorMsg }}
+    </div>
+  </ion-grid>
+  <div class="spikes-after"></div>
+</div>

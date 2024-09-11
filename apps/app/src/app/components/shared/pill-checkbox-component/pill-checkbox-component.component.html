@@ -1,0 +1,7 @@
+<input
+  [id]="'pill-checkbox-component-' + name"
+  type="checkbox"
+  [checked]="is_active"
+  (change)="add_or_remove.emit(item)"
+  [title]="name"
+/>

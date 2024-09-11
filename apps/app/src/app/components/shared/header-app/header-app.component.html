@@ -1,0 +1,11 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="go_back.emit()" *ngIf="can_back">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title class="text-center">{{ title }}</ion-title>
+  </ion-toolbar>
+</ion-header>

@@ -1,0 +1,176 @@
+input[type='checkbox'] {
+  position: relative;
+  flex-grow: 1;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-size: cover;
+  min-width: 190px;
+  margin: 0px 2px 4px;
+}
+
+input[type='checkbox']::after {
+  content: attr(title);
+  display: block;
+}
+
+input[type='checkbox']::after {
+  position: relative;
+  cursor: pointer;
+  display: block;
+  background-color: #ffc16f5d;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #4d4d4d;
+  line-height: 40px;
+  border-radius: 24px;
+}
+
+input[type='checkbox']:hover::after {
+  background: #ffc16f9d;
+}
+
+input[type='checkbox']:checked::after {
+  background: #ffc16f;
+}
+
+input[type='checkbox']::after {
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+input[type='checkbox']:checked::before {
+  position: absolute;
+  right: -10px;
+  top: 4px;
+  z-index: 2;
+  content: '';
+  display: block;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
+  background: #ffffff;
+  background-size: cover;
+  background-image: url('/assets/icons/check.svg');
+  border-radius: 15px;
+  height: 30px;
+  width: 30px;
+}
+
+input[type='checkbox']:checked:before {
+  -webkit-animation-name: PillCheckbox;
+  animation-name: PillCheckbox;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+}
+
+@-webkit-keyframes PillCheckbox {
+  from,
+  20%,
+  40%,
+  60%,
+  80%,
+  to {
+    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+  20% {
+    -webkit-transform: scale3d(1.1, 1.1, 1.1);
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+  40% {
+    -webkit-transform: scale3d(0.9, 0.9, 0.9);
+    transform: scale3d(0.9, 0.9, 0.9);
+  }
+  60% {
+    opacity: 1;
+    -webkit-transform: scale3d(1.03, 1.03, 1.03);
+    transform: scale3d(1.03, 1.03, 1.03);
+  }
+  80% {
+    -webkit-transform: scale3d(0.97, 0.97, 0.97);
+    transform: scale3d(0.97, 0.97, 0.97);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes PillCheckbox {
+  from,
+  20%,
+  40%,
+  60%,
+  80%,
+  to {
+    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+  20% {
+    -webkit-transform: scale3d(1.1, 1.1, 1.1);
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+  40% {
+    -webkit-transform: scale3d(0.9, 0.9, 0.9);
+    transform: scale3d(0.9, 0.9, 0.9);
+  }
+  60% {
+    opacity: 1;
+    -webkit-transform: scale3d(1.03, 1.03, 1.03);
+    transform: scale3d(1.03, 1.03, 1.03);
+  }
+  80% {
+    -webkit-transform: scale3d(0.97, 0.97, 0.97);
+    transform: scale3d(0.97, 0.97, 0.97);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@media (max-width: 915px) {
+  input[type='checkbox'] {
+    min-width: 140px;
+  }
+
+  input[type='checkbox']::after {
+    font-size: 0.6rem;
+  }
+}
+
+
+@media (max-width: 829px) {
+  input[type='checkbox'] {
+    min-width: 159px;
+  }
+
+  input[type='checkbox']::after {
+    font-size: 0.7rem;
+  }
+}
+
+
+@media (max-width: 412px) {
+  input[type='checkbox'] {
+    min-width: 120px;
+  }
+
+  input[type='checkbox']::after {
+    font-size: 0.6rem;
+  }
+}
