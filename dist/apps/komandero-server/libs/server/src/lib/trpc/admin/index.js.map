@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../../../../../../libs/server/src/lib/trpc/admin/index.ts"],
+  "sourcesContent": ["import {\n  router,\n} from '@komandero/serverTRPC';\nimport { users } from './users';\nimport { organizations } from './organizations';\nimport { app_configs } from './app-configs';\n\nexport const admin = router({\n  users,\n  organizations,\n  app_configs\n});"],
+  "mappings": ";;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,wBAEO;AACP,mBAAsB;AACtB,2BAA8B;AAC9B,yBAA4B;AAErB,MAAM,YAAQ,0BAAO;AAAA,EAC1B;AAAA,EACA;AAAA,EACA;AACF,CAAC;",
+  "names": []
+}

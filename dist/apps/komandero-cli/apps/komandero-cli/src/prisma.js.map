@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../../../apps/komandero-cli/src/prisma.ts"],
+  "sourcesContent": ["import { PrismaClient } from '@prisma/client';\nexport const prisma = new PrismaClient();\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,oBAA6B;AACtB,MAAM,SAAS,IAAI,2BAAa;",
+  "names": []
+}

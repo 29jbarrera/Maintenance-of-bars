@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../../../../../../../libs/server/src/lib/trpc/organizations/00-example/index.ts"],
+  "sourcesContent": ["import { TRPCError } from '@trpc/server';\nimport {\n  getUserIdFormContext,\n  publicProcedure,\n  router,\n} from '@komandero/serverTRPC';\nimport * as z from 'zod';\nimport { prisma } from '@komandero/prisma';\n\nexport const example = router({});\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AACA,wBAIO;AAIA,MAAM,cAAU,0BAAO,CAAC,CAAC;",
+  "names": []
+}

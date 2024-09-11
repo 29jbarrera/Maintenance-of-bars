@@ -1,0 +1,9 @@
+{
+  "name": "komandero-cli",
+  "version": "0.0.1",
+  "dependencies": {
+    "@prisma/client": "5.14.0"
+  },
+  "main": "./main.js",
+  "type": "commonjs"
+}

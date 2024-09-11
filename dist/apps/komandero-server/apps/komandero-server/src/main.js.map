@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../../../apps/komandero-server/src/main.ts"],
+  "sourcesContent": ["import express from 'express';\nimport cors from 'cors';\nimport * as trpcExpress from '@trpc/server/adapters/express';\nimport { appRouter, createContext, prisma } from '@komandero/server';\nimport './script';\n\nconst host = process.env.HOST ?? '0.0.0.0';\nconst port = process.env.PORT ? Number(process.env.PORT) : 3000;\n\nconst app = express();\napp.use(cors());\n\napp.get('/', (req, res) => {\n  res.send({ message: 'Hello API' });\n});\n\napp.listen(port, host, () => {\n  console.log(`[ ready ] http://${host}:${port}`);\n});\n\napp.use(\n  '/api/kissandcode',\n  trpcExpress.createExpressMiddleware({\n    router: appRouter,\n    createContext,\n  })\n);\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;AAAA,qBAAoB;AACpB,kBAAiB;AACjB,kBAA6B;AAC7B,oBAAiD;AACjD,oBAAO;AAEP,MAAM,OAAO,QAAQ,IAAI,QAAQ;AACjC,MAAM,OAAO,QAAQ,IAAI,OAAO,OAAO,QAAQ,IAAI,IAAI,IAAI;AAE3D,MAAM,UAAM,eAAAA,SAAQ;AACpB,IAAI,QAAI,YAAAC,SAAK,CAAC;AAEd,IAAI,IAAI,KAAK,CAAC,KAAK,QAAQ;AACzB,MAAI,KAAK,EAAE,SAAS,YAAY,CAAC;AACnC,CAAC;AAED,IAAI,OAAO,MAAM,MAAM,MAAM;AAC3B,UAAQ,IAAI,oBAAoB,IAAI,IAAI,IAAI,EAAE;AAChD,CAAC;AAED,IAAI;AAAA,EACF;AAAA,EACA,YAAY,wBAAwB;AAAA,IAClC,QAAQ;AAAA,IACR;AAAA,EACF,CAAC;AACH;",
+  "names": ["express", "cors"]
+}

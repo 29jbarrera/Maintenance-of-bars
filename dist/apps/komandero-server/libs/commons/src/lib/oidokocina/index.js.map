@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../../../../../libs/commons/src/lib/oidokocina/index.ts"],
+  "sourcesContent": ["export * from './commons';\nexport { OK_PEDIDO_UNO, ProductoOpciones, Detalle } from './pedido';\nexport { OK_PEDIDOS, Pedido, Estado, OK_PEDIDO_BODY } from './pedidos';\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,+BAAc,sBAAd;AACA,oBAAyD;AACzD,qBAA2D;",
+  "names": []
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../../../../libs/server/src/lib/notifications.ts"],
+  "sourcesContent": ["import { Telegraf } from 'telegraf';\n\nconst NOTIFICATION_GROUP_ID = '295276478';\nconst bot = new Telegraf('6862903033:AAEtOz95S8R3VbZKXpw0xck1V4sqZwtpy80');\n\nexport function sendMessageMarkdown(message: string) {\n  bot.telegram\n    .sendMessage(NOTIFICATION_GROUP_ID, message, {\n      parse_mode: 'Markdown',\n    })\n    .then()\n    .catch();\n}\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,sBAAyB;AAEzB,MAAM,wBAAwB;AAC9B,MAAM,MAAM,IAAI,yBAAS,gDAAgD;AAElE,SAAS,oBAAoB,SAAiB;AACnD,MAAI,SACD,YAAY,uBAAuB,SAAS;AAAA,IAC3C,YAAY;AAAA,EACd,CAAC,EACA,KAAK,EACL,MAAM;AACX;",
+  "names": []
+}

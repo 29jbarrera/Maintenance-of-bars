@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../../../../../../../libs/server/src/lib/trpc/organizations/share/index.ts"],
+  "sourcesContent": ["import { TRPCError } from '@trpc/server';\nimport {\n  getUserIdFormContext,\n  publicProcedure,\n  router,\n} from '@komandero/serverTRPC';\nimport * as z from 'zod';\nimport { prisma } from '@komandero/prisma';\n\nexport const share = router({\n  select_products: publicProcedure\n    .input(\n      z.object({\n        organization_id: z.string(),\n      })\n    )\n    .mutation(async ({ input }) => {\n      const categories = await prisma.product_category.findMany({\n        where: {\n          organization_id: input.organization_id,\n        },\n        include: {\n          product: true,\n        },\n      });\n\n      return {\n        categories,\n      };\n    }),\n});\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AACA,wBAIO;AACP,QAAmB;AACnB,oBAAuB;AAEhB,MAAM,YAAQ,0BAAO;AAAA,EAC1B,iBAAiB,kCACd;AAAA,IACC,EAAE,OAAO;AAAA,MACP,iBAAiB,EAAE,OAAO;AAAA,IAC5B,CAAC;AAAA,EACH,EACC,SAAS,OAAO,EAAE,MAAM,MAAM;AAC7B,UAAM,aAAa,MAAM,qBAAO,iBAAiB,SAAS;AAAA,MACxD,OAAO;AAAA,QACL,iBAAiB,MAAM;AAAA,MACzB;AAAA,MACA,SAAS;AAAA,QACP,SAAS;AAAA,MACX;AAAA,IACF,CAAC;AAED,WAAO;AAAA,MACL;AAAA,IACF;AAAA,EACF,CAAC;AACL,CAAC;",
+  "names": []
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../../../libs/commons/src/index.ts"],
+  "sourcesContent": ["export * from './lib/commons';\nexport * from './lib/oidokocina';\n\nexport type PriorityType = 'priority' | 'priority_ko' | 'priority_u';\n"],
+  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;AAAA,wBAAc,0BAAd;AACA,wBAAc,6BADd;",
+  "names": []
+}

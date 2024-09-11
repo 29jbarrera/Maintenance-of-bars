@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../../../../../libs/server/src/lib/trpc/index.ts"],
+  "sourcesContent": ["import { publicProcedure, router } from '@komandero/serverTRPC';\nimport { admin } from './admin';\nimport { organizations } from './organizations';\n\nexport * from './utils';\n\nexport const appRouter = router({\n  version: publicProcedure.query(({ ctx }) => {\n    return '1.0.0';\n  }),\n  admin,\n  organizations\n});\n\nexport type AppRouter = typeof appRouter;\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,wBAAwC;AACxC,mBAAsB;AACtB,2BAA8B;AAE9B,yBAAc,oBAJd;AAMO,MAAM,gBAAY,0BAAO;AAAA,EAC9B,SAAS,kCAAgB,MAAM,CAAC,EAAE,IAAI,MAAM;AAC1C,WAAO;AAAA,EACT,CAAC;AAAA,EACD;AAAA,EACA;AACF,CAAC;",
+  "names": []
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../../../libs/server/src/index.ts"],
+  "sourcesContent": ["export * from './lib/trpc';\nexport * from './lib/firebase';\nexport * from './lib/prisma';\n"],
+  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;AAAA,wBAAc,uBAAd;AACA,wBAAc,2BADd;AAEA,wBAAc,yBAFd;",
+  "names": []
+}

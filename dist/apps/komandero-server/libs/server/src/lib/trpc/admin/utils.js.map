@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../../../../../../libs/server/src/lib/trpc/admin/utils.ts"],
+  "sourcesContent": ["import { prisma } from '@komandero/prisma';\n\nconst USERS_ADMIN = ['damian@kissandcode.com'];\n\nexport async function is_admin_user(user_id: string) {\n  return true;\n  //   TODO: Implementar\n  //   const user = await prisma.user.findFirst({\n  //     where: { email: { in: USERS_ADMIN }, id: user_id },\n  //   });\n  //   if (user) {\n  //     return true;\n  //   }\n  //   return false;\n}\n\nexport async function get_users_admin_ids() {\n  const users = await prisma.user.findMany({\n    where: { email: { in: USERS_ADMIN } },\n  });\n  return users.map((user) => user.id);\n}\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,oBAAuB;AAEvB,MAAM,cAAc,CAAC,wBAAwB;AAE7C,eAAsB,cAAc,SAAiB;AACnD,SAAO;AAST;AAEA,eAAsB,sBAAsB;AAC1C,QAAM,QAAQ,MAAM,qBAAO,KAAK,SAAS;AAAA,IACvC,OAAO,EAAE,OAAO,EAAE,IAAI,YAAY,EAAE;AAAA,EACtC,CAAC;AACD,SAAO,MAAM,IAAI,CAAC,SAAS,KAAK,EAAE;AACpC;",
+  "names": []
+}
