@@ -1,0 +1,1267 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["integrations", "komandero", "public"]
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model app_department_product {
+  id                         BigInt                       @id @default(autoincrement())
+  pt                         String
+  enable                     Boolean                      @default(true)
+  name                       String
+  image                      String?
+  icon                       String?
+  image_s                    String?
+  app_product_type           app_product_type             @relation(fields: [pt], references: [name], onUpdate: Restrict)
+  app_department_product_sub app_department_product_sub[]
+
+  @@schema("komandero")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model app_department_product_sub {
+  id                     BigInt                 @id @default(autoincrement())
+  adp                    BigInt
+  enabled                Boolean                @default(true)
+  name                   String
+  app_department_product app_department_product @relation(fields: [adp], references: [id], onUpdate: Restrict)
+
+  @@schema("komandero")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model app_module {
+  id          BigInt  @id
+  name        String?
+  description String?
+  icon        String?
+  path        String?
+
+  @@schema("komandero")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model app_order_acepted_item_status {
+  name        String @id
+  description String
+
+  @@schema("komandero")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model app_order_type {
+  name        String   @id
+  description String
+  orders      orders[]
+
+  @@schema("komandero")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model komandero_app_payment_method {
+  name     String     @id
+  name_u   String
+  preorder preorder[]
+
+  @@map("app_payment_method")
+  @@schema("komandero")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model app_preorder_status {
+  name        String     @id
+  description String
+  preorder    preorder[]
+
+  @@schema("komandero")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model app_preorder_type {
+  name        String     @id
+  description String
+  preorder    preorder[]
+
+  @@schema("komandero")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model app_product_availability_preference {
+  id          Int       @id
+  name        String
+  description String    @default("")
+  enabled     Boolean   @default(true)
+  product     product[]
+
+  @@schema("komandero")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model app_product_color {
+  id                      BigInt                   @id
+  apcg                    BigInt?
+  name                    String
+  description             String?
+  hex                     String?
+  app_product_color_group app_product_color_group? @relation(fields: [apcg], references: [id])
+  product_attribute       product_attribute[]
+
+  @@schema("komandero")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model app_product_color_group {
+  id                BigInt              @id
+  name              String
+  description       String?
+  app_product_color app_product_color[]
+
+  @@schema("komandero")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model app_product_modification {
+  id                             BigInt                          @id
+  name                           String
+  apmg                           BigInt?
+  app_product_modification_group app_product_modification_group? @relation(fields: [apmg], references: [id])
+  product_modification           product_modification[]
+
+  @@schema("komandero")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model app_product_modification_group {
+  id                       BigInt                     @id
+  name                     String
+  app_product_modification app_product_modification[]
+
+  @@schema("komandero")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model app_product_size {
+  id                     BigInt                  @id
+  apsg                   BigInt?
+  name                   String
+  description            String?
+  app_product_size_group app_product_size_group? @relation(fields: [apsg], references: [id], onDelete: Cascade)
+  product_attribute      product_attribute[]
+
+  @@schema("komandero")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model app_product_size_group {
+  id               BigInt             @id
+  name             String
+  description      String?
+  app_product_size app_product_size[]
+
+  @@schema("komandero")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model app_product_type {
+  name                   String                   @id
+  description            String
+  app_department_product app_department_product[]
+  product                product[]
+
+  @@schema("komandero")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model app_role {
+  name                          String                          @id
+  user_has_role_in_organization user_has_role_in_organization[]
+  user_has_role_of_organization user_has_role_of_organization[]
+
+  @@schema("komandero")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model app_type_of_delivery {
+  name        String     @id
+  description String
+  preorder    preorder[]
+
+  @@schema("komandero")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model address_town {
+  id                  String                    @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  created_at          DateTime                  @default(now()) @db.Timestamptz(6)
+  updated_at          DateTime                  @default(now()) @db.Timestamptz(6)
+  center              Unsupported("geography")?
+  name                String
+  enabled             Boolean                   @default(false)
+  veryfy              Boolean                   @default(false)
+  address_town_routes address_town_routes[]
+  delivery            delivery[]
+  invoice             invoice[]
+  orders              orders[]
+  orders_acepted      orders_acepted[]
+  organization        organization[]
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model address_town_routes {
+  id             String                    @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  created_at     DateTime                  @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime                  @default(now()) @db.Timestamptz(6)
+  at_id          String                    @db.Uuid
+  place_id       BigInt?
+  osm_id         BigInt?
+  location       Unsupported("geography")?
+  name           String
+  type           String                    @default("'")
+  display_name   String                    @default("'")
+  enabled        Boolean                   @default(false)
+  verify         Boolean                   @default(false)
+  has_issue      Boolean                   @default(false)
+  issue          String?
+  address_town   address_town              @relation(fields: [at_id], references: [id], onUpdate: Restrict)
+  delivery       delivery[]
+  invoice        invoice[]
+  orders         orders[]
+  orders_acepted orders_acepted[]
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model allergen {
+  id               Int                @id
+  url              String
+  product_allergen product_allergen[]
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model public_app_payment_method {
+  id         String   @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+  name       String
+  icon       String?
+  enabled    Boolean  @default(false)
+
+  @@map("app_payment_method")
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model app_shipping_method {
+  id         String   @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+  enabled    Boolean  @default(false)
+  name       String
+  logo       String   @default("")
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model beta_calle {
+  id             String           @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  nombre         String
+  tipo_calle     String
+  lat            Float
+  lng            Float
+  bounds         Json?            @db.Json
+  viewport       Json?            @db.Json
+  orders_acepted orders_acepted[]
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model cash_closure {
+  id                   String       @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  organization_id      String       @db.Uuid
+  created_at           DateTime     @default(now()) @db.Timestamptz(6)
+  updated_at           DateTime     @default(now()) @db.Timestamptz(6)
+  firs_invoice         Int          @default(0)
+  last_invoice         Int          @default(0)
+  total_amount         Int          @default(0)
+  total_amount_cash    Int          @default(0)
+  total_amount_no_cash Int          @default(0)
+  year                 Int          @default(0)
+  month                Int          @default(0)
+  day                  Int          @default(0)
+  num                  Int          @default(0)
+  organization         organization @relation(fields: [organization_id], references: [id], onUpdate: Restrict)
+  invoice              invoice[]
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model cooking_zones {
+  id              String       @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  organization_id String       @db.Uuid
+  name            String
+  configuration   Json         @default(dbgenerated("json_build_object()")) @db.Json
+  organization    organization @relation(fields: [organization_id], references: [id], onUpdate: Restrict)
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model deliverers {
+  id              String            @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  organization_id String            @db.Uuid
+  name            String
+  created_at      DateTime          @default(now()) @db.Timestamptz(6)
+  updated_at      DateTime          @default(now()) @db.Timestamptz(6)
+  organization    organization      @relation(fields: [organization_id], references: [id], onUpdate: Restrict)
+  deliverers_made deliverers_made[]
+  orders_acepted  orders_acepted[]
+
+  @@schema("public")
+}
+
+model deliverers_made {
+  id              String       @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  organization_id String       @db.Uuid
+  deliverer_id    String       @db.Uuid
+  type            String       @default("KOMANDERO")
+  amount          Int          @default(0)
+  is_payment      Boolean      @default(false)
+  created_at      DateTime     @default(now()) @db.Timestamptz(6)
+  updated_at      DateTime     @default(now()) @db.Timestamptz(6)
+  num             Int
+  deliverers      deliverers   @relation(fields: [deliverer_id], references: [id], onUpdate: Restrict)
+  organization    organization @relation(fields: [organization_id], references: [id], onUpdate: Restrict)
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model delivery {
+  id                         String                    @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  created_at                 DateTime                  @default(now()) @db.Timestamptz(6)
+  updated_at                 DateTime                  @default(now()) @db.Timestamptz(6)
+  at_id                      String?                   @db.Uuid
+  atr_id                     String?                   @db.Uuid
+  sl                         Unsupported("geography")?
+  rl                         Unsupported("geography")?
+  deliverer_id               String?                   @db.Uuid
+  dbt                        DateTime?                 @db.Timetz(6)
+  dbd                        DateTime?                 @db.Date
+  dat                        DateTime?                 @db.Timetz(6)
+  dad                        DateTime?                 @db.Date
+  app                        String
+  serial                     String
+  address                    String
+  status                     String
+  recipient_name             String                    @default("")
+  recipient_phone            String                    @default("")
+  payment_type               String                    @default("")
+  is_payment                 Boolean                   @default(false)
+  confirmed                  Boolean                   @default(false)
+  amount                     Int                       @default(0)
+  atr_verify                 Boolean                   @default(false)
+  error                      String?
+  deleted                    Boolean                   @default(false)
+  location_deliverer         Unsupported("geography")?
+  amount_updated             Int                       @default(0)
+  amount_updated_description String                    @default("")
+  dc_id                      String?                   @db.Uuid
+  address_town               address_town?             @relation(fields: [at_id], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  address_town_routes        address_town_routes?      @relation(fields: [atr_id], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  delivery_closure           delivery_closure?         @relation(fields: [dc_id], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  user                       user?                     @relation(fields: [deliverer_id], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@unique([app, serial])
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model delivery_closure {
+  id                   String     @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  created_at           DateTime   @default(now()) @db.Timestamptz(6)
+  updated_at           DateTime   @default(now()) @db.Timestamptz(6)
+  day                  Int        @default(0)
+  month                Int        @default(0)
+  year                 Int        @default(0)
+  number_of_deliveries Int        @default(0)
+  delivery             delivery[]
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model eating_table_group {
+  id              String          @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  organization_id String          @db.Uuid
+  order           Int             @default(10)
+  name            String
+  organization    organization    @relation(fields: [organization_id], references: [id], onDelete: Cascade)
+  eating_tables   eating_tables[]
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model eating_tables {
+  id                  String              @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  organization_id     String              @db.Uuid
+  available           Boolean             @default(true)
+  name                String
+  description         String              @default("")
+  enabled             Boolean             @default(true)
+  priority            Int                 @default(100)
+  complete            Boolean             @default(false)
+  current_invoice_id  String?             @db.Uuid
+  etg                 String?             @db.Uuid
+  contributions       Json                @default(dbgenerated("jsonb_build_array()"))
+  default_description String              @default("")
+  invoice             invoice?            @relation(fields: [current_invoice_id], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  eating_table_group  eating_table_group? @relation(fields: [etg], references: [id])
+  organization        organization        @relation(fields: [organization_id], references: [id], onUpdate: Restrict)
+  orders              orders[]
+  orders_acepted      orders_acepted[]
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model ingredient {
+  id                 String               @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  organization_id    String               @db.Uuid
+  name               String               @db.VarChar
+  organization       organization         @relation(fields: [organization_id], references: [id], onUpdate: Restrict)
+  ingredient_product ingredient_product[]
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model ingredient_product {
+  ingredient_id   String       @db.Uuid
+  product_id      String       @db.Uuid
+  default         Boolean      @default(false)
+  price           Int          @default(0)
+  organization_id String       @db.Uuid
+  ingredient      ingredient   @relation(fields: [ingredient_id], references: [id], onUpdate: Restrict)
+  organization    organization @relation(fields: [organization_id], references: [id], onUpdate: Restrict)
+  product         product      @relation(fields: [product_id], references: [id], onUpdate: Restrict)
+
+  @@id([ingredient_id, product_id])
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model invoice {
+  id                     String               @id(map: "Invoices_pkey") @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  organization_id        String               @db.Uuid
+  created_at             DateTime             @default(now()) @db.Timestamptz(6)
+  updated_at             DateTime             @default(now()) @db.Timestamptz(6)
+  num                    Int?
+  printed                Boolean              @default(false)
+  is_payment             Boolean              @default(false)
+  payment_type           String               @default("\"\"")
+  address                String               @default("")
+  phone                  String               @default("")
+  description            String               @default("")
+  locked                 Boolean              @default(false)
+  deleted                Boolean              @default(false)
+  type_of_delivery       String               @default("")
+  cash_closure_id        String?              @db.Uuid
+  at_id                  String?              @db.Uuid
+  atr_id                 String?              @db.Uuid
+  is_delivered           Boolean              @default(false)
+  serial                 String               @default("KOM23")
+  organization_client_id String?              @db.Uuid
+  invoice_group          String?              @db.Uuid
+  user_id                String?              @db.Uuid
+  user_data              Json?                @default(dbgenerated("json_build_object()")) @db.Json
+  user_shipment_data     Json?                @default(dbgenerated("json_build_object()")) @db.Json
+  delivery_price         Int?
+  amount_discount        Int                  @default(0)
+  total_amount           Int                  @default(0)
+  payments_made          Json                 @default(dbgenerated("jsonb_build_array()"))
+  eating_tables          eating_tables[]
+  organization           organization         @relation(fields: [organization_id], references: [id], onUpdate: Restrict, map: "Invoices_organization_id_fkey")
+  address_town           address_town?        @relation(fields: [at_id], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  address_town_routes    address_town_routes? @relation(fields: [atr_id], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  cash_closure           cash_closure?        @relation(fields: [cash_closure_id], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  organization_client    organization_client? @relation(fields: [organization_client_id], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  user                   user?                @relation(fields: [user_id], references: [id], onUpdate: Restrict)
+  invoice_line           invoice_line[]
+
+  @@index([organization_id, cash_closure_id], map: "organization__and_cashclosure")
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model invoice_line {
+  id              String       @id(map: "invoices_lines_pkey") @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  created_at      DateTime     @default(now()) @db.Timestamptz(6)
+  updated_at      DateTime     @default(now()) @db.Timestamptz(6)
+  organization_id String       @db.Uuid
+  invoice_id      String       @db.Uuid
+  amount          Int
+  quantity        Int
+  name            String
+  modifications   Json         @default(dbgenerated("jsonb_build_array()"))
+  remark          String       @default("")
+  weight          Int?
+  invoice         invoice      @relation(fields: [invoice_id], references: [id], onUpdate: Restrict, map: "invoices_lines_invoice_id_fkey")
+  organization    organization @relation(fields: [organization_id], references: [id], onUpdate: Restrict, map: "invoices_lines_organization_id_fkey")
+
+  @@index([invoice_id], map: "invoice_id_index", type: Brin)
+  @@schema("public")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model orders {
+  id                             String               @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  organization_id                String               @db.Uuid
+  status                         String               @default("PENDIENTE ACEPTAR")
+  cart_products                  Json                 @default(dbgenerated("jsonb_build_array()"))
+  created_at                     DateTime             @default(now()) @db.Timestamptz(6)
+  updated_at                     DateTime             @default(now()) @db.Timestamptz(6)
+  type                           String
+  num                            Int?                 @default(0)
+  description                    String               @default("")
+  address                        String               @default("")
+  phone                          String               @default("")
+  eating_table_id                String?              @db.Uuid
+  auto_accept                    Boolean              @default(false)
+  automatically_generate_invoice Boolean              @default(false)
+  type_of_delivery               String               @default("none")
+  is_payment                     Boolean              @default(false)
+  payment_type                   String               @default("")
+  status_order_item              String               @default("PENDIENTE")
+  auto_print_invoice             Boolean              @default(true)
+  at_id                          String?              @db.Uuid
+  atr_id                         String?              @db.Uuid
+  app                            String               @default("komandero")
+  user_id                        String?              @db.Uuid
+  payments_made                  Json                 @default(dbgenerated("jsonb_build_array()"))
+  v                              Int                  @default(1) @map("_v")
+  address_town                   address_town?        @relation(fields: [at_id], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  address_town_routes            address_town_routes? @relation(fields: [atr_id], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  eating_tables                  eating_tables?       @relation(fields: [eating_table_id], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  organization                   organization         @relation(fields: [organization_id], references: [id], onUpdate: Restrict)
+  app_order_type                 app_order_type       @relation(fields: [type], references: [name], onUpdate: Restrict)
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model orders_acepted {
+  id                             String                @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  organization_id                String                @db.Uuid
+  status                         String
+  ammount                        Int
+  type                           String
+  created_at                     DateTime              @default(now()) @db.Timestamptz(6)
+  updated_at                     DateTime              @default(now()) @db.Timestamptz(6)
+  num                            Int                   @default(0)
+  calle_id                       String?               @db.Uuid
+  description                    String                @default("")
+  address                        String                @default("")
+  phone                          String                @default("")
+  is_payment                     Boolean               @default(false)
+  payment_type                   String                @default("")
+  deliverer_id                   String?               @db.Uuid
+  eating_table_id                String?               @db.Uuid
+  automatically_generate_invoice Boolean               @default(false)
+  type_of_delivery               String                @default("'")
+  at_id                          String?               @db.Uuid
+  atr_id                         String?               @db.Uuid
+  app                            String                @default("komandero")
+  user_id                        String?               @db.Uuid
+  address_town                   address_town?         @relation(fields: [at_id], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  address_town_routes            address_town_routes?  @relation(fields: [atr_id], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  beta_calle                     beta_calle?           @relation(fields: [calle_id], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  deliverers                     deliverers?           @relation(fields: [deliverer_id], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  eating_tables                  eating_tables?        @relation(fields: [eating_table_id], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "orders_acepted_eating_table_fkey")
+  organization                   organization          @relation(fields: [organization_id], references: [id], onUpdate: Restrict)
+  orders_acepted_item            orders_acepted_item[]
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model orders_acepted_item {
+  id               String         @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  order_acepted_id String         @db.Uuid
+  status           String         @default("PENDIENTE")
+  created_at       DateTime       @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime       @default(now()) @db.Timestamptz(6)
+  product          Json           @default(dbgenerated("jsonb_build_object()"))
+  product_id       String?        @db.Uuid
+  organization_id  String         @db.Uuid
+  orders_acepted   orders_acepted @relation(fields: [order_acepted_id], references: [id], onUpdate: Restrict)
+  organization     organization   @relation(fields: [organization_id], references: [id], onUpdate: Restrict)
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model organization {
+  id                              String                            @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  name                            String
+  order_num                       Int                               @default(0)
+  image_main                      String?
+  invoice_num                     Int                               @default(0)
+  cash_closure_num                Int                               @default(0)
+  at_id                           String?                           @db.Uuid
+  atr_id                          String?                           @db.Uuid
+  phone                           String                            @default("")
+  address                         String                            @default("")
+  location                        Unsupported("geography")?
+  description                     String                            @default("")
+  enabled                         Boolean                           @default(true)
+  prioriry_u                      Int                               @default(1000)
+  enabled_u                       Boolean                           @default(false)
+  invoice_num_c                   Int                               @default(0)
+  billing_address                 String                            @default("")
+  billing_name                    String                            @default("")
+  billing_identifier              String                            @default("")
+  default_tax                     Int                               @default(10)
+  sa                              String?
+  email                           String?
+  bank_account_number             String?
+  facebook                        String?
+  twitter                         String?
+  instagram                       String?
+  youtube                         String?
+  has_products                    Boolean                           @default(false)
+  has_services                    Boolean                           @default(false)
+  has_catering                    Boolean                           @default(true)
+  web                             String?
+  image_header                    String?
+  whatsapp                        String?
+  last_update_products            DateTime                          @default(now()) @db.Timestamptz(6)
+  last_update_product_categories  DateTime                          @default(now()) @db.Timestamptz(6)
+  gocardless                      String?
+  letterhead                      Json                              @default(dbgenerated("json_build_array()")) @db.Json
+  coffe_product_id                String?                           @db.Uuid
+  coffe_schedules                 Json                              @default(dbgenerated("json_build_array()")) @db.Json
+  cash_closure                    cash_closure[]
+  cooking_zones                   cooking_zones[]
+  deliverers                      deliverers[]
+  deliverers_made                 deliverers_made[]
+  eating_table_group              eating_table_group[]
+  eating_tables                   eating_tables[]
+  ingredient                      ingredient[]
+  ingredient_product              ingredient_product[]
+  invoice                         invoice[]
+  invoice_line                    invoice_line[]
+  orders                          orders[]
+  orders_acepted                  orders_acepted[]
+  orders_acepted_item             orders_acepted_item[]
+  address_town                    address_town?                     @relation(fields: [at_id], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  organization_billing            organization_billing?
+  organization_client             organization_client[]
+  organization_commander          organization_commander[]
+  organization_schedule           organization_schedule?
+  organization_seur               organization_seur?
+  organization_stripe             organization_stripe?
+  preorder                        preorder[]
+  printer_job                     printer_job[]
+  product                         product[]
+  product_category                product_category[]
+  product_photo                   product_photo[]
+  product_size                    product_size[]
+  product_size_price              product_size_price[]
+  user_has_access_to_organization user_has_access_to_organization[]
+  user_has_role_in_organization   user_has_role_in_organization[]
+  user_has_role_of_organization   user_has_role_of_organization[]
+  user_like_organization          user_like_organization[]
+  user_purchase_in_a_organizaton  user_purchase_in_a_organizaton[]
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model organization_billing {
+  id           String       @id @db.Uuid
+  full_name    String       @default("")
+  identifier   String       @default("")
+  full_address String       @default("")
+  email        String       @default("")
+  organization organization @relation(fields: [id], references: [id], onDelete: Cascade)
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model organization_client {
+  id              String       @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  organization_id String       @db.Uuid
+  name            String
+  address         String
+  email           String?
+  phone           String?
+  nif             String
+  created_at      DateTime     @default(now()) @db.Timestamptz(6)
+  updated_at      DateTime     @default(now()) @db.Timestamptz(6)
+  locality        String?
+  province        String?
+  cp              String?
+  invoice         invoice[]
+  organization    organization @relation(fields: [organization_id], references: [id], onUpdate: Restrict)
+
+  @@unique([organization_id, nif])
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model organization_commander {
+  id              String       @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  created_at      DateTime     @default(now()) @db.Timestamptz(6)
+  updated_at      DateTime     @default(now()) @db.Timestamptz(6)
+  o_id            String       @db.Uuid
+  v               Int
+  conf            Json         @default(dbgenerated("json_build_object()")) @db.Json
+  name            String
+  order           Int          @default(1000)
+  print_available Boolean      @default(false)
+  print_name      String       @default("unnamed")
+  organization    organization @relation(fields: [o_id], references: [id], onDelete: Cascade)
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model organization_schedule {
+  id           String       @id @db.Uuid
+  monday       String
+  tuesday      String
+  wednesday    String
+  thursday     String
+  friday       String
+  saturday     String
+  sunday       String
+  organization organization @relation(fields: [id], references: [id], onDelete: Cascade)
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model organization_seur {
+  id           String       @id @db.Uuid
+  franquicia   String       @default("'")
+  abonado      String       @default("'")
+  organization organization @relation(fields: [id], references: [id], onUpdate: Restrict)
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model organization_stripe {
+  id               String       @id @db.Uuid
+  cargo            String       @default("")
+  nombre           String       @default("")
+  fecha_nacimiento DateTime?    @db.Date
+  apellidos        String
+  email            String       @default("")
+  telefono         String       @default("")
+  provincia        String       @default("")
+  municipio        String       @default("")
+  direccion        String       @default("")
+  codigo_postal    String       @default("")
+  iban             String       @default("")
+  organization     organization @relation(fields: [id], references: [id], onDelete: Cascade)
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model preorder {
+  id                      String                       @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  created_at              DateTime                     @default(now()) @db.Timestamptz(6)
+  updated_at              DateTime                     @default(now()) @db.Timestamptz(6)
+  user_id                 String?                      @db.Uuid
+  payment_workflow_sucess Boolean                      @default(false)
+  save_shipment_data      Boolean                      @default(false)
+  organization_id         String?                      @db.Uuid
+  status                  String
+  payment_method          String
+  v                       String                       @default("1")
+  type                    String
+  shipment_data           Json                         @default(dbgenerated("json_build_object()")) @db.Json
+  cart_products           Json                         @default(dbgenerated("json_build_array()")) @db.Json
+  type_of_delivery        String                       @default("none")
+  ppi                     String?
+  total_amount_to_paid    Int?
+  coupon                  String?
+  amount_discount         Int                          @default(0)
+  organization            organization?                @relation(fields: [organization_id], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  app_payment_method      komandero_app_payment_method @relation(fields: [payment_method], references: [name], onUpdate: Restrict)
+  app_preorder_status     app_preorder_status          @relation(fields: [status], references: [name], onUpdate: Restrict)
+  app_preorder_type       app_preorder_type            @relation(fields: [type], references: [name], onUpdate: Restrict)
+  app_type_of_delivery    app_type_of_delivery         @relation(fields: [type_of_delivery], references: [name], onUpdate: Restrict)
+  user                    user?                        @relation(fields: [user_id], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model printer_job {
+  id              String       @id(map: "printer_service_pkey") @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  data            Json         @default(dbgenerated("jsonb_build_object()"))
+  printer         String
+  created_at      DateTime     @default(now()) @db.Timestamptz(6)
+  updated_at      DateTime     @default(now()) @db.Timestamptz(6)
+  done            Boolean      @default(false)
+  organization_id String       @db.Uuid
+  type            String       @default("unknown")
+  organization    organization @relation(fields: [organization_id], references: [id], onUpdate: Restrict, map: "printer_service_organization_id_fkey")
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model product {
+  id                                                       String                              @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  organization_id                                          String                              @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  name                                                     String                              @db.VarChar
+  product_category_id                                      String                              @db.Uuid
+  enabled                                                  Boolean                             @default(true)
+  price_take_away                                          Int                                 @default(0)
+  price_pick_up                                            Int                                 @default(0)
+  price_delivery                                           Int                                 @default(0)
+  created_at                                               DateTime                            @default(now()) @db.Timestamptz(6)
+  updated_at                                               DateTime                            @default(now()) @db.Timestamptz(6)
+  min_num_ingredient                                       Int                                 @default(0)
+  max_num_ingredient                                       Int                                 @default(0)
+  priority                                                 Int                                 @default(100)
+  priority_ko                                              Int                                 @default(200)
+  enabled_u                                                Boolean                             @default(true)
+  priority_u                                               Int                                 @default(1000)
+  name_i                                                   String                              @default("")
+  description                                              String                              @default("")
+  type                                                     String                              @default("catering")
+  adp                                                      BigInt?
+  adps                                                     BigInt?
+  tax                                                      Int                                 @default(10)
+  ref                                                      String?
+  quantity_max                                             Int?
+  quantity_min                                             Int                                 @default(1)
+  unit                                                     String                              @default("ud")
+  bar_code                                                 String?
+  has_attributes                                           Boolean                             @default(false)
+  quantity                                                 Int                                 @default(0)
+  deleted                                                  Boolean                             @default(false)
+  weight                                                   Int?
+  length                                                   Int?
+  height                                                   Int?
+  width                                                    Int?
+  price_discounted                                         Int?
+  quantity_increase_amount                                 Int                                 @default(1)
+  qa                                                       Int?
+  pap                                                      Int                                 @default(0)
+  qan                                                      Boolean                             @default(false)
+  description_aditional                                    String?
+  qr_v                                                     Boolean                             @default(false)
+  qr_o                                                     Int                                 @default(0)
+  w_v                                                      Boolean                             @default(true)
+  ingredient_product                                       ingredient_product[]
+  organization                                             organization                        @relation(fields: [organization_id], references: [id], onUpdate: Restrict)
+  app_product_availability_preference                      app_product_availability_preference @relation(fields: [pap], references: [id], onDelete: SetDefault)
+  product_category                                         product_category                    @relation(fields: [product_category_id], references: [id], onUpdate: Restrict)
+  app_product_type                                         app_product_type                    @relation(fields: [type], references: [name], onUpdate: Restrict)
+  product_allergen                                         product_allergen[]
+  product_attribute                                        product_attribute[]
+  product_modification                                     product_modification[]
+  product_photo                                            product_photo[]
+  product_related_product_related_idToproduct              product_related[]                   @relation("product_related_idToproduct")
+  product_related_product_related_product_relatedToproduct product_related[]                   @relation("product_related_product_relatedToproduct")
+  product_size_price                                       product_size_price[]
+  user_remarks_product                                     user_remarks_product[]
+  user_wish_list                                           user_wish_list[]
+
+  @@schema("public")
+}
+
+model product_allergen {
+  product_id String   @db.Uuid
+  a_id       Int
+  allergen   allergen @relation(fields: [a_id], references: [id], onDelete: Cascade)
+  product    product  @relation(fields: [product_id], references: [id], onDelete: Cascade)
+
+  @@id([product_id, a_id])
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model product_attribute {
+  id                String            @db.Uuid
+  price_impact      Int               @default(0)
+  quantity          Int               @default(0)
+  aps               BigInt            @default(0)
+  apc               BigInt            @default(0)
+  app_product_color app_product_color @relation(fields: [apc], references: [id])
+  app_product_size  app_product_size  @relation(fields: [aps], references: [id])
+  product           product           @relation(fields: [id], references: [id], onDelete: Cascade)
+
+  @@id([id, aps, apc])
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model product_category {
+  id                                                                                                              String                                        @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  organization_id                                                                                                 String                                        @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  name                                                                                                            String
+  img                                                                                                             String?                                       @default("/assets/sin-foto.png") @db.VarChar
+  priority                                                                                                        Int                                           @default(100)
+  priority_u                                                                                                      Int                                           @default(1)
+  enabled_u                                                                                                       Boolean                                       @default(true)
+  icon                                                                                                            String?
+  qr_v                                                                                                            Boolean                                       @default(false)
+  qr_o                                                                                                            Int                                           @default(0)
+  w_v                                                                                                             Boolean                                       @default(true)
+  product                                                                                                         product[]
+  organization                                                                                                    organization                                  @relation(fields: [organization_id], references: [id], onUpdate: Restrict)
+  product_category_has_other_product_category_product_category_has_other_product_category_idToproduct_category    product_category_has_other_product_category[] @relation("product_category_has_other_product_category_idToproduct_category")
+  product_category_has_other_product_category_product_category_has_other_product_category_pc_idToproduct_category product_category_has_other_product_category[] @relation("product_category_has_other_product_category_pc_idToproduct_category")
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model product_modification {
+  p_id                     String                   @db.Uuid
+  apm                      BigInt
+  pi                       Int                      @default(0)
+  o                        Int                      @default(0)
+  app_product_modification app_product_modification @relation(fields: [apm], references: [id])
+  product                  product                  @relation(fields: [p_id], references: [id], onDelete: Cascade)
+
+  @@id([p_id, apm])
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model product_photo {
+  id              String       @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  created_at      DateTime     @default(now()) @db.Timestamptz(6)
+  updated_at      DateTime     @default(now()) @db.Timestamptz(6)
+  product_id      String?      @db.Uuid
+  organization_id String       @db.Uuid
+  url             String       @default("'")
+  thumbnail       String       @default("")
+  main            Boolean      @default(false)
+  organization    organization @relation(fields: [organization_id], references: [id], onUpdate: Restrict)
+  product         product?     @relation(fields: [product_id], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model product_related {
+  id                                               String  @db.Uuid
+  product_related                                  String  @db.Uuid
+  product_product_related_idToproduct              product @relation("product_related_idToproduct", fields: [id], references: [id], onDelete: Cascade)
+  product_product_related_product_relatedToproduct product @relation("product_related_product_relatedToproduct", fields: [product_related], references: [id], onDelete: Cascade)
+
+  @@id([id, product_related])
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model product_size {
+  id                 String               @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  organization_id    String               @db.Uuid
+  created_at         DateTime             @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime             @default(now()) @db.Timestamptz(6)
+  name               String
+  qr_o               Int                  @default(0)
+  organization       organization         @relation(fields: [organization_id], references: [id], onUpdate: Restrict)
+  product_size_price product_size_price[]
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model product_size_price {
+  product_id      String       @db.Uuid
+  product_size_id String       @db.Uuid
+  price           Int          @default(0)
+  organization_id String       @db.Uuid
+  order           Int          @default(0)
+  qr_v            Boolean      @default(false)
+  qr_o            Int          @default(0)
+  w_v             Boolean?     @default(true)
+  organization    organization @relation(fields: [organization_id], references: [id], onUpdate: Restrict)
+  product         product      @relation(fields: [product_id], references: [id], onUpdate: Restrict)
+  product_size    product_size @relation(fields: [product_size_id], references: [id], onUpdate: Restrict)
+
+  @@id([product_id, product_size_id])
+  @@schema("public")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model spatial_ref_sys {
+  srid      Int     @id
+  auth_name String? @db.VarChar(256)
+  auth_srid Int?
+  srtext    String? @db.VarChar(2048)
+  proj4text String? @db.VarChar(2048)
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model ui_sidebar_item {
+  id                       String                     @id
+  name                     String
+  picture                  String
+  navigation               Json                       @default(dbgenerated("jsonb_build_array()"))
+  created_at               DateTime                   @default(now()) @db.Timestamptz(6)
+  updated_at               DateTime                   @default(now()) @db.Timestamptz(6)
+  description              String
+  user_has_ui_sidebar_item user_has_ui_sidebar_item[]
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model user {
+  id                              String                            @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  uid                             String                            @unique
+  email                           String                            @default("")
+  created_at                      DateTime                          @default(now()) @db.Timestamptz(6)
+  updated_at                      DateTime                          @default(now()) @db.Timestamptz(6)
+  displayName                     String                            @default("")
+  phone                           String                            @default("")
+  claims                          Json?
+  mla                             Boolean                           @default(false)
+  delivery                        delivery[]
+  invoice                         invoice[]
+  preorder                        preorder[]
+  user_data                       user_data?
+  user_has_access_to_organization user_has_access_to_organization[]
+  user_has_role_in_organization   user_has_role_in_organization[]
+  user_has_role_of_organization   user_has_role_of_organization[]
+  user_has_ui_sidebar_item        user_has_ui_sidebar_item[]
+  user_like_organization          user_like_organization[]
+  user_purchase_in_a_organizaton  user_purchase_in_a_organizaton[]
+  user_remarks_product            user_remarks_product[]
+  user_shipment_data              user_shipment_data[]
+  user_wish_list                  user_wish_list[]
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model user_data {
+  id                    String   @id @db.Uuid
+  created_at            DateTime @default(now()) @db.Timestamptz(6)
+  updated_at            DateTime @default(now()) @db.Timestamptz(6)
+  name                  String
+  surnames              String
+  email                 String
+  address               String
+  address_complementary String
+  location              String
+  county                String
+  pc                    String
+  phone                 String
+  user                  user     @relation(fields: [id], references: [id], onDelete: Cascade)
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model user_has_access_to_organization {
+  u_id         String       @db.Uuid
+  o_id         String       @db.Uuid
+  disabled     Boolean      @default(false)
+  organization organization @relation(fields: [o_id], references: [id], onDelete: Cascade)
+  user         user         @relation(fields: [u_id], references: [id], onDelete: Cascade)
+
+  @@id([u_id, o_id])
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model user_has_role_in_organization {
+  id           String       @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  u_id         String       @db.Uuid
+  o_id         String       @db.Uuid
+  created_at   DateTime     @default(now()) @db.Timestamptz(6)
+  role         String
+  disabled     Boolean      @default(false)
+  organization organization @relation(fields: [o_id], references: [id], onDelete: Cascade)
+  app_role     app_role     @relation(fields: [role], references: [name], onDelete: Cascade)
+  user         user         @relation(fields: [u_id], references: [id], onDelete: Cascade)
+
+  @@unique([u_id, o_id, role])
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model user_has_role_of_organization {
+  user_id         String       @db.Uuid
+  organization_id String       @db.Uuid
+  role            String
+  organization    organization @relation(fields: [organization_id], references: [id], onDelete: Cascade)
+  app_role        app_role     @relation(fields: [role], references: [name], onDelete: Cascade)
+  user            user         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@id([user_id, organization_id, role])
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model user_has_ui_sidebar_item {
+  user_id            String          @db.Uuid
+  ui_sidebar_item_id String
+  ui_sidebar_item    ui_sidebar_item @relation(fields: [ui_sidebar_item_id], references: [id], onDelete: Cascade)
+  user               user            @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@id([user_id, ui_sidebar_item_id])
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model user_like_organization {
+  user_id         String       @db.Uuid
+  organization_id String       @db.Uuid
+  organization    organization @relation(fields: [organization_id], references: [id], onDelete: Cascade)
+  user            user         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@id([user_id, organization_id])
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model user_purchase_in_a_organizaton {
+  id           String       @id @db.Uuid
+  o_id         String       @db.Uuid
+  u_id         String       @db.Uuid
+  amount       Int          @default(0)
+  n_times      Int          @default(0)
+  created_at   DateTime     @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime     @default(now()) @db.Timestamptz(6)
+  organization organization @relation(fields: [o_id], references: [id], onDelete: Cascade)
+  user         user         @relation(fields: [u_id], references: [id], onDelete: Cascade)
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model user_remarks_product {
+  id         String   @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  user_id    String?  @db.Uuid
+  product_id String?  @db.Uuid
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  content    String
+  product    product? @relation(fields: [product_id], references: [id])
+  user       user?    @relation(fields: [user_id], references: [id])
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model user_shipment_data {
+  id                    String   @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  created_at            DateTime @default(now()) @db.Timestamptz(6)
+  updated_at            DateTime @default(now()) @db.Timestamptz(6)
+  user_id               String   @db.Uuid
+  name                  String
+  surnames              String
+  email                 String
+  address               String
+  address_complementary String   @default("")
+  location              String
+  county                String
+  pc                    String
+  phone                 String
+  user                  user     @relation(fields: [user_id], references: [id], onUpdate: Restrict)
+
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model user_wish_list {
+  user_id    String  @db.Uuid
+  product_id String  @db.Uuid
+  product    product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  user       user    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@id([user_id, product_id])
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model product_category_has_other_product_category {
+  id                                                                                   String           @db.Uuid
+  pc_id                                                                                String           @db.Uuid
+  pi                                                                                   Int              @default(0)
+  o                                                                                    Int              @default(0)
+  not_add_princing                                                                     Boolean          @default(false)
+  product_category_product_category_has_other_product_category_idToproduct_category    product_category @relation("product_category_has_other_product_category_idToproduct_category", fields: [id], references: [id], onDelete: Cascade)
+  product_category_product_category_has_other_product_category_pc_idToproduct_category product_category @relation("product_category_has_other_product_category_pc_idToproduct_category", fields: [pc_id], references: [id], onDelete: Cascade)
+
+  @@id([id, pc_id])
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model oidokocina_configuration {
+  id              String   @id @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  created_at      DateTime @default(now()) @db.Timestamptz(6)
+  updated_at      DateTime @default(now()) @db.Timestamptz(6)
+  a               Int
+  p               String
+  numconfig       Int      @default(1)
+  modeloImpresora Int      @default(3)
+  version         String
+  o_id            String   @db.Uuid
+
+  @@schema("integrations")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model oidokocina_order {
+  numeropedidoest    String   @id
+  importeproductos   Float    @default(0)
+  importeenvio       Float    @default(0)
+  importedtoenvio    Float    @default(0)
+  importedto         Float    @default(0)
+  preciototal        Float    @default(0)
+  comisionpago       Float    @default(0)
+  codigopromocion    String?
+  formaentrega       String
+  enviodireccion     String?
+  enviomunicipio     String?
+  envioobservaciones String?
+  pagado             Boolean  @default(false)
+  observaciones      String?
+  formapago          String
+  cambio             Float?
+  tiempoestimadoest  String?
+  motivorechazo      String?
+  createdAt          DateTime @db.Timestamp(6)
+  pedidosanteriores  Int
+  usuario            Json     @default(dbgenerated("jsonb_build_object()"))
+  detalles           Json     @default(dbgenerated("json_build_array()")) @db.Json
+  establecimiento    Int
+  estado             Int
+  organization_id    String?  @db.Uuid
+
+  @@schema("integrations")
+}
