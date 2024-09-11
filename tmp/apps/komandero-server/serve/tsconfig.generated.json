@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@komandero/clientTRPC": [
+        "apps/app/src/app/clientTrpc.ts"
+      ],
+      "@komandero/commons": [
+        "dist/libs/commons"
+      ],
+      "@komandero/prisma": [
+        "libs/server/src/lib/prisma.ts"
+      ],
+      "@komandero/server": [
+        "dist/libs/server"
+      ],
+      "@komandero/serverTRPC": [
+        "libs/server/src/lib/trpc/utils/index.ts"
+      ],
+      "@komandero/utils": [
+        "apps/app/src/app/utils.ts"
+      ],
+      "@komandero/web-share": [
+        "apps/app/src/app/components/shared"
+      ]
+    }
+  },
+  "extends": "../../../../apps/komandero-server/tsconfig.app.json"
+}
