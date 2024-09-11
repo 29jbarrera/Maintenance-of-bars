@@ -1,0 +1,66 @@
+@import './mixins.scss';
+@import './global.scss';
+@import './custom-class-primeng.scss';
+
+// ------------------------------------ MENUS ---------------------------------------------
+// ----------------------------------------------------------------------------------------
+.menu-logo-separator {
+  width: 100%;
+  border: 1px solid #f29b23;
+}
+
+.menu-button-close {
+  position: absolute;
+  left: 290px;
+  top: 5px;
+  background: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  cursor: pointer;
+  i {
+    font-size: 14px;
+    color: #f29b23;
+  }
+}
+
+.km-item-menu {
+  @include item-menu();
+}
+
+.km-item-signout-organization {
+  @include item-menu-signout();
+}
+
+.km-menu-item-selected {
+  @include item-menu-selected();
+}
+
+.km-bg-app-menu-v {
+  background: rgba(211, 211, 211, 0.7);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10.3px);
+  -webkit-backdrop-filter: blur(10.3px);
+  border: 1px solid rgba(211, 211, 211, 0.59);
+}
+
+.km-bg-app-menu-h-menu-organization {
+  background: rgba(255, 241, 215, 0.788) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10.3px);
+  -webkit-backdrop-filter: blur(10.3px);
+}
+
+.km-bg-app-menu-h-menu-admin {
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10.3px);
+  -webkit-backdrop-filter: blur(10.3px);
+  background: url('https://app.komandero.es/assets/Komandero_patron-rojo-35.svg');
+  background-color: #f39c22d6 !important;
+}
+
+// ----------------------------------------------------------------------------------------
