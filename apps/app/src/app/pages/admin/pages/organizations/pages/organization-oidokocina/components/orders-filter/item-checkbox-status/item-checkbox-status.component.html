@@ -1,0 +1,9 @@
+<ion-checkbox
+  mode="ios"
+  labelPlacement="end"
+  justify="space-between"
+  [checked]="checked"
+  (ionChange)="select_status($event, state.value)"
+>
+  {{ state.label }}
+</ion-checkbox>

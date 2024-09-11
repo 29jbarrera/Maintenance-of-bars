@@ -1,0 +1,37 @@
+.card-info-order-organization-oidokocina {
+  -moz-border-radius: 15px 15px 0px 0px;
+  -ms-border-radius: 15px 15px 0px 0px;
+  -o-border-radius: 15px 15px 0px 0px;
+  -webkit-border-radius: 15px 15px 0px 0px;
+  align-items: start;
+  border-radius: 15px 15px 0px 0px;
+  border: 1px solid rgba(230, 230, 230, 0.644);
+  box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px inset;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 20px auto;
+  max-width: 800px;
+  min-width: 320px;
+  padding: 20px;
+  width: 100%;
+
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    // background-color: rgba(143, 143, 143, 0.034);
+    padding: 5px 10px;
+    // border-radius: 10px 0px 0px 10px;
+    // border: 1px solid rgba(173, 173, 173, 0.151);
+    
+    // &:nth-child(even){
+    //   background-color: rgba(255 246 216 / 23%);
+    // }
+
+    > img {
+        width: 25px;
+      }
+  }
+}

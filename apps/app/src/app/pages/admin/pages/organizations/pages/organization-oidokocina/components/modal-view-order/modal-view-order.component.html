@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar mode="ios" color="primary">
+    <ion-title class="ion-text-center text-0">
+      Pedido #ID: {{ order_id }}
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button
+        (click)="close()"
+        id="organization-oidokocina-modal-view-order-button-exit"
+        size="large"
+      >
+        <ion-icon color="light" slot="icon-only" name="close-outline">
+        </ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="order">
+  <ion-grid class="ion-padding">
+    <!-- Componente Información Pedido -->
+    <app-card-info-order [order]="order.pedido"> </app-card-info-order>
+
+    <!-- Componente Tabla detalles del pedido -->
+    <app-table-products-order
+      [details]="order.pedido.detalles"
+    ></app-table-products-order>
+  </ion-grid>
+</ion-content>
+
+<ion-footer collapse="fade" *ngIf="order" mode="ios">
+  <ion-toolbar>
+    <div class="container-buttons-order">
+      <!-- Botón Aceptar o Confirmar Pedido -->
+      <ion-button
+        *ngIf="!disable_accept_or_confirm()"
+        color="success"
+        fill="solid"
+        (click)="accept_or_confirm()"
+        size="large"
+        shape="round"
+        [id]="
+          'organization-oidokocina-modal-button-' +
+            text_accept_or_order_prepared().text | lowercase
+        "
+      >
+        <ion-icon
+          slot="start"
+          [name]="text_accept_or_order_prepared().icon"
+        ></ion-icon>
+        <ion-label class="hidden sm:block font-bold">
+          {{ text_accept_or_order_prepared().text }}
+        </ion-label>
+      </ion-button>
+
+      <!-- Boton Rechazar Pedido -->
+      <ion-button
+        color="danger"
+        fill="solid"
+        *ngIf="order.pedido.estado.id === 1"
+        (click)="reject_order()"
+        size="large"
+        shape="round"
+        id="organization-oidokocina-modal-button-rechazar"
+      >
+        <ion-icon name="close"></ion-icon>
+        <ion-label class="hidden sm:block font-bold"> Rechazar </ion-label>
+      </ion-button>
+
+      <!-- Boton Imprimir Pedido -->
+      <ion-button
+        fill="solid"
+        color="dark"
+        (click)="print()"
+        size="large"
+        shape="round"
+        id="organization-oidokocina-modal-button-imprimir"
+      >
+        <ion-icon name="print"></ion-icon>
+        <ion-label class="hidden sm:block font-bold"> Imprimir </ion-label>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

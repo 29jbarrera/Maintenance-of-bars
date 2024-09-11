@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center"> Añadir Usuario </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()" id="modal-add-user-button-close-modal">
+        <ion-icon
+          color="danger"
+          slot="icon-only"
+          name="close-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+  <p-toast position="bottom-center"></p-toast>
+  <form>
+    <ion-list inset="true" [formGroup]="form_add_user">
+      <ion-item>
+        <ion-input label="Nombre" formControlName="displayName" id="modal-add-user-input-name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input
+          label="Email"
+          type="email"
+          formControlName="email"
+          id="modal-add-user-input-email"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input
+          label="Contraseña"
+          type="password"
+          aria-label="Show/hide"
+          formControlName="password"
+          id="modal-add-user-input-password"
+        ></ion-input>
+      </ion-item>
+      <ion-button
+        mode="ios"
+        expand="block"
+        color="tertiary"
+        class="font-bold"
+        [disabled]="form_add_user.invalid"
+        (click)="addNewUser()"
+        id="modal-add-user-button-save-changes"
+      >
+        Guardar Cambios
+      </ion-button>
+    </ion-list>
+  </form>
+</ion-content>
+<!-- <ion-footer></ion-footer> -->

@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center"> MESA: {{ eating_table_name }} </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon color="danger" slot="icon-only" name="close-outline">
+        </ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <ion-row>
+      <ion-col class="my-3 text-left">
+        <ion-text>
+          <span class="font-bold">Fecha:</span> {{ order.created_at| date : 'dd/MM/yyyy HH:mm' }}
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let product of cart_products">
+      <ion-col class="mb-2">
+        <ion-card>
+          <ion-card-content>
+            <div class="flex justify-content-between align-items-center">
+              <div class="">
+                {{ product.quantity }} X
+                {{ product.size_selected_name | uppercase }}
+                {{ product.name | uppercase }}
+              </div>
+              <div class="font-bold">{{ getAmount(product) }}€</div>
+            </div>
+            <div class="px-3 py-1" *ngIf="product.remark">
+              <ul>
+                <li>
+                  {{ product.remark }}
+                </li>
+              </ul>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div
+          class="flex align-items-center justify-content-end pr-3 font-bold mt-3"
+        >
+          <ion-label>Total: {{ getTotalAmount() }}€</ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

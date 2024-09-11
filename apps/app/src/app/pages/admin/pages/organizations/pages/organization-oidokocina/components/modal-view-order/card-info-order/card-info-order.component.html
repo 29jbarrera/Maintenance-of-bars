@@ -1,0 +1,109 @@
+<div class="card-info-order-organization-oidokocina">
+  <!-- Organización -->
+  <div>
+    <img src="/assets/icons/oidokocina/organization.png" />
+    <span class="text-sm">Restaurante: </span>
+    <span class="font-bold">
+      {{ order.establecimiento.nombre }}
+    </span>
+  </div>
+  <!-- Numero Pedido -->
+  <div>
+    <img src="/assets/icons/oidokocina/num-order.png" />
+    <span class="text-sm">Num.: </span>
+    <span class="font-bold">{{ order.numeropedidoest }} </span>
+  </div>
+  <!-- Fecha y Hora Pedido -->
+  <div>
+    <img src="/assets/icons/oidokocina/created-at-calendar.png" />
+    <span class="text-sm">Fecha: </span>
+    <span class="font-bold">
+      {{ order.createdAt | date : 'dd/MM/yyyy HH:mm' }}
+    </span>
+  </div>
+  <!-- Estado -->
+  <div>
+    <img src="/assets/icons/oidokocina/status-order.png" />
+    <span class="text-sm">Estado: </span>
+    <p-tag [severity]="get_severity_status(order.estado.id)">
+      {{ order.estado.nombre }}
+    </p-tag>
+  </div>
+
+  <!-- Rechazo Pedido -->
+  <div *ngIf="order.rechazopedido.length">
+    <img src="/assets/icons/oidokocina/reject-order.png" />
+    <span class="text-sm">Rechazado: </span>
+    <p-tag [severity]="get_severity_status(order.estado.id)">
+      {{ order.rechazopedido[0].motivo }}
+    </p-tag>
+  </div>
+
+  <!-- Usuario -->
+  <div>
+    <img src="/assets/icons/oidokocina/client-order.png" />
+    <span class="text-sm">Cliente: </span>
+    <div class="flex align-items-center gap-2 font-bold">
+      {{ order.usuario.nombre }}
+      {{ order.usuario.apellidos }}
+
+      <div>
+        <i class="pi pi-phone"></i>
+        <a class="no-underline" [href]="'tel:' + order.usuario.telefono">
+          {{ order.usuario.telefono }}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Forma Entrega -->
+  <div>
+    <img src="/assets/icons/oidokocina/delivery.png" />
+    <span class="text-sm">Forma Entrega: </span>
+    <p-tag
+      severity="warning"
+      [value]="get_method_delivery(order.formaentrega)"
+    />
+  </div>
+
+  <!-- Productos ?? -->
+  <!-- <div>
+    <img src="/assets/icons/oidokocina/products.png" />
+    <span class="text-blue-500 font-bold">
+      {{ format_price(order.preciototal) }}€
+      {{ format_price(order.importedto) }}€
+    </span>
+  </div> -->
+
+  <!-- Total Importe -->
+  <div>
+    <img src="/assets/icons/oidokocina/total-amount.png" />
+    <span class="text-sm">Total Importe: </span>
+    <span class="text-blue-500 font-bold">
+      {{ format_price(order.preciototal) }}€
+    </span>
+  </div>
+
+  <!-- Forma Pago -->
+  <div>
+    <img src="/assets/icons/oidokocina/payment.png" />
+    <span class="text-sm">Forma de Pago: </span>
+    <span class="text-blue-500 font-bold">
+      {{ get_type_payment_method(order.formapago) }}
+    </span>
+  </div>
+
+  <div class="justify-content-center pt-4">
+    <span class="font-bold">Observaciones Cliente</span>
+  </div>
+
+  <!-- Observaciones -->
+  <div
+    class="p-2 border-2 surface-border border-dashed border-round-2xl surface-ground"
+  >
+    <img src="/assets/icons/oidokocina/comments.png" />
+    <span class="text-red-500 font-bold">
+      {{ order.observaciones }}
+    </span>
+  </div>
+</div>

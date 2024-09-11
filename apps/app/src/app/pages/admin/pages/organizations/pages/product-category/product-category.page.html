@@ -1,0 +1,158 @@
+<app-header-app
+  *ngIf="!loading && category"
+  [title]="'CATEGORÍA - ' + category.name "
+  (go_back)="goBack()"
+  [can_back]="true"
+>
+</app-header-app>
+
+<ion-content class="ion-padding" *ngIf="!loading">
+  <p-toast position="bottom-center"></p-toast>
+  <section class="container-router-outlet">
+    <div class="m-auto w-full lg:w-5 pb-4">
+      <ion-card>
+        <ion-card-content>
+          <p><strong>Nombre: </strong>{{ category?.name }}</p>
+          <p>
+            <strong>Prioridad en komandero one: </strong>{{ category?.priority
+            }}
+          </p>
+          <p>
+            <strong>Prioridad en las mesas:</strong> {{ category?.priority_u }}
+          </p>
+          <p><strong>Está activo:</strong> {{ category?.enabled_u }}</p>
+          <p>
+            <strong>Es visible en la carta qr:</strong> {{ category?.qr_v }}
+          </p>
+          <p><strong>Orden en el qr:</strong> {{ category?.qr_o }}</p>
+          <p><strong>Es visible por el camarero:</strong> {{ category?.w_v}}</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <ion-card class="ion-padding">
+      <ion-card-content>
+        <ion-grid>
+          <ion-row
+            class="flex align-items-center justify-content-center surface-100 border-round-xl border-1 p-1"
+          >
+            <ion-col size="12 text-center" sizeLg="9">
+              <ion-text class="text-base text-800 px-3">
+                Categorías que modifican a esta
+              </ion-text>
+            </ion-col>
+            <ion-col class="lg:text-right text-center" size="12" sizeLg="3">
+              <ion-button
+                fill="clear"
+                size="default"
+                (click)="view_modal_product_category(null, 'add_category_that_modify')"
+                id="product-category-button-view-modal-add-product-category-that-modify"
+              >
+                <ion-icon name="add-outline"></ion-icon>
+                <ion-label> AÑADIR CATEGORÍA</ion-label>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <app-category-that-modify-item
+          *ngFor="let category of categories_that_modify_this() ;let i = index"
+          [category]="category"
+          [line]="i < categories_that_modify_this().length - 1 ? 'full':'none'"
+          (delete_category_that_modify)="delete_category_that_modify($event)"
+          (view_modal_edit)="view_modal_edit($event)"
+        ></app-category-that-modify-item>
+
+        <app-no-results
+          *ngIf="!categories_that_modify_this()?.length"
+          [text]="'No existen categorías que modifiquen...'"
+        >
+        </app-no-results>
+
+        <ion-grid>
+          <ion-row
+            class="flex align-items-center justify-content-center surface-100 border-round-xl border-1 p-1"
+          >
+            <ion-col size="12 text-center" sizeLg="9">
+              <ion-text class="text-base text-800 px-3">
+                Categorías que usan esta
+              </ion-text>
+            </ion-col>
+            <ion-col class="lg:text-right text-center" size="12" sizeLg="3">
+              <ion-button
+                fill="clear"
+                size="default"
+                (click)="view_modal_product_category(null,'add_category_that_use')"
+                id="product-category-button-view-modal-add-product-category-that-use"
+              >
+                <ion-icon name="add-outline"></ion-icon>
+                <ion-label> AÑADIR CATEGORÍA</ion-label>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <app-category-that-use-item
+          *ngFor="let category of categories_that_use_this() ;let i = index"
+          [category]="category"
+          [line]="i < categories_that_use_this().length - 1 ? 'full':'none'"
+          (delete_category_that_modify)="delete_category_that_use($event)"
+          (view_modal_edit)="view_modal_edit($event)"
+        ></app-category-that-use-item>
+
+        <app-no-results
+          *ngIf="!categories_that_use_this()?.length"
+          [text]="'No existen categorías que usen a esta...'"
+        >
+        </app-no-results>
+
+        <ion-grid>
+          <ion-row
+            class="align-items-center surface-100 border-round-xl border-1 p-2 px-3"
+          >
+            <ion-col class="text-base text-800 text-center lg:text-left">
+              <ion-text> Productos </ion-text>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <ion-searchbar
+          *ngIf="category?.product?.length"
+          mode="ios"
+          animated="true"
+          [(ngModel)]="search_term"
+          placeholder="Buscar producto..."
+          id="product-category-input-searchbar-product"
+        >
+        </ion-searchbar>
+
+        <app-product-item
+          *ngFor="let product of (category?.product | FilterProductCategory: search_term | slice: first : first + rows) ;let i = index"
+          [product]="product"
+          [line]="i < (category?.product?.length ?? 0) -1 ? 'full':'none'"
+          (delete_product)="delete_product($event)"
+        >
+        </app-product-item>
+
+        <app-no-results
+          *ngIf="!category?.product?.length"
+          [text]="'No existen productos...'"
+        >
+        </app-no-results>
+
+        <div #paginator>
+          <p-paginator
+            *ngIf="category?.product?.length"
+            [rows]="rows"
+            [first]="first"
+            [totalRecords]="(category?.product| FilterProductCategory: search_term).length"
+            [rowsPerPageOptions]="[5, 10, 20]"
+            (onPageChange)="onPageChange($event)"
+            dropdownAppendTo="body"
+          >
+          </p-paginator>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </section>
+</ion-content>

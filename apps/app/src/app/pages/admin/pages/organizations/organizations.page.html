@@ -1,0 +1,39 @@
+<app-header-app [title]="'ORGANIZACIONES'"></app-header-app>
+
+<ion-content>
+  <section class="container-router-outlet">
+    <ion-grid>
+      <ion-row class="flex align-items-center">
+        <ion-col size="12" sizeLg="10">
+          <ion-searchbar
+            mode="ios"
+            animated="true"
+            (ionInput)="search_organization($event)"
+            placeholder="Buscar Organización..."
+            id="organizations-input-searchbar-organization-name"
+          ></ion-searchbar>
+        </ion-col>
+        <ion-col size="12" sizeLg="2" class="text-center">
+          <ion-button
+            fill="clear"
+            size="default"
+            (click)="view_modal_add_NewOrganization()"
+            id="organizations-button-new-organization"
+          >
+            <ion-icon name="add-outline"></ion-icon>
+            <ion-label>Nueva Organización</ion-label>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-list mode="ios">
+      <app-organization-item
+        *ngFor="let organization of organizations | filterOrganizations : search_term; let i = index"
+        [line]="i < (organizations | filterOrganizations : search_term).length - 1 ? 'full':'none'"
+        [organization]="organization"
+        (view_organization)="view_organization($event)"
+      ></app-organization-item>
+    </ion-list>
+  </section>
+</ion-content>

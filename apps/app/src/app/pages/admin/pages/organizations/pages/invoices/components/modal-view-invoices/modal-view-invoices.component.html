@@ -1,0 +1,148 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title class="ion-text-center">
+      <ion-text class="ion-text-wrap font-bold">
+        Factura {{ invoice.num }} {{ invoice.serial }}
+      </ion-text>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close_modal()">
+        <ion-icon
+          color="danger"
+          slot="icon-only"
+          name="close-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <p-toast position="bottom-center"></p-toast>
+  <ion-card>
+    <ion-card-content>
+      <div class="flex justify-content-between mb-2">
+        <div>
+          <span>
+            <strong>Importe:</strong> {{ invoice.total_amount | centToEur }} €
+          </span>
+        </div>
+        <div>
+          <span>
+            <strong>Método de pago:</strong> {{ invoice.payment_type }}
+          </span>
+        </div>
+        <div>
+          <span>
+            <strong>Fecha:</strong>
+            {{ invoice.created_at | date : 'dd/MM/yyyy' }}
+          </span>
+        </div>
+      </div>
+      <div>
+        <span> <strong>Descripción:</strong> {{ invoice.description }} </span>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <p-accordion class="p-3" *ngIf="invoice.organization_client">
+    <p-accordionTab [header]="'Datos del cliente'">
+      <div class="col-6">
+        <span>
+          <strong>Nombre:</strong> {{ invoice.organization_client.name }}
+        </span>
+      </div>
+
+      <div class="col-6">
+        <span>
+          <strong>NIF:</strong> {{ invoice.organization_client.nif }}
+        </span>
+      </div>
+
+      <div class="col-12">
+        <span>
+          <strong>Email:</strong> {{ invoice.organization_client.email }}
+        </span>
+      </div>
+
+      <div class="col-12">
+        <span>
+          <strong>Teléfono:</strong> {{ invoice.organization_client.phone }}
+        </span>
+      </div>
+
+      <div class="col-12">
+        <span> <strong>CP:</strong> {{ invoice.organization_client.cp }} </span>
+      </div>
+
+      <div class="col-12">
+        <span>
+          <strong>Dirección:</strong> {{ invoice.organization_client.address }}
+        </span>
+      </div>
+
+      <div class="col-12">
+        <span>
+          <strong>Localidad:</strong> {{ invoice.organization_client.locality }}
+        </span>
+      </div>
+
+      <div class="col-12">
+        <span>
+          <strong>Provincia:</strong> {{ invoice.organization_client.province }}
+        </span>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
+
+  <ion-button
+    *ngIf="!invoice.organization_client"
+    class="p-3"
+    fill="clear"
+    size="default"
+    expand="block"
+    (click)="view_modal_add_client()"
+  >
+    <ion-icon name="add-outline"></ion-icon>
+    <ion-label> Añadir cliente</ion-label>
+  </ion-button>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="text-base font-medium text-center p-3 mb-2">
+        Desglose de Factura
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div>
+        <ng-container *ngFor="let line of invoice.invoice_line">
+          <div class="flex mb-2 p-2 border-bottom-1 justify-content-between">
+            <div>
+              <span>{{ line.quantity }} X {{ line.name }}</span>
+            </div>
+            <div>
+              <span>{{ line.amount | centToEur }} €</span>
+            </div>
+          </div>
+        </ng-container>
+        <div class="flex mb-2 p-2 justify-content-between">
+          <div>
+            <strong>Total:</strong>
+          </div>
+          <div>
+            <strong>{{ invoice.total_amount | centToEur }} €</strong>
+          </div>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button color="warning" expand="block">
+      <ion-label class="font-bold">Reimprimir</ion-label>
+      <ion-icon slot="end" name="print"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

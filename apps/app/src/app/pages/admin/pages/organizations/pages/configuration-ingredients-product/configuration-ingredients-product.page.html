@@ -1,0 +1,47 @@
+<app-header-app
+  [title]="'Configuración Intredientes Productos'"
+  (go_back)="goBack()"
+  [can_back]="true"
+>
+</app-header-app>
+
+<ion-content class="ion-padding">
+  <p-toast position="bottom-center"></p-toast>
+  <section class="container-router-outlet">
+    <div class="text-center">
+      <ion-button (click)="select_products()" fill="outline">
+        Seleccionar productos a Mostrar
+      </ion-button>
+    </div>
+
+    <ion-grid *ngIf="products_selected.length">
+      <!-- Buscador -->
+      <ion-row>
+        <ion-col size="12">
+          <ion-searchbar
+            mode="ios"
+            animated="true"
+            (ionInput)="search_product($event)"
+            placeholder="Buscar producto..."
+          >
+          </ion-searchbar>
+        </ion-col>
+      </ion-row>
+
+      <!-- Listado de productos seleccionados -->
+      <ion-row>
+        <ion-col
+          size="12"
+          class="ion-padding"
+          *ngFor="let product of products_selected | filterProducts: search_term"
+        >
+          <app-product-ingredient-component
+            [product]="product"
+            (add_or_remove)="add_or_remove($event)"
+          >
+          </app-product-ingredient-component>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </section>
+</ion-content>

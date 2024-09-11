@@ -1,0 +1,17 @@
+<ion-list>
+  <ion-reorder-group
+    [disabled]="!order_categories"
+    (ionItemReorder)="handleReorder.emit($any($event))"
+  >
+    <ng-container *ngFor="let category of categories">
+      <app-item-list-category
+        [category]="category"
+        [order_categories]="order_categories"
+        (change_order_categories_of_products)="
+          change_order_categories_of_products.emit($event)
+        "
+        (goToManageCategory)="goToManageCategory.emit($event)"
+      ></app-item-list-category>
+    </ng-container>
+  </ion-reorder-group>
+</ion-list>

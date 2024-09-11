@@ -1,0 +1,273 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-title class="ion-text-center"> {{commander.name}} </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon color="danger" slot="icon-only" name="close-outline">
+        </ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-segment
+    mode="md"
+    [scrollable]="true"
+    [value]="segment_selected"
+    (ionChange)="change_segment($event)"
+  >
+    <ion-segment-button value="data">
+      <ion-label>Datos</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="categories_blocked">
+      <ion-label>Categorías Bloqueadas</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="products_blocked">
+      <ion-label>Productos Bloqueados</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="products_allowed">
+      <ion-label>Productos Permitidos</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</ion-header>
+
+<ion-content mode="md">
+  <ion-grid class="ion-padding">
+    <!-- DATA -->
+    <form [formGroup]="form_edit_commander" *ngIf="segment_selected === 'data'">
+      <ion-row>
+        <!-- TODO: max_time, name_internals, notifications, order (lo mas nuevo | lo mas antiguo),  print_name, status_availables -->
+
+        <div class="col-12">
+          <div class="text-left text-sm mb-1 pl-1 font-light text-700">
+            Nombre
+          </div>
+
+          <input type="text" pInputText formControlName="name" class="w-full" />
+
+          <div
+            *ngIf="getFormErrorMessage('name')"
+            class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2"
+          >
+            <div class="p-element p-icon-wrapper ng-star-inserted">
+              <i class="pi pi-times"></i>
+            </div>
+            {{ getFormErrorMessage('name') }}
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="text-left text-sm mb-1 pl-1 font-light text-700">
+            Orden (con otros paneles)
+          </div>
+
+          <input
+            type="number"
+            pInputText
+            formControlName="order"
+            class="w-full"
+          />
+
+          <div
+            *ngIf="getFormErrorMessage('order')"
+            class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2"
+          >
+            <div class="p-element p-icon-wrapper ng-star-inserted">
+              <i class="pi pi-times"></i>
+            </div>
+            {{ getFormErrorMessage('order') }}
+          </div>
+        </div>
+
+        <div class="col-12">
+          <ion-item lines="none">
+            <ion-toggle
+              [enableOnOffLabels]="true"
+              formControlName="print_available"
+            >
+              Generar impresión (avanzado)
+            </ion-toggle>
+          </ion-item>
+        </div>
+
+        <div
+          class="col-12"
+          *ngIf="form_edit_commander.controls.print_available.value"
+        >
+          <div class="text-left text-sm mb-1 pl-1 font-light text-700">
+            Nombre impresión
+          </div>
+
+          <input
+            type="text"
+            pInputText
+            formControlName="print_name"
+            placeholder="Indica nombre impresión..."
+            class="w-full"
+          />
+
+          <div
+            *ngIf="getFormErrorMessage('print_name')"
+            class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2"
+          >
+            <div class="p-element p-icon-wrapper ng-star-inserted">
+              <i class="pi pi-times"></i>
+            </div>
+            {{ getFormErrorMessage('print_name') }}
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="text-left text-sm mb-1 pl-1 font-light text-700">
+            max_time
+          </div>
+
+          <input
+            type="number"
+            pInputText
+            formControlName="max_time"
+            class="w-full"
+          />
+
+          <div
+            *ngIf="getFormErrorMessage('max_time')"
+            class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2"
+          >
+            <div class="p-element p-icon-wrapper ng-star-inserted">
+              <i class="pi pi-times"></i>
+            </div>
+            {{ getFormErrorMessage('max_time') }}
+          </div>
+        </div>
+
+        <div class="col-12">
+          <ion-item lines="none">
+            <ion-toggle
+              [enableOnOffLabels]="true"
+              formControlName="name_internals"
+            >
+              name_internals
+            </ion-toggle>
+          </ion-item>
+        </div>
+
+        <div class="col-12">
+          <ion-item lines="none">
+            <ion-toggle
+              [enableOnOffLabels]="true"
+              formControlName="notifications"
+            >
+              notifications
+            </ion-toggle>
+          </ion-item>
+        </div>
+      </ion-row>
+
+      <ion-row>
+        <div class="col-12 text-center mt-4 font-italic">
+          <ion-label
+            >Indica los estados que se mostrarán en este panel</ion-label
+          >
+        </div>
+        <div class="col-12 text-center" *ngFor="let status of status_types">
+          <ion-chip
+            class="chip-status"
+            [ngClass]="isActive(status)"
+            (click)="activeStatus(status)"
+            >{{status}}</ion-chip
+          >
+        </div>
+      </ion-row>
+    </form>
+
+    <!-- CATEGORIAS BLOQUEADAS -->
+    <div class="" *ngIf="segment_selected === 'categories_blocked'">
+      <ion-searchbar
+        mode="ios"
+        animated="true"
+        (ionInput)="search($event)"
+        placeholder="Buscar Categoría..."
+      ></ion-searchbar>
+      <ion-item
+        *ngFor="let category of categories_and_products | filterCategory:search_term"
+      >
+        <ion-toggle
+          [enableOnOffLabels]="true"
+          [checked]="isCategoryBlock(category.id)"
+          (ionChange)="addRemoveCategory($event, category.id)"
+        >
+          <ion-label> {{ category.name }} </ion-label></ion-toggle
+        >
+      </ion-item>
+    </div>
+
+    <!-- PRODUCTOS BLOQUEADOS -->
+    <div class="" *ngIf="segment_selected === 'products_blocked'">
+      <ion-searchbar
+        mode="ios"
+        animated="true"
+        (ionInput)="search($event)"
+        placeholder="Buscar Producto..."
+      ></ion-searchbar>
+      <p-accordion>
+        <div
+          *ngFor="let category of categories_and_products | filterProduct: search_term"
+        >
+          <div class="w-full">
+            <p-accordionTab [header]="category.name">
+              <ion-item *ngFor="let product of getProducts(category)">
+                <ion-toggle
+                  [enableOnOffLabels]="true"
+                  [checked]="isProductBlock(product.id)"
+                  (ionChange)="addRemoveProductBlock($event, product.id)"
+                >
+                  <ion-label> {{ product.name }} </ion-label>
+                </ion-toggle>
+              </ion-item>
+            </p-accordionTab>
+          </div>
+        </div>
+      </p-accordion>
+    </div>
+
+    <!-- TODO: Productos Permitidos  -->
+    <div class="" *ngIf="segment_selected === 'products_allowed'">
+      <ion-searchbar
+        mode="ios"
+        animated="true"
+        (ionInput)="search($event)"
+        placeholder="Buscar Producto..."
+      ></ion-searchbar>
+      <p-accordion>
+        <div
+          *ngFor="let category of categories_and_products | filterProduct: search_term"
+        >
+          <div class="w-full">
+            <p-accordionTab [header]="category.name">
+              <ion-item *ngFor="let product of getProducts(category)">
+                <ion-toggle
+                  [enableOnOffLabels]="true"
+                  [checked]="isProductAllow(product.id)"
+                  (ionChange)="addRemoveProductsAllow($event, product.id)"
+                >
+                  <ion-label> {{ product.name }} </ion-label>
+                </ion-toggle>
+              </ion-item>
+            </p-accordionTab>
+          </div>
+        </div>
+      </p-accordion>
+    </div>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button
+      expand="block"
+      fill="solid"
+      color="primary"
+      (click)="updateCommander()"
+    >
+      <ion-text class="font-bold text-0">Guardar Cambios</ion-text>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

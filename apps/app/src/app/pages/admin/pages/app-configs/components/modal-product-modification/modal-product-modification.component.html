@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">
+      {{ mode }} {{ mode === 'Creando' ? 'Producto' : product_name }}
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon color="danger" slot="icon-only" name="close-outline">
+        </ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="ion-padding">
+    <form [formGroup]="form_modification_product">
+      <ion-row>
+        <div class="col-12">
+          <div class="text-left text-sm mb-1 pl-1 font-light text-700">ID</div>
+
+          <input type="number" pInputText formControlName="id" class="w-full" />
+          <div
+            *ngIf="getFormErrorMessage('id')"
+            class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2"
+          >
+            <div class="p-element p-icon-wrapper ng-star-inserted">
+              <i class="pi pi-times"></i>
+            </div>
+            {{ getFormErrorMessage('id') }}
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="text-left text-sm mb-1 pl-1 font-light text-700">
+            APMG
+          </div>
+
+          <input
+            type="number"
+            pInputText
+            formControlName="apmg"
+            class="w-full"
+          />
+        </div>
+
+        <div class="col-12">
+          <div class="text-left text-sm mb-1 pl-1 font-light text-700">
+            Nombre
+          </div>
+
+          <input type="text" pInputText formControlName="name" class="w-full" />
+
+          <div
+            *ngIf="getFormErrorMessage('name')"
+            class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2"
+          >
+            <div class="p-element p-icon-wrapper ng-star-inserted">
+              <i class="pi pi-times"></i>
+            </div>
+            {{ getFormErrorMessage('name') }}
+          </div>
+        </div>
+      </ion-row>
+    </form>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button *ngIf="mode === 'Creando'" expand="block" fill="solid" color="primary" (click)="create()">
+      <ion-text class="font-bold text-0">Crear Producto</ion-text>
+    </ion-button>
+    <ion-button *ngIf="mode === 'Editando'" expand="block" fill="solid" color="primary" (click)="update()">
+      <ion-text class="font-bold text-0">Guardar Cambios</ion-text>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

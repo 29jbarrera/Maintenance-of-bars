@@ -1,0 +1,154 @@
+<app-header-app
+  [title]="'PEDIDOS - ' + organization_name"
+  [can_back]="true"
+  (go_back)="goBack()"
+></app-header-app>
+
+<ion-content class="ion-padding">
+  <section class="container-router-outlet">
+    <!-- Componente Filtro entre dos fechas -->
+    <app-filter-between-dates
+      (filters_between_dates)="filtersBetweenDates($event)"
+      (clean_filter_dates)="cleanFilterDates()"
+    ></app-filter-between-dates>
+
+    <ion-progress-bar type="indeterminate" *ngIf="loading"></ion-progress-bar>
+
+    <div class="text-center my-3">
+      <ion-button fill="solid" size="default" (click)="view_orders_selecteds(selectedsOrders)" *ngIf="selectedsOrders.length">
+        <ion-icon name="search"></ion-icon>
+        <ion-label>Ver pedidos seleccionados</ion-label>
+      </ion-button>
+    </div>
+
+     <!-- TODO: PAGINATOR BUGS SCROLL -->
+    <p-table
+      #dt
+      [value]="orders"
+      [paginator]="true"
+      [rows]="5"
+      [(selection)]="selectedsOrders"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      dataKey="id"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} registros"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 4rem"><p-tableHeaderCheckbox /></th>
+          <th>Ver</th>
+          <th pSortableColumn="created_at" style="min-width: 150px">
+            <div class="flex align-items-center gap-2">
+              <p-sortIcon field="created_at"></p-sortIcon>
+              Fecha / Hora
+              <p-columnFilter
+                class="hidden"
+                type="numeric"
+                field="created_at"
+                display="menu"
+              ></p-columnFilter>
+            </div>
+          </th>
+          <th>
+            Mesas
+            <p-columnFilter
+              field="eating_table_id"
+              matchMode="in"
+              display="menu"
+              [showMatchModes]="false"
+              [showOperator]="false"
+              [showAddButton]="false"
+            >
+              <ng-template pTemplate="header">
+                <div class="px-3 pt-3 pb-0">
+                  <span class="font-bold">Seleccionar Mesas</span>
+                </div>
+              </ng-template>
+
+              <ng-template
+                pTemplate="filter"
+                let-value
+                let-filter="filterCallback"
+              >
+                <p-multiSelect
+                  [options]="eating_tables_groups"
+                  placeholder="Selecciona Mesas"
+                  (onChange)="filter($event.value)"
+                  [ngModel]="value"
+                  optionLabel="label"
+                  styleClass="w-full"
+                  optionValue="value"
+                  selectedItemsLabel="{0} Mesas Seleccionadas"
+                  filterBy="label"
+                  [group]="true"
+                >
+                  <ng-template let-option pTemplate="item">
+                    <div class="inline-block vertical-align-middle">
+                      <span class="ml-1 mt-1">{{ option.label }}</span>
+                    </div>
+                  </ng-template>
+                </p-multiSelect>
+              </ng-template>
+            </p-columnFilter>
+          </th>
+          <th>
+            <div class="flex align-items-center">
+              Usuario
+              <p-columnFilter
+                matchMode="equals"
+                field="user_id"
+                display="menu"
+                [showMatchModes]="false"
+                [showOperator]="false"
+                [showAddButton]="false"
+              >
+                <ng-template
+                  pTemplate="filter"
+                  let-value
+                  let-filter="filterCallback"
+                >
+                  <p-dropdown
+                    [ngModel]="value"
+                    [options]="users"
+                    (onChange)="filter($event.value)"
+                    [filter]="true"
+                    filterBy="email"
+                    placeholder="Usuario"
+                    optionLabel="email"
+                    optionValue="id"
+                  >
+                    <ng-template let-option pTemplate="item">
+                      {{ option.email }}
+                    </ng-template>
+                  </p-dropdown>
+                </ng-template>
+              </p-columnFilter>
+            </div>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-order>
+        <tr>
+          <td>
+            <div class="flex align-items-center gap-2">
+              <p-tableCheckbox [value]="order" />
+              <ion-button fill="clear" (click)="view_cart_products(order)">
+                <ion-icon name="cart"></ion-icon>
+              </ion-button>
+            </div>
+          </td>
+          <td>{{ order.id }}</td>
+          <td>{{ order.created_at | date : 'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ getEatingTable(order.eating_table_id) }}</td>
+          <td>{{ getUser(order.user_id) }}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="6" class="text-center">No hay datos para mostrar</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </section>
+</ion-content>

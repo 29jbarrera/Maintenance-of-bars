@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center"> Añadir Organización </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()" id="modal-organization-add-organization-button-close-modal">
+        <ion-icon
+          color="danger"
+          slot="icon-only"
+          name="close-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <form [formGroup]="form_add_organization">
+      <div class="col-12">
+        <p-dropdown
+          [options]="organizations"
+          formControlName="id"
+          [filter]="true"
+          filterBy="name"
+          styleClass="w-full"
+          optionLabel="name"
+          optionValue="id"
+          placeholder="Selecciona una organización"
+          class="p-fluid"
+          id="modal-organization-add-input-dropdown-organizations"
+        >
+        </p-dropdown>
+      </div>
+    </form>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button
+      mode="ios"
+      expand="block"
+      color="primary"
+      class="font-bold"
+      (click)="addOrganizations()"
+      [disabled]="form_add_organization.invalid"
+      id="modal-organization-add-organization-button-save-changes"
+    >
+      <ion-text class="font-bold text-0">Guardar Cambios</ion-text>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
+<p-toast position="bottom-center"></p-toast>

@@ -1,0 +1,104 @@
+<app-header-app
+  *ngIf="!loading"
+  [title]="'PRODUCTOS - ' + organization_name"
+  (go_back)="goBack()"
+  [can_back]="true"
+>
+</app-header-app>
+
+<ion-content class="ion-padding" *ngIf="!loading">
+  <p-toast position="bottom-center"></p-toast>
+  <section class="container-router-outlet">
+    <ion-card>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row
+            class="flex align-items-center justify-content-center text-center"
+          >
+            <ion-col size="12" sizeLg="8">
+              <ion-searchbar
+                class="text-left"
+                mode="ios"
+                animated="true"
+                (ionInput)="search_products($event)"
+                placeholder="Buscar producto..."
+              >
+              </ion-searchbar>
+            </ion-col>
+            <ion-col size="12" sizeLg="4">
+              <ion-button
+                fill="clear"
+                size="default"
+                (click)="add_or_edit_modal_product(null)"
+              >
+                <ion-icon name="add-outline"></ion-icon>
+                <ion-label> AÑADIR PRODUCTOS</ion-label>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <ion-list>
+          <div class="flex p-3 gap-3">
+            <p-multiSelect
+              [options]="categories"
+              [(ngModel)]="categories_selecteds"
+              optionLabel="name"
+              optionValue="id"
+              appendTo="body"
+              placeholder="Seleccionar categoría"
+            />
+            <p-dropdown
+              [options]="sizeFilterOptions"
+              [(ngModel)]="size_filter_selected"
+              optionLabel="name"
+              optionValue="value"
+              [checkmark]="true"
+              appendTo="body"
+              placeholder="Seleccionar tamaño"
+            />
+            <p-dropdown
+              [options]="modifierFilterOptions"
+              [(ngModel)]="modifier_filter_selected"
+              optionLabel="name"
+              optionValue="value"
+              [checkmark]="true"
+              appendTo="body"
+              placeholder="Seleccionar producto según modificadores "
+            />
+          </div>
+
+          <app-product-item
+            *ngFor="let product of (products | FilterProductsAdmin:search_term:categories_selecteds:size_filter_selected:modifier_filter_selected) | slice: first: first + rows"
+            [product]="product"
+            (delete_product)="delete_product($event)"
+            (edit_modal_product)="add_or_edit_modal_product($event)"
+            (view_product)="view_product($event)"
+          ></app-product-item>
+
+          <div
+            class="text-center py-4"
+            *ngIf="!(products | FilterProductsAdmin:search_term:categories_selecteds:size_filter_selected:modifier_filter_selected ).length"
+          >
+            No hay productos disponibles
+          </div>
+        </ion-list>
+
+        <div #paginator>
+          <p-paginator
+            *ngIf="(products | FilterProductsAdmin:search_term:categories_selecteds:size_filter_selected:modifier_filter_selected ).length"
+            [rows]="rows"
+            [first]="first"
+            [totalRecords]="(products | FilterProductsAdmin:search_term:categories_selecteds:size_filter_selected:modifier_filter_selected).length"
+            [rowsPerPageOptions]="[5, 10, 20, 30]"
+            (onPageChange)="onPageChange($event)"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} productos"
+            dropdownAppendTo="body"
+          >
+          </p-paginator>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </section>
+</ion-content>

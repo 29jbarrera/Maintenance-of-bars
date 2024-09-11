@@ -1,0 +1,41 @@
+<ion-item
+  mode="md"
+  [lines]="line"
+  [id]="'product-category-item-' + category.id"
+>
+  <ion-reorder slot="start"></ion-reorder>
+  <ion-label class="py-1">
+    <h3>{{ category.name }}</h3>
+    <p>priority: {{ category.priority }}</p>
+    <p>priority_u: {{ category.priority_u }}</p>
+  </ion-label>
+  <ion-buttons slot="end">
+    <ion-button
+      fill="clear"
+      color="danger"
+      *ngIf="!order_categories"
+      (click)="delete_product_category.emit(category)"
+      [id]="'product-categories-button-delete-product-category-' + category.id"
+    >
+      <ion-icon slot="icon-only" icon="trash"></ion-icon>
+    </ion-button>
+    <ion-button
+      fill="clear"
+      color="primary"
+      *ngIf="!order_categories"
+      (click)="view_modal_product_categories.emit(category)"
+      [id]="'product-categories-button-edit-product-category-' + category.id"
+    >
+      <ion-icon slot="icon-only" name="pencil"></ion-icon>
+    </ion-button>
+    <ion-button
+      fill="clear"
+      color="dark"
+      *ngIf="!order_categories"
+      (click)="view_category.emit(category)"
+      [id]="'product-categories-button-view-product-category-' + category.id"
+    >
+      <ion-icon slot="icon-only" name="eye"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-item>

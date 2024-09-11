@@ -1,0 +1,25 @@
+<ion-item
+  [lines]="line"
+  [id]="'app-configs-modification-item-' + modification.id"
+>
+  <ion-label>
+    <h3>{{ modification.name }}</h3>
+  </ion-label>
+  <ion-buttons slot="end">
+    <ion-button
+      color="primary"
+      (click)="edit_product_modification.emit(modification)"
+      [id]="'app-configs-modification-item-button-edit-' + modification.id"
+    >
+      <ion-icon fill="clear" name="pencil"></ion-icon>
+    </ion-button>
+
+    <ion-button
+      color="danger"
+      (click)="confirm_delete.emit(modification)"
+      [id]="'app-configs-modification-item-button-delete-' + modification.id"
+    >
+      <ion-icon fill="clear" name="trash"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-item>

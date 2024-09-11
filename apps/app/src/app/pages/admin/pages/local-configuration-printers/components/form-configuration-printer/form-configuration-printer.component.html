@@ -1,0 +1,143 @@
+<form [formGroup]="form" class="grid">
+    <div class="col-12 md:col-8 mb-2 py-2">
+      <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+        Organization (UUID)
+      </div>
+
+      <input
+        type="text"
+        pInputText
+        formControlName="organization"
+        class="w-full"
+        id="local-configuration-printer-input-organization"
+      />
+
+      <div
+        *ngIf="getFormErrorMessage('organization')"
+        class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2"
+      >
+        <div class="p-element p-icon-wrapper ng-star-inserted">
+          <i class="pi pi-times"></i>
+        </div>
+        {{ getFormErrorMessage('organization') }}
+      </div>
+    </div>
+
+    <div class="col-12 md:col-4">
+      <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+        Open CashDraw
+      </div>
+
+      <p-toggleButton
+        formControlName="open_cashdraw"
+        onLabel="Si"
+        offLabel="No"
+        styleClass="w-full"
+        id="local-configuration-printer-input-toggle-open-cashdraw"
+      />
+    </div>
+
+    <!-- Printers -->
+    <ion-grid>
+      <ion-row>
+        <div class="col-12 md:col-6">
+          <div class="text-left text-sm my-3 pl-1 font-light text-700">
+            Factor Correction
+          </div>
+
+          <input
+            type="number"
+            pInputText
+            formControlName="factor_correction"
+            class="w-full"
+            id="local-configuration-printer-input-factor-correction"
+          />
+        </div>
+
+        <div class="col-12 md:col-6">
+          <div class="text-left text-sm my-3 pl-1 font-light text-700">
+            Enconding
+          </div>
+
+          <input
+            type="text"
+            pInputText
+            formControlName="encoding"
+            class="w-full"
+            id="local-configuration-printer-input-encoding"
+          />
+        </div>
+      </ion-row>
+      <ion-row>
+        <div class="col-12 md:col-6">
+          <div class="text-left text-sm my-3 pl-1 font-light text-700">
+            Device 01
+          </div>
+
+          <input
+            type="text"
+            pInputText
+            formControlName="device01"
+            class="w-full"
+            id="local-configuration-printer-input-device-01"
+          />
+        </div>
+
+        <div class="col-12 md:col-6">
+          <div class="text-left text-sm my-3 pl-1 font-light text-700">
+            Device 02
+          </div>
+
+          <input
+            type="text"
+            pInputText
+            formControlName="device02"
+            class="w-full"
+            id="local-configuration-printer-input-device-02"
+          />
+        </div>
+      </ion-row>
+      <ng-container formArrayName="printers">
+        <ion-row>
+          <div
+            class="col-12 md:col-4"
+            *ngFor="let item_form of printers_controls(); let i = index"
+          >
+            <!-- Printer -->
+
+            <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+              Impresora {{i+1}}
+            </div>
+
+            <input
+              [id]="'local-configuration-printer-input-printer-' + i"
+              type="text"
+              pInputText
+              [formControlName]="i"
+              class="w-full"
+            />
+
+            <span class="p-input-icon-right">
+              <i
+                class="pi pi-trash cursor-pointer"
+                (click)="remove_printer.emit(i)"
+                [id]="'local-configuration-printer-button-remove-printer-' + i"
+              ></i>
+            </span>
+          </div>
+
+          <div class="col-12 md:col-4 md:mt-4">
+            <p-button
+              label="Añadir Impresora"
+              styleClass="w-full p-button-secondary"
+              severity="success"
+              (onClick)="add_printer.emit()"
+              id="local-configuration-printer-button-add-printer"
+              icon="pi pi-print"
+              iconPos="right"
+            />
+          </div>
+        </ion-row>
+      </ng-container>
+    </ion-grid>
+  </form>

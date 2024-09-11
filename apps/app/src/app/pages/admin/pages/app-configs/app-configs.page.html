@@ -1,0 +1,79 @@
+<app-header-app [title]="'Modificadores APP'"></app-header-app>
+<ion-content>
+  <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+  <section class="container-router-outlet">
+    <p-toast position="bottom-center"></p-toast>
+    <ion-list>
+      <!-- Buscador de Grupos -->
+      <ion-searchbar
+        mode="ios"
+        animated="true"
+        (ionInput)="search_group($event)"
+        placeholder="Buscar Grupo..."
+        id="app-configs-input-search-group"
+      ></ion-searchbar>
+      <!-- Componente Grupos -->
+      <app-group-item
+        *ngFor="let group of product_modifications_groups | filterModificationGroup: search_group_text; let i = index"
+        [line]="i < (product_modifications_groups | filterModificationGroup : search_group_text).length - 1 ? 'full':'none'"
+        [group]="group"
+        [group_selected]="group_selected"
+        (load_product_modifications)="load_product_modifications($event)"
+        (modification_group)="modification_group($event)"
+      >
+      </app-group-item>
+    </ion-list>
+
+    <!-- LOADER -->
+    <div class="" *ngIf="loading">
+      <p-progressBar mode="indeterminate" [style]="{ height: '6px' }" />
+    </div>
+
+    <!-- Grupo seleccionado -->
+    <div
+      class="border-2 border-dashed surface-border border-round-2xl surface-200 p-3 my-4"
+      *ngIf="!loading && group_selected"
+    >
+      <ion-list>
+        <ion-list-header color="dark">
+          <ion-label class="text-xl text-center">
+            Modificadores de
+            <span class="font-bold">{{group_selected.name}}</span>
+          </ion-label>
+          <ion-button
+            (click)="add_product_modification(group_selected)"
+            [id]="'app-configs-button-add-product-modification-group-' + group_selected.id"
+          >
+            <ion-icon fill="clear" name="add" color="light"></ion-icon>
+          </ion-button>
+        </ion-list-header>
+
+        <ion-grid>
+          <ion-row class="flex align-items-center">
+            <ion-col size="12">
+              <ion-searchbar
+                mode="ios"
+                animated="true"
+                (ionInput)="search_product($event)"
+                placeholder="Buscar Producto..."
+                [id]="'app-configs-input-search-product-modification-group-' + group_selected.id"
+              ></ion-searchbar>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-list>
+
+      <!-- Componente Modificadores -->
+      <ion-list class="py-0">
+        <app-modification-item
+          *ngFor="let modification of product_modifications | filterModificationProduct: search_product_text; let i = index"
+          [modification]="modification"
+          [line]="i < product_modifications.length - 1 ? 'full':'none'"
+          (edit_product_modification)="edit_product_modification($event)"
+          (confirm_delete)="confirm_delete($event)"
+        >
+        </app-modification-item>
+      </ion-list>
+    </div>
+  </section>
+</ion-content>

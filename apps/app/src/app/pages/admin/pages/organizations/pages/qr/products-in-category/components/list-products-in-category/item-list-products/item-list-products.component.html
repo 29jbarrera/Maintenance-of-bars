@@ -1,0 +1,27 @@
+<ion-item>
+    <ion-reorder slot="start"></ion-reorder>
+    <ion-label>
+      <h3>{{ product.name }}</h3>
+      <div class="flex">
+        <picture *ngFor="let allergen of allergens" class="allergen-icon">
+          <img
+            [pTooltip]="getNameOfAllergen(allergen.id)"
+            tooltipPosition="top"
+            class="w-2rem cursor-pointer"
+            [ngClass]="getIsActive(product, allergen.id)"
+            [src]="allergen.url"
+            (click)="active_allergen(product, allergen.id)"
+          />
+        </picture>
+      </div>
+    </ion-label>
+    <ion-buttons class="flex gap-3" *ngIf="!order_products">
+      <ion-button
+        fill="clear"
+        [color]="product.qr_v ? 'primary' : 'dark'"
+        (click)="change_order_of_products.emit(product)"
+      >
+        <ion-icon name="qr-code"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-item>

@@ -1,0 +1,20 @@
+<ion-item>
+  <ion-reorder slot="start"></ion-reorder>
+  <ion-label>{{ category.name }}</ion-label>
+  <ion-buttons class="flex gap-3" *ngIf="!order_categories">
+    <ion-button
+      fill="clear"
+      [color]="category.qr_v ? 'primary' : 'dark'"
+      (click)="change_order_categories_of_products.emit(category)"
+    >
+      <ion-icon name="qr-code"></ion-icon>
+    </ion-button>
+    <ion-button
+      fill="outline"
+      color="primary"
+      (click)="goToManageCategory.emit(category.id)"
+    >
+      GESTIONAR
+    </ion-button>
+  </ion-buttons>
+</ion-item>

@@ -1,0 +1,76 @@
+<div class="min-h-screen flex relative xl:static surface-ground">
+  <!-- Menú lateral -->
+  <div
+    id="menu-organizations"
+    class="h-full flex-shrink-0 fixed left-0 top-0 z-3 select-none fadeinleft animation-duration-150"
+    style="width: 300px"
+  >
+    <div class="flex flex-column h-full km-bg-app-menu-v">
+      <div
+        class="flex align-items-center justify-content-center px-5 flex-shrink-0"
+      >
+        <!-- Botón cerrar menú -->
+        <div class="menu-button-close" (click)="handleMenu()" id="organization-menu-button-close-menu">
+          <i class="pi pi-chevron-left"></i>
+        </div>
+      </div>
+
+      <!-- Componente Menú -->
+      <ul class="list-none my-3 overflow-y-auto">
+        <app-organization-menu-item
+          *ngFor="let item of menu_items"
+          [item]="item"
+          (go_to)="go_to($event)"
+        ></app-organization-menu-item>
+      </ul>
+      
+
+      <ul class="list-none mt-auto surface-100">
+        <li>
+          <a (click)="goBack()" pRipple class="km-item-signout-organization" id="organization-menu-button-exit-organization">
+            <img src="/assets/icons/menu/exit.png" class="w-2rem" />
+            <span>Salir de la Organización</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="min-h-screen flex flex-column relative flex-auto">
+    <div
+      class="flex justify-content-between align-items-center px-5 surface-0 relative xl:static km-bg-app-menu-h-menu-organization"
+      style="height: 80px"
+    >
+      <!-- Botón abrir menu -->
+      <div>
+        <a
+          *ngIf="!deployed_menu"
+          (click)="handleMenu()"
+          class="cursor-pointer"
+          pRipple
+        >
+          <i
+            class="pi pi-bars text-2xl text-800 fadeinright animation-duration-200"
+          ></i>
+        </a>
+      </div>
+      <!-- Logotipo -->
+      <div *ngIf="!deployed_menu">
+        <img
+          src="/assets/icons/menu/commander.png"
+          height="auto"
+          style="max-height: 80px;"
+          alt="Logo"
+          class="py-2 fadein animation-duration-150"
+        />
+      </div>
+      <!-- Panel usuario -->
+      <div></div>
+    </div>
+    <div class="flex flex-column flex-auto">
+      <ion-content (click)="backdrop()">
+        <ion-router-outlet></ion-router-outlet>
+      </ion-content>
+    </div>
+  </div>
+</div>

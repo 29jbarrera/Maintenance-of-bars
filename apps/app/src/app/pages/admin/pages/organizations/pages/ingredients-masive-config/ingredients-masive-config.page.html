@@ -1,0 +1,136 @@
+<app-header-app
+  [title]="'Configuración Masiva Ingredientes' | uppercase"
+  (go_back)="goBack()"
+  [can_back]="true"
+></app-header-app>
+
+<ion-content class="ion-padding">
+  <p-toast position="bottom-center"></p-toast>
+  <section class="container-router-outlet">
+    <ion-grid>
+      <ion-row class="flex-column-reverse lg:flex-row">
+        <!-- Array de productos seleccionados -->
+        <ion-col
+          size="12"
+          sizeLg="4"
+          class="mb-4 lg:mb-0 text-center ion-padding"
+        >
+          <ion-button (click)="select_products()" fill="outline">
+            Seleccionar productos
+          </ion-button>
+
+          <div
+            class="surface-200 border-2 surface-border border-dashed my-3 border-round-md"
+          >
+            <div *ngIf="products_selected.length">
+              
+                <ion-list-header color="dark">
+                  <ion-label class="text-xl font-bold">Productos Seleccionados</ion-label>
+                </ion-list-header>
+                <ion-item
+                  *ngFor="let product of products_selected; let i = index"
+                  [lines]="i < products_selected.length - 1 ? 'full':'none'"
+                >
+                  <ion-label> {{ product.name }} </ion-label>
+
+                  <ion-button
+                    color="danger"
+                    fill="clear"
+                    (click)="remove_product_selected(product)"
+                  >
+                    <ion-icon name="trash"></ion-icon>
+                  </ion-button>
+                </ion-item>
+              
+            </div>
+            <div *ngIf="!products_selected.length">
+              <div class="text-center py-4">
+                Por favor, selecciona productos
+              </div>
+            </div>
+          </div>
+        </ion-col>
+
+        <!-- Array de ingredientes seleccionados -->
+        <ion-col
+          size="12"
+          sizeLg="4"
+          class="mb-4 lg:mb-0 text-center ion-padding"
+        >
+          <ion-button (click)="select_ingredients()" fill="outline">
+            Seleccionar Ingredientes
+          </ion-button>
+
+          <div
+            class="surface-200 border-2 surface-border border-dashed my-3 border-round-md"
+          >
+            <div *ngIf="ingredients_selected.length">
+              <ion-list-header color="dark">
+                <ion-label class="text-xl font-bold">Ingredientes Seleccionados</ion-label>
+              </ion-list-header>
+              <ion-item
+                *ngFor="let ingredient of ingredients_selected; let i = index"
+                [lines]="i < ingredients_selected.length - 1 ? 'full':'none'"
+              >
+                <ion-label> {{ ingredient.name }} </ion-label>
+
+                <ion-button
+                  color="danger"
+                  fill="clear"
+                  (click)="remove_ingredient_selected(ingredient)"
+                >
+                  <ion-icon name="trash"></ion-icon>
+                </ion-button>
+              </ion-item>
+            </div>
+            <div *ngIf="!ingredients_selected.length">
+              <div class="text-center py-4">
+                Por favor, selecciona ingredientes
+              </div>
+            </div>
+          </div>
+        </ion-col>
+
+        <ion-col size="12" sizeLg="4" class="my-5 text-center ion-padding">
+          <div
+            class="surface-200 border-2 surface-border border-dashed my-3 border-round-md"
+          >
+            <div
+              class="p-2"
+              *ngIf="products_selected.length && ingredients_selected.length"
+            >
+              <div class="text-left text-sm my-3 pl-1 font-light text-700">
+                Introduce Precio
+              </div>
+
+              <input
+                type="number"
+                pInputText
+                [(ngModel)]="price"
+                class="w-full"
+              />
+
+              <ion-button
+                (click)="confirm_save_price()"
+                fill="solid"
+                color="dark"
+                class="my-4"
+                size="large"
+              >
+                Confirmar Importe
+              </ion-button>
+            </div>
+            <div
+              *ngIf="!products_selected.length || !ingredients_selected.length"
+            >
+              <div class="text-center py-4">
+                Por favor, selecciona productos e ingrendientes para cambio de
+                precio
+              </div>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </section>
+</ion-content>

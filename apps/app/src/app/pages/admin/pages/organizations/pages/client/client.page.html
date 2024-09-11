@@ -1,0 +1,154 @@
+<app-header-app
+  [title]="'CLIENTES - ' + organization_name"
+  (go_back)="goBack()"
+  [can_back]="true"
+>
+</app-header-app>
+
+<ion-content class="ion-padding">
+  <p-toast position="bottom-center"></p-toast>
+  <section class="container-router-outlet">
+    <ion-card>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row
+            class="flex align-items-center justify-content-center text-center"
+          >
+            <ion-col size="12" sizeLg="8">
+              <ion-searchbar
+                class="text-left"
+                mode="ios"
+                animated="true"
+                (ionInput)="search_clientes($event)"
+                placeholder="Buscar cliente..."
+              >
+              </ion-searchbar>
+            </ion-col>
+            <ion-col size="12" sizeLg="4">
+              <ion-button
+                fill="clear"
+                size="default"
+                (click)="view_modal_client(null)"
+              >
+                <ion-icon name="add-outline"></ion-icon>
+                <ion-label> AÑADIR CLIENTE</ion-label>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <p-table
+          #dt
+          [value]="clientes | Filterclient: search_term"
+          dataKey="id"
+          [tableStyle]="{ 'min-width': '50rem' }"
+          styleClass="p-datatable-striped mt-4"
+          [rows]="10"
+          [paginator]="true"
+          [rowsPerPageOptions]="[5, 10, 20]"
+          [showCurrentPageReport]="true"
+          currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} registros"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th>
+                <div class="flex align-items-center">
+                  NIF
+                  <p-columnFilter type="text" field="nif" display="menu">
+                  </p-columnFilter>
+                </div>
+              </th>
+              <th>
+                <div class="flex align-items-center">
+                  Nombre
+                  <p-columnFilter type="text" field="name" display="menu">
+                  </p-columnFilter>
+                </div>
+              </th>
+              <th>
+                <div class="flex align-items-center">
+                  Email
+                  <p-columnFilter type="text" field="email" display="menu">
+                  </p-columnFilter>
+                </div>
+              </th>
+              <th>
+                <div class="flex align-items-center">
+                  Teléfono
+                  <p-columnFilter type="text" field="phone" display="menu">
+                  </p-columnFilter>
+                </div>
+              </th>
+              <th>
+                <div class="flex align-items-center">
+                  Dirección
+                  <p-columnFilter type="text" field="address" display="menu">
+                  </p-columnFilter>
+                </div>
+              </th>
+              <th>
+                <div class="flex align-items-center">
+                  CP
+                  <p-columnFilter type="text" field="cp" display="menu">
+                  </p-columnFilter>
+                </div>
+              </th>
+              <th>
+                <div class="flex align-items-center">
+                  Localidad
+                  <p-columnFilter type="text" field="locality" display="menu">
+                  </p-columnFilter>
+                </div>
+              </th>
+              <th>
+                <div class="flex align-items-center">
+                  Provincia
+                  <p-columnFilter type="text" field="province" display="menu">
+                  </p-columnFilter>
+                </div>
+              </th>
+              <th>Acciones</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-cliente>
+            <tr>
+              <td>{{ cliente.nif }}</td>
+              <td>{{ cliente.name }}</td>
+              <td>{{ cliente.email }}</td>
+              <td>{{ cliente.phone }}</td>
+              <td>{{ cliente.address}}</td>
+              <td>{{ cliente.cp}}</td>
+              <td>{{ cliente.locality}}</td>
+              <td>{{ cliente.province}}</td>
+              <td>
+                <ion-buttons>
+                  <ion-button
+                    fill="clear"
+                    color="danger"
+                    (click)="delete_cliente(cliente)"
+                  >
+                    <ion-icon slot="icon-only" icon="trash"></ion-icon>
+                  </ion-button>
+                  <ion-button
+                    color="primary"
+                    fill="clear"
+                    (click)="view_modal_client(cliente)"
+                  >
+                    <ion-icon slot="icon-only" icon="pencil"></ion-icon>
+                  </ion-button>
+                </ion-buttons>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="10" class="text-center">
+                No hay datos para mostrar
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </ion-card-content>
+    </ion-card>
+  </section>
+</ion-content>

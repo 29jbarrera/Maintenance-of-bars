@@ -1,0 +1,22 @@
+<ion-item
+  mode="ios"
+  [id]="'organization-item-' + organization.id"
+  [lines]="line"
+  detail="true"
+  button
+  (click)="view_organization.emit(organization)"
+>
+  <ion-label>
+    <h2>{{ organization.name }}</h2>
+  </ion-label>
+
+  <!-- <ion-button
+    slot="end"
+    size="default"
+    (click)="view_organization.emit(organization)"
+    fill="clear"
+    [id]="'organization-item-button-view-' + organization.id"
+  >
+    <ion-icon name="eye-outline"></ion-icon>
+  </ion-button> -->
+</ion-item>

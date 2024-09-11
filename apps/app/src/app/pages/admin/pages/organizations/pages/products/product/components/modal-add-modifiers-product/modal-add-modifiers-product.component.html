@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Añadir Modificador</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon
+          color="danger"
+          slot="icon-only"
+          name="close-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <div class="col-12">
+      <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+        Selecciona Grupos
+      </div>
+      <p-multiSelect
+        [options]="groups"
+        [(ngModel)]="selecteds_groups"
+        placeholder="Selecciona Grupos"
+        styleClass="w-full"
+        filterBy="label"
+        optionLabel="label"
+        optionValue="value"
+      >
+        <ng-template let-item pTemplate="item">
+          <span>{{ item.label }}</span>
+        </ng-template>
+      </p-multiSelect>
+    </div>
+
+    <form [formGroup]="product_modification_form">
+      <div class="col-12" *ngIf="selecteds_groups.length">
+        <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+          Selecciona Modificadores
+        </div>
+        <p-multiSelect
+          [options]="get_items_for_group()"
+          placeholder="Selecciona Modificadores"
+          styleClass="w-full"
+          filterBy="name"
+          optionLabel="name"
+          optionValue="id"
+          formControlName="apm"
+        >
+          <ng-template let-item pTemplate="item">
+            <span>{{ item.name }}</span>
+          </ng-template>
+        </p-multiSelect>
+      </div>
+
+      <div class="col-12" *ngIf="product_modification_form.get('apm')?.value.length">
+        <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+          Indica incremento de precio
+        </div>
+        <input type="number" pInputText formControlName="pi" class="w-full" />
+      </div>
+
+      <div class="col-12" *ngIf="product_modification_form.get('apm')?.value.length">
+        <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+          Indica orden
+        </div>
+        <input type="number" pInputText formControlName="o" class="w-full" />
+      </div>
+    </form>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button
+      class="font-bold text-0"
+      expand="block"
+      fill="solid"
+      color="primary"
+      (click)="confirm_add_modifiers()"
+    >
+      <ion-text class="font-bold text-0">Guardar Cambios</ion-text>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

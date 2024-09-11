@@ -1,0 +1,11 @@
+<div
+  class="home-organization-menu-card hover-bg-change"
+  (click)="navigate_to.emit(menu_item.path)"
+  [id]="'home-organization-menu-item-' + menu_item.path"
+>
+  <img [src]="getIcon(menu_item.path)" alt="" />
+
+  <div class="text-left">
+    {{ menu_item.name | uppercase }}
+  </div>
+</div>

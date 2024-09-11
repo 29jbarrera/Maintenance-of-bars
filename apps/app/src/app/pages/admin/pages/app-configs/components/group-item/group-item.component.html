@@ -1,0 +1,22 @@
+<ion-item
+  button
+  (click)="load_product_modifications.emit(group)"
+  [lines]="line"
+  [ngClass]="{
+    'color-medium': group_selected && group.id === group_selected.id
+  }"
+  [id]="'app-configs-item-group-' + group.id"
+>
+  <ion-label>
+    <h3>{{ group.name }}</h3>
+  </ion-label>
+
+  <ion-button
+    fill="outline"
+    color="primary"
+    (click)="modification_group.emit(group)"
+    [id]="'app-configs-item-group-button-modification-group-' + group.id"
+  >
+    Editar
+  </ion-button>
+</ion-item>

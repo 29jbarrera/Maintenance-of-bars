@@ -1,0 +1,155 @@
+<app-header-app
+  [title]="'TICKETS - ' + organization_name"
+  [can_back]="true"
+  (go_back)="goBack()"
+></app-header-app>
+
+<ion-content class="ion-padding">
+  <p-toast position="bottom-center"></p-toast>
+  <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+  <section class="container-router-outlet">
+    <!-- Componente Filtro entre dos fechas -->
+    <app-filter-between-dates
+      (filters_between_dates)="filtersBetweenDates($event)"
+      (clean_filter_dates)="cleanFilterDates()"
+    ></app-filter-between-dates>
+
+    <ion-progress-bar type="indeterminate" *ngIf="loading"></ion-progress-bar>
+
+    <p-table
+      #dt
+      *ngIf="!loading"
+      [value]="printer_jobs"
+      dataKey="id"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      styleClass="p-datatable-striped mt-4"
+      [rows]="10"
+      [paginator]="true"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} registros"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>
+            <div class="flex align-items-center">
+              Nombre
+              <p-columnFilter
+                type="text"
+                field="printer"
+                display="menu"
+              ></p-columnFilter>
+            </div>
+          </th>
+          <th>
+            <div class="flex align-items-center">
+              Realizado
+              <p-columnFilter
+                matchMode="equals"
+                field="done"
+                display="menu"
+                display="menu"
+                [showMatchModes]="false"
+                [showOperator]="false"
+                [showAddButton]="false"
+              >
+                <ng-template
+                  pTemplate="filter"
+                  let-value
+                  let-filter="filterCallback"
+                >
+                  <p-dropdown
+                    [options]="[
+                        { label: 'Todas', value: null },
+                        { label: 'Sí', value: true },
+                        { label: 'No', value: false }
+                      ]"
+                    (onChange)="filter($event.value)"
+                    [style]="{width: '100%'}"
+                    [ngModel]="value"
+                    optionLabel="label"
+                    optionValue="value"
+                    placeholder="Realizado"
+                  ></p-dropdown>
+                </ng-template>
+              </p-columnFilter>
+            </div>
+          </th>
+          <th>
+            <div class="flex align-items-center">
+              Tipo
+              <p-columnFilter
+                type="text"
+                field="type"
+                display="menu"
+              ></p-columnFilter>
+            </div>
+          </th>
+          <th>Info</th>
+          <th pSortableColumn="created_at" style="min-width: 150px">
+            <div class="flex align-items-center gap-2">
+              <p-sortIcon field="created_at"></p-sortIcon>
+              Fecha / Hora
+              <p-columnFilter
+                class="hidden"
+                type="numeric"
+                field="created_at"
+                display="menu"
+              ></p-columnFilter>
+            </div>
+          </th>
+          <th class="text-right">Acciones</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-printer_job>
+        <tr>
+          <td>{{ printer_job.printer }}</td>
+          <td>
+            <i
+              class="pi"
+              [ngClass]="{'pi-times text-red-400': !printer_job.done, 'pi-check text-green-400': printer_job.done}"
+            ></i>
+          </td>
+          <td>
+            {{ printer_job.type }}
+            <!-- TODO: Esto sólo pasa en traviata -->
+            {{ printer_job.data?.type}}
+          </td>
+          <td>{{ printer_job.info }}</td>
+          <td>{{ printer_job.created_at | date : 'dd/MM/yyyy HH:mm' }}</td>
+          <td class="text-right">
+            <!-- Elminar -->
+            <ion-button
+              fill="clear"
+              color="danger"
+              (click)="confirmation_delete_printer(printer_job)"
+            >
+              <ion-icon slot="icon-only" icon="trash"></ion-icon>
+            </ion-button>
+            <!-- Ver -->
+            <ion-button
+              color="secondary"
+              fill="clear"
+              (click)="view_ticket(printer_job)"
+            >
+              <ion-icon slot="icon-only" icon="eye"></ion-icon>
+            </ion-button>
+            <!-- Reeimprimir -->
+            <ion-button
+              color="warning"
+              (click)="confirmation_reprint(printer_job)"
+              fill="clear"
+            >
+              <ion-icon slot="icon-only" icon="print"></ion-icon>
+            </ion-button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="6" class="text-center">No hay datos para mostrar</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </section>
+</ion-content>

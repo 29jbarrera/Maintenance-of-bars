@@ -1,0 +1,107 @@
+<app-header-app
+  [title]="'TAMAÑOS DE PRODUCTOS - ' + organization_name"
+  (go_back)="goBack()"
+  [can_back]="true"
+>
+</app-header-app>
+
+<ion-content class="ion-padding">
+  <section class="container-router-outlet">
+    <ion-card>
+      <ng-template #no_sizes>
+        <h2 class="w-full text-center p-3 -ml-5">
+          No existen tamaños para los productos.
+        </h2>
+      </ng-template>
+
+      <ion-card-content>
+        <ion-grid>
+          <ion-row
+            class="flex align-items-center justify-content-center text-center"
+          >
+            <ion-col size="12" sizeLg="6">
+              <ion-toggle
+                [enableOnOffLabels]="true"
+                (ionChange)="toggle_reorder()"
+              >
+                Ordenar
+              </ion-toggle>
+            </ion-col>
+
+            <ion-col size="12" sizeLg="6">
+              <ion-button
+                fill="clear"
+                size="default"
+                (click)="view_modal_product_size(null)"
+              >
+                <ion-icon name="add-outline"></ion-icon>
+                <ion-label> AÑADIR TAMAÑO </ion-label>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <div class="text-center">
+          <ion-text *ngIf="order_product_size">
+            Pulsa y arrastra para ordenar
+          </ion-text>
+        </div>
+
+        <ion-list>
+          <ion-reorder-group
+            [disabled]="!order_product_size"
+            (ionItemReorder)="handle_reorder($any($event))"
+          >
+            <ion-item *ngFor="let size of product_size">
+              <ion-label>
+                <h2>{{ size.name }}</h2>
+                <p>Orden: {{ size.qr_o }}</p>
+              </ion-label>
+              <ion-buttons>
+                <ion-button
+                  *ngIf="!order_product_size"
+                  fill="clear"
+                  color="danger"
+                  (click)="delete_product_size(size)"
+                  class="mr-2"
+                >
+                  <ion-icon slot="icon-only" name="trash"></ion-icon>
+                </ion-button>
+                <ion-button
+                  *ngIf="!order_product_size"
+                  fill="clear"
+                  color="primary"
+                  (click)="view_modal_product_size(size)"
+                >
+                  <ion-icon slot="icon-only" name="pencil"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+              <ion-reorder slot="end"></ion-reorder>
+            </ion-item>
+          </ion-reorder-group>
+          <div class="text-center py-4" *ngIf="!product_size.length">
+            No hay tamaños disponibles
+          </div>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </section>
+</ion-content>
+
+<ion-footer *ngIf="order_product_size">
+  <ion-toolbar>
+    <div class="grid py-3 text-center">
+      <div class="col-12 md:col-6">
+        <ion-button color="primary" fill="solid" (click)="reset_order()">
+          Restaurar orden
+        </ion-button>
+      </div>
+      <div class="col-12 md:col-6">
+        <ion-button color="primary" fill="solid" (click)="save_order()">
+          Guardar Orden
+        </ion-button>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-footer>
+<p-toast position="bottom-center"></p-toast>

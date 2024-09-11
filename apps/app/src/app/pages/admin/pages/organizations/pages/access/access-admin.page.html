@@ -1,0 +1,34 @@
+<app-header-app
+  [title]="'ACCESOS ' + get_organization_name()"
+  (go_back)="goBack()"
+  [can_back]="true"
+>
+</app-header-app>
+<p-toast
+  [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"
+></p-toast>
+<ion-content class="ion-padding" *ngIf="!loading">
+  <section class="container-router-outlet">
+    <ion-searchbar
+      mode="ios"
+      animated="true"
+      (ionInput)="search_users_by_email($event)"
+      placeholder="Buscar usuario por email..."
+      id="access-searchbar-users-by-email"
+    >
+    </ion-searchbar>
+
+    <app-user-has-access-item
+      *ngFor="let user_has_access of users_has_access | FilterAccess: search_term"
+      [user_has_access]="user_has_access"
+      [appRoles]="appRoles"
+      (toggleRole)="toggleRole($event)"
+    >
+    </app-user-has-access-item>
+
+    <app-no-results
+      *ngIf="!(users_has_access | FilterAccess: search_term).length"
+      [text]="'Lo sentimos no existen accesos...'"
+    ></app-no-results>
+  </section>
+</ion-content>

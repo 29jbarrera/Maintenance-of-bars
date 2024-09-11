@@ -1,0 +1,58 @@
+<ion-item class="mb-2" [id]="'product-item-' + product.id">
+  <ion-label>
+    <h3>{{ product.name }}</h3>
+    <p class="text-xs text-color-secondary">
+      Nombre interno: {{ product.name_i }}
+    </p>
+    <div class="text-color-secondary text-xs gap-3 lg:flex">
+      <div>TOMAR: {{ format_price(product.price_take_away) }} €</div>
+
+      <div>REPARTO: {{ format_price(product.price_delivery) }} €</div>
+
+      <div>RECOGIDA: {{ format_price(product.price_pick_up) }} €</div>
+    </div>
+    <div
+      *ngIf="
+        product.product_size_price && product.product_size_price.length > 0
+      "
+    >
+      <p class="text-xs text-color-secondary">Tamaños y precios:</p>
+      <div
+        class="text-color-secondary"
+        *ngFor="let size of product.product_size_price"
+      >
+        <p class="text-xs">
+          {{ size.product_size.name }}: {{ format_price(size.price) }}
+          €
+        </p>
+      </div>
+    </div>
+  </ion-label>
+  <ion-buttons>
+    <ion-button
+      fill="clear"
+      color="danger"
+      (click)="delete_product.emit(product)"
+      class="mr-2"
+      [id]="'product-item-delete-' + product.id"
+    >
+      <ion-icon slot="icon-only" name="trash"></ion-icon>
+    </ion-button>
+    <ion-button
+      fill="clear"
+      color="primary"
+      (click)="edit_modal_product.emit(product)"
+      [id]="'product-item-edit-' + product.id"
+    >
+      <ion-icon slot="icon-only" name="pencil"></ion-icon>
+    </ion-button>
+    <ion-button
+      fill="clear"
+      color="dark"
+      (click)="view_product.emit(product)"
+      [id]="'product-item-view-' + product.id"
+    >
+      <ion-icon slot="icon-only" name="eye"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-item>

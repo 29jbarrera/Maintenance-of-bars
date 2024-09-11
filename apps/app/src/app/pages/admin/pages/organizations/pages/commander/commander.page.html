@@ -1,0 +1,35 @@
+<app-header-app
+  [title]="'komanderos' | uppercase"
+  (go_back)="goBack()"
+  [can_back]="true"
+></app-header-app>
+
+<ion-content class="ion-padding">
+  <section class="container-router-outlet">
+    <p-toast
+      position="bottom-center"
+    ></p-toast>
+    <ion-grid>
+      <ion-row>
+        <ion-col
+          size="12"
+          sizeMd="6"
+          sizeLg="4"
+          *ngFor="let commander of commanders"
+          class="ion-padding"
+        >
+          <ion-card
+            (click)="modal_edit_commander(commander)"
+            class="cursor-pointer"
+          >
+            <ion-card-content>
+              <div class="text-center font-bold">
+                <ion-text> {{commander.name}} </ion-text>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </section>
+</ion-content>

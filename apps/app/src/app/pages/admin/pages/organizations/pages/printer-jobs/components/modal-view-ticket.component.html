@@ -1,0 +1,25 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-button (click)="close_modal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">
+      <ion-text class="ion-text-wrap font-bold"> Vista Previa </ion-text>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-ticket-preview [lines]="lines" [errorMsg]="'No hay datos para mostrar'"></app-ticket-preview>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button color="warning" expand="block" (click)="reprinter()">
+      <ion-label class="font-bold">Reimprimir</ion-label>
+      <ion-icon slot="end" name="print"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

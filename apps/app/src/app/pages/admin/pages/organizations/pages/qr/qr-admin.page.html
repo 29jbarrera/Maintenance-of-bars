@@ -1,0 +1,96 @@
+<app-header-app
+  [title]="'Configuración Carta Web'"
+  (go_back)="goBack()"
+  [can_back]="true"
+>
+</app-header-app>
+
+<ion-content class="ion-padding">
+  <p-toast position="bottom-center"></p-toast>
+  <section class="container-router-outlet">
+    <p-progressBar
+      *ngIf="loading"
+      mode="indeterminate"
+      [style]="{ height: '6px' }"
+    />
+
+    <ion-card *ngIf="!loading">
+      <div
+        class="flex flex-column justify-content-center align-items-center mb-5"
+      >
+        <div class="">
+          <picture>
+            <img id="qr-share-image" class="w-7rem" [src]="getMyQR()" />
+          </picture>
+        </div>
+
+        <div class="flex flex-column md:flex-row gap-3">
+          <ion-button fill="solid" color="dark" (click)="downloadQRImage()">
+            Descargar Imagen
+          </ion-button>
+          <ion-button
+            fill="solid"
+            color="secondary"
+            (click)="downloadQRPDF()"
+            disabled
+          >
+            Descargar PDF
+          </ion-button>
+        </div>
+      </div>
+
+      <!-- Dos botones, descargar PDF y PNG -->
+
+      <ion-card-content>
+        <div class="text-center">
+          <ion-button
+            fill="outline"
+            color="primary"
+            (click)="goToMyWebCharter()"
+          >
+            Ir a mi carta Web
+          </ion-button>
+        </div>
+
+        <div class="text-left ion-padding">
+          <ion-toggle [enableOnOffLabels]="true" (ionChange)="reorder()">
+            Ordenar
+          </ion-toggle>
+        </div>
+
+        <div class="text-center">
+          <ion-text *ngIf="order_categories">
+            Pulsa y arrastra para ordenar
+          </ion-text>
+        </div>
+
+        <!-- Componente listado de categorias -->
+        <app-list-categories
+          [categories]="categories"
+          [order_categories]="order_categories"
+          (change_order_categories_of_products)="change_order_categories_of_products($event)"
+          (goToManageCategory)="goToManageCategory($event)"
+          (handleReorder)="handleReorder($event)"
+        >
+        </app-list-categories>
+      </ion-card-content>
+    </ion-card>
+  </section>
+</ion-content>
+
+<ion-footer *ngIf="order_categories">
+  <ion-toolbar>
+    <div class="grid py-3 text-center">
+      <div class="col-12 md:col-6">
+        <ion-button color="primary" fill="solid" (click)="reset_order()">
+          Restaurar orden
+        </ion-button>
+      </div>
+      <div class="col-12 md:col-6">
+        <ion-button color="primary" fill="solid" (click)="save_order()">
+          Guardar Orden
+        </ion-button>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-footer>

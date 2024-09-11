@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Añadir Cliente</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close_modal()">
+        <ion-icon
+          color="danger"
+          slot="icon-only"
+          name="close-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <p-dropdown
+      [options]="clients"
+      optionLabel="name"
+      optionValue="id"
+      [filter]="true"
+      filterBy="name"
+      placeholder="Selecciona un cliente"
+      styleClass="w-full"
+      [(ngModel)]="client_selected"
+    >
+      <ng-template pTemplate="selectedItem" let-client>
+        <div class="flex align-items-center gap-2">
+          <div>{{ client.name }}</div>
+        </div>
+      </ng-template>
+    </p-dropdown>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button
+      expand="block"
+      fill="solid"
+      color="primary"
+      (click)="submit()"
+      [disabled]="!client_selected"
+    >
+      <ion-text class="font-bold text-0">Guardar Cambios</ion-text>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

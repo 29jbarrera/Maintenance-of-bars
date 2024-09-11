@@ -1,0 +1,17 @@
+<ion-list>
+  <ion-reorder-group
+    [disabled]="!order_products"
+    (ionItemReorder)="handleReorder.emit($any($event))"
+  >
+    <ng-container *ngFor="let product of products">
+      <app-item-list-products
+        [product]="product"
+        [allergens]="allergens"
+        [order_products]="order_products"
+        (activeAllergen)="activeAllergen.emit($event)"
+        (change_order_of_products)="change_order_of_products.emit($event)"
+      >
+      </app-item-list-products>
+    </ng-container>
+  </ion-reorder-group>
+</ion-list>

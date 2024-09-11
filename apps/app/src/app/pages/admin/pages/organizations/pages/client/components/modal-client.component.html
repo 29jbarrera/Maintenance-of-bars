@@ -1,0 +1,146 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center"> {{ title }} </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon color="danger" slot="icon-only" name="close-outline">
+        </ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <form [formGroup]="form_cliente">
+      <ion-row>
+        <div class="col-12">
+          <div class="text-left text-sm mb-2 pl-1 font-light text-700">NIF</div>
+          <input type="text" pInputText formControlName="nif" class="w-full" />
+          <div
+            *ngIf="getFormErrorMessage('nif')"
+            class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2"
+          >
+            <div class="p-element p-icon-wrapper ng-star-inserted">
+              <i class="pi pi-times"></i>
+            </div>
+            {{ getFormErrorMessage('nif') }}
+          </div>
+        </div>
+      </ion-row>
+      <ion-row>
+        <div class="col-12">
+          <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+            Nombre
+          </div>
+          <input type="text" pInputText formControlName="name" class="w-full" />
+          <div
+            *ngIf="getFormErrorMessage('name')"
+            class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2"
+          >
+            <div class="p-element p-icon-wrapper ng-star-inserted">
+              <i class="pi pi-times"></i>
+            </div>
+            {{ getFormErrorMessage('name') }}
+          </div>
+        </div>
+      </ion-row>
+      <ion-row>
+        <div class="col-12">
+          <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+            Email
+          </div>
+          <input
+            type="text"
+            pInputText
+            formControlName="email"
+            class="w-full"
+          />
+          <div
+            *ngIf="getFormErrorMessage('email')"
+            class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2"
+          >
+            <div class="p-element p-icon-wrapper ng-star-inserted">
+              <i class="pi pi-times"></i>
+            </div>
+            {{ getFormErrorMessage('email') }}
+          </div>
+        </div>
+      </ion-row>
+      <ion-row>
+        <div class="col-12">
+          <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+            Telefono
+          </div>
+          <input
+            type="text"
+            pInputText
+            formControlName="phone"
+            class="w-full"
+          />
+        </div>
+      </ion-row>
+      <ion-row>
+        <div class="col-12">
+          <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+            Dirección
+          </div>
+          <input
+            type="text"
+            pInputText
+            formControlName="address"
+            class="w-full"
+          />
+        </div>
+      </ion-row>
+      <ion-row>
+        <div class="col-12">
+          <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+            Código postal
+          </div>
+          <input type="text" pInputText formControlName="cp" class="w-full" />
+        </div>
+      </ion-row>
+      <ion-row>
+        <div class="col-12">
+          <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+            Localidad
+          </div>
+          <input
+            type="text"
+            pInputText
+            formControlName="locality"
+            class="w-full"
+          />
+        </div>
+      </ion-row>
+      <ion-row>
+        <div class="col-12">
+          <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+            Provincia
+          </div>
+          <input
+            type="text"
+            pInputText
+            formControlName="province"
+            class="w-full"
+          />
+        </div>
+      </ion-row>
+    </form>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button
+      expand="block"
+      fill="solid"
+      color="primary"
+      [disabled]="form_cliente.invalid"
+      (click)="submit()"
+    >
+      <ion-text class="font-bold text-0">Guardar Cambios</ion-text>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

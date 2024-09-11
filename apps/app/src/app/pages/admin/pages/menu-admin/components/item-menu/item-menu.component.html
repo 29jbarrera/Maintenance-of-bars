@@ -1,0 +1,11 @@
+<li [id]="'menu-admin-item-menu-' + item.action">
+  <a
+    (click)="go_to.emit(item.action)"
+    pRipple
+    [ngClass]="{ 'km-menu-item-selected': checkRoute(item) }"
+    class="km-item-menu"
+  >
+    <i [className]="item.icon"></i>
+    <span>{{ item.label }}</span>
+  </a>
+</li>

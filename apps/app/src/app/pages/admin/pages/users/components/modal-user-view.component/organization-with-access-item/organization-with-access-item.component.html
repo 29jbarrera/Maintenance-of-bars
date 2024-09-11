@@ -1,0 +1,36 @@
+<ion-item
+  [id]="
+    'organization-with-access-item-' +
+    organization_access.u_id +
+    '-' +
+    organization_access.o_id
+  "
+>
+  <ion-label> {{ organization_access.organization.name }}</ion-label>
+  <ion-toggle
+    [checked]="checked_access"
+    (ionChange)="change_access_to_organization.emit(organization_access)"
+    [id]="
+      'modal-user-view-button-toggle-organization-' +
+      organization_access.u_id +
+      '-' +
+      organization_access.o_id
+    "
+    aria-label="change-access-to-organization"
+    slot="end"
+  ></ion-toggle>
+  <ion-button
+    slot="end"
+    (click)="delete_access_to_organization.emit(organization_access)"
+    color="danger"
+    fill="clear"
+    [id]="
+      'modal-user-view-button-delete-organization-' +
+      organization_access.u_id +
+      '-' +
+      organization_access.o_id
+    "
+  >
+    <ion-icon slot="icon-only" name="trash"></ion-icon>
+  </ion-button>
+</ion-item>

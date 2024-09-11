@@ -1,0 +1,53 @@
+<ion-content>
+  <!-- Select priority_type from prioryty_types-->
+  <ion-list>
+    <ion-select
+      [(ngModel)]="priority_type"
+      (ionChange)="change_priority_type($event)"
+    >
+      <ion-select-option
+        *ngFor="let priority_type of priority_types"
+        [value]="priority_type.value"
+      >
+        {{priority_type.label}}
+      </ion-select-option>
+    </ion-select>
+
+    <ion-button expand="block" (click)="select_products()"> Seleccionar productos </ion-button>
+
+    <ion-button expand="block" (click)="load_products()"> Cargar </ion-button>
+
+
+    <ion-item>
+        <ion-label>
+            Inicia
+        </ion-label>
+        <ion-input type="number" [(ngModel)]="priority_start_at"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <!-- The reorder gesture is disabled by default, enable it to drag and drop items -->
+    <!-- Casting $event to $any is a temporary fix for this bug https://github.com/ionic-team/ionic-framework/issues/24245 -->
+    <ion-reorder-group
+      [disabled]="false"
+      (ionItemReorder)="handleReorder($any($event))"
+    >
+      <ion-item *ngFor="let product of products">
+        <ion-label>
+          <h3>{{ product.name }}</h3>
+          <p>priority: {{product.priority}}</p>
+          <p>priority_u: {{product.priority_u}}</p>
+          <p>priority_ko: {{product.priority_ko}}</p>
+        </ion-label>
+        <ion-reorder slot="end"></ion-reorder>
+      </ion-item>
+    </ion-reorder-group>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button expand="block" (click)="save_order()">Guardar orden</ion-button>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,15 @@
+.iframe-container {
+  position: relative;
+  width: 100vw; /* Ajusta el contenedor al ancho de su contenedor padre */
+  // padding-top: 56.25%; /* Proporción de aspecto de 16:9 */
+  overflow: hidden;
+  height: 100vh;
+}
+
+.iframe-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

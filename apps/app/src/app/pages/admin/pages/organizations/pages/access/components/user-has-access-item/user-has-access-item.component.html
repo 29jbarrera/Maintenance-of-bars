@@ -1,0 +1,19 @@
+<ion-card [id]="'access-user-has-access-item-' + user_has_access.u_id" class="my-4 py-2" mode="md">
+  <ion-card-header>
+    <ion-card-title class="text-center text-lg">
+      {{ user_has_access.user.email }}
+    </ion-card-title>
+  </ion-card-header>
+  <ion-card-content
+    class="flex flex-wrap align-items-center justify-content-center gap-3 px-0 py-4"
+  >
+    <app-pill-checkbox-component
+      *ngFor="let role of appRoles"
+      [is_active]="get_if_user_has_access_to(role) || false"
+      [name]="role.name"
+      [item]="role"
+      (add_or_remove)="add_or_remove($event)"
+    >
+    </app-pill-checkbox-component>
+  </ion-card-content>
+</ion-card>

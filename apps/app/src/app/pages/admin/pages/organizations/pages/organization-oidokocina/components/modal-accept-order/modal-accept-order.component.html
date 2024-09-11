@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center"> Aceptar Pedido </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon color="danger" slot="icon-only" name="close-outline">
+        </ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div>
+    Forma de entrega: <span class="font-bold">{{ delivery }}</span>
+  </div>
+  <div>Tiempo estimado para tener pedido preparado:</div>
+  <div class="grid justify-content-start py-4">
+    <app-card-button-time
+      *ngFor="let time of estimated_times"
+      class="col-4"
+      [time]="time"
+      [style]="tiempoestimado === time ? 'bg-primary' : 'surface-400'"
+      (change_time)="change_time($event)"
+    >
+    </app-card-button-time>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button
+      size="large"
+      slot="start"
+      color="success"
+      fill="solid"
+      (click)="accept()"
+      id="organization-oidokocina-modal-accept-order-button-accept"
+    >
+      <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+      <ion-text class="ml-1"> Aceptar </ion-text>
+    </ion-button>
+    <ion-button
+      size="large"
+      slot="end"
+      color="danger"
+      fill="solid"
+      (click)="close()"
+      id="organization-oidokocina-modal-accept-order-button-cancel"
+    >
+      <ion-icon slot="start" name="close"></ion-icon>
+      <ion-text class="ml-1"> Cancelar </ion-text>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

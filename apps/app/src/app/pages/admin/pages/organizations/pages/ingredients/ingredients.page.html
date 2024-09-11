@@ -1,0 +1,66 @@
+<app-header-app
+  [title]="'Listado Ingredientes' | uppercase"
+  (go_back)="goBack()"
+  [can_back]="true"
+></app-header-app>
+
+<ion-content class="ion-padding">
+  <p-toast
+    position="bottom-center"
+  ></p-toast>
+  <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+
+  <section class="container-router-outlet">
+    <ion-grid>
+      <ion-row class="flex align-items-center">
+        <ion-col size="12" sizeLg="10">
+          <ion-searchbar
+            mode="ios"
+            animated="true"
+            (ionInput)="search_ingredient($event)"
+            placeholder="Buscar Ingrediente..."
+          ></ion-searchbar>
+        </ion-col>
+        <ion-col size="12" sizeLg="2" class="text-center">
+          <ion-button fill="clear" size="default" (click)="create()">
+            <ion-icon name="add-outline"></ion-icon>
+            <ion-label>Nuevo Ingrediente</ion-label>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-list mode="ios">
+            <ion-item
+              *ngFor="let ingredient of ingredients | filterIngredients : search_term; let i = index"
+              [lines]="i < (ingredients | filterIngredients: search_term).length - 1 ? 'inset':'none'"
+            >
+              <ion-label>
+                <h2>{{ingredient.name}}</h2>
+              </ion-label>
+
+              <ion-buttons>
+                <ion-button
+                  size="default"
+                  (click)="edit(ingredient)"
+                  fill="clear"
+                >
+                  <ion-icon name="pencil"></ion-icon>
+                </ion-button>
+                <ion-button
+                  size="default"
+                  (click)="confirm_delete(ingredient)"
+                  fill="clear"
+                  color="danger"
+                >
+                  <ion-icon name="trash"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </section>
+</ion-content>

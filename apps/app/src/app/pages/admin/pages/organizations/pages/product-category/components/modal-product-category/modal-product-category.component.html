@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center"> {{ title_modal  }} </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon color="danger" slot="icon-only" name="close-outline">
+        </ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+    <ion-grid >
+    <p-multiSelect
+      [options]="categories"
+      [(ngModel)]="categories_selected"
+      optionLabel="name"
+      optionValue="id"
+      filterBy="name"
+      styleClass="w-full"
+      placeholder="Selecciona categorías"/>
+    <ng-template pTemplate="selectedItem" let-categories>
+      <div class="flex align-items-center gap-2">
+        <div>{{ categories.name }}</div>
+      </div>
+    </ng-template>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button
+      expand="block"
+      fill="solid"
+      color="primary"
+      [disabled]="!categories_selected"
+      (click)="submit()">
+      <ion-text class="font-bold text-0">Guardar Cambios</ion-text>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

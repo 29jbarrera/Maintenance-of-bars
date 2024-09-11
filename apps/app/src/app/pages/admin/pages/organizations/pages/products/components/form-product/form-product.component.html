@@ -1,0 +1,113 @@
+<form [formGroup]="form_product">
+  <ion-row>
+    <div class="col-12">
+      <p-dropdown
+        [options]="categories"
+        formControlName="product_category_id"
+        optionLabel="name"
+        optionValue="id"
+        [filter]="true"
+        filterBy="name"
+        class="p-fluid"
+        placeholder="Selecciona categoría"
+      >
+      </p-dropdown>
+    </div>
+    <div
+      *ngIf="getFormErrorMessage('product_category_id')"
+      class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2 w-full"
+    >
+      <div class="p-element p-icon-wrapper ng-star-inserted">
+        <i class="pi pi-times"></i>
+      </div>
+      {{ getFormErrorMessage('product_category_id') }}
+    </div>
+  </ion-row>
+  <ion-row>
+    <div class="col-12">
+      <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+        Producto
+      </div>
+      <input type="text" pInputText formControlName="name" class="w-full" />
+    </div>
+    <div
+      *ngIf="getFormErrorMessage('name')"
+      class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2 w-full"
+    >
+      <div class="p-element p-icon-wrapper ng-star-inserted">
+        <i class="pi pi-times"></i>
+      </div>
+      {{ getFormErrorMessage('name') }}
+    </div>
+  </ion-row>
+  <ion-row>
+    <div class="col-12">
+      <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+        Nombre interno
+      </div>
+      <input type="text" pInputText formControlName="name_i" class="w-full" />
+    </div>
+  </ion-row>
+  <ion-row>
+    <div class="col-12">
+      <div class="text-left text-sm mb-2 pl-1 font-light text-700">Tomar</div>
+      <input
+        type="number"
+        pInputText
+        formControlName="price_take_away"
+        class="w-full"
+      />
+    </div>
+    <div
+      *ngIf="getFormErrorMessage('price_take_away')"
+      class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2 w-full"
+    >
+      <div class="p-element p-icon-wrapper ng-star-inserted">
+        <i class="pi pi-times"></i>
+      </div>
+      {{ getFormErrorMessage('price_take_away') }}
+    </div>
+  </ion-row>
+  <ion-row>
+    <div class="col-12">
+      <div class="text-left text-sm mb-2 pl-1 font-light text-700">Reparto</div>
+      <input
+        type="number"
+        pInputText
+        formControlName="price_delivery"
+        class="w-full"
+      />
+    </div>
+    <div
+      *ngIf="getFormErrorMessage('price_delivery')"
+      class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2 w-full"
+    >
+      <div class="p-element p-icon-wrapper ng-star-inserted">
+        <i class="pi pi-times"></i>
+      </div>
+      {{ getFormErrorMessage('price_delivery') }}
+    </div>
+  </ion-row>
+  <ion-row>
+    <div class="col-12">
+      <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+        Recogida
+      </div>
+      <input
+        type="number"
+        pInputText
+        formControlName="price_pick_up"
+        class="w-full"
+      />
+    </div>
+    <div
+      *ngIf="getFormErrorMessage('price_pick_up')"
+      class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2 w-full"
+    >
+      <div class="p-element p-icon-wrapper ng-star-inserted">
+        <i class="pi pi-times"></i>
+      </div>
+      {{ getFormErrorMessage('price_pick_up') }}
+    </div>
+  </ion-row>
+</form>

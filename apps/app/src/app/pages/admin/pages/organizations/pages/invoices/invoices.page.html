@@ -1,0 +1,130 @@
+<app-header-app
+  [title]="'FACTURAS - ' + organization_name"
+  [can_back]="true"
+  (go_back)="goBack()">
+</app-header-app>
+
+<ion-content class="ion-padding">
+  <p-toast position="bottom-center"></p-toast>
+  <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+  <section class="container-router-outlet">
+
+    <app-filter-between-dates
+      (filters_between_dates)="filtersBetweenDates($event)"
+      (clean_filter_dates)="cleanFilterDates()">
+    </app-filter-between-dates>
+
+    <ion-progress-bar type="indeterminate" *ngIf="loading"></ion-progress-bar>
+
+    <textarea
+      rows="5"
+      cols="60"
+      pInputTextarea
+      style="width: 100%"
+      placeholder="Puedes introducir varios precios y descripciones separados por comas o saltos de línea para filtrar... "
+      [(ngModel)]="search_term">
+    </textarea>
+
+    <p-table
+      #dt
+      *ngIf="!loading"
+      [value]="invoices | invoices: search_term"
+      dataKey="id"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      styleClass="p-datatable-striped mt-4"
+      [rows]="5"
+      [paginator]="true"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} facturas">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-center">Acciones</th>
+          <th pSortableColumn="num">
+            <div class="flex align-items-center justify-content-around">
+              <p-sortIcon field="num"></p-sortIcon>
+              Número
+              <p-columnFilter type="text" field="num" display="menu">
+              </p-columnFilter>
+            </div>
+          </th>
+          <th pSortableColumn="serial">
+            <div class="flex align-items-center justify-content-around">
+              <p-sortIcon field="serial"></p-sortIcon>
+              Serie
+              <p-columnFilter type="text" field="serial" display="menu">
+              </p-columnFilter>
+            </div>
+          </th>
+          <th pSortableColumn="total_amount">
+            <div class="flex align-items-center justify-content-around">
+              <p-sortIcon field="total_amount"></p-sortIcon>
+              Total
+              <p-columnFilter type="text" field="total_amount" display="menu">
+              </p-columnFilter>
+            </div>
+          </th>
+          <th pSortableColumn="payment_type">
+            <div class="flex align-items-center justify-content-around">
+              <p-sortIcon field="payment_type"></p-sortIcon>
+              Método de pago
+              <p-columnFilter type="text" field="payment_type" display="menu">
+              </p-columnFilter>
+            </div>
+          </th>
+          <th pSortableColumn="created_at">
+            <div class="flex align-items-center justify-content-around">
+              <p-sortIcon field="phone"></p-sortIcon>
+              Fecha
+              <p-columnFilter type="text" field="created_at" display="menu">
+              </p-columnFilter>
+            </div>
+          </th>
+          <th pSortableColumn="phone">
+            <div class="flex align-items-center justify-content-around">
+              <p-sortIcon field="phone"></p-sortIcon>
+              Teléfono
+              <p-columnFilter type="text" field="phone" display="menu">
+              </p-columnFilter>
+            </div>
+          </th>
+          <th pSortableColumn="description">
+            <div class="flex align-items-center justify-content-around">
+              <p-sortIcon field="description"></p-sortIcon>
+              Descripción
+              <p-columnFilter type="text" field="description" display="menu">
+              </p-columnFilter>
+            </div>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-invoices>
+        <tr>
+          <td>
+            <ion-button color="secondary" fill="clear" (click)="view_modal_invoices(invoices)">
+              <ion-icon slot="icon-only" icon="eye"></ion-icon>
+            </ion-button>
+            <ion-button fill="clear" color="primary">
+              <ion-icon slot="icon-only" icon="mail"></ion-icon>
+            </ion-button>
+            <ion-button color="warning" fill="clear" (click)="confirmation_reprint(invoices)">
+              <ion-icon slot="icon-only" icon="print"></ion-icon>
+            </ion-button>   
+          </td>
+          <td>{{ invoices.num }}</td>
+          <td>{{ invoices.serial }}</td>
+          <td>{{invoices.total_amount  | centToEur }} €</td>
+          <td>{{ invoices.payment_type }}</td>
+          <td>{{ invoices.created_at  | date : 'dd/MM/yyyy'}} </td>
+          <td>{{ invoices.phone }}</td>
+          <td>{{ invoices.description }}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="8" class="text-center">No hay datos para mostrar</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </section>
+</ion-content>

@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center"> {{ title_modal }} </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon color="danger" slot="icon-only" name="close-outline">
+        </ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <form [formGroup]="form_product_categories">
+      <ion-row>
+        <div class="col-12">
+          <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+            Categoría
+          </div>
+
+          <input type="text" pInputText formControlName="name" class="w-full" />
+          <div
+            *ngIf="getFormErrorMessage('name')"
+            class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2"
+          >
+            <div class="p-element p-icon-wrapper ng-star-inserted">
+              <i class="pi pi-times"></i>
+            </div>
+            {{ getFormErrorMessage('name') }}
+          </div>
+        </div>
+      </ion-row>
+    </form>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button
+      expand="block"
+      fill="solid"
+      color="primary"
+      [disabled]="form_product_categories.invalid"
+      (click)="submit()"
+    >
+      <ion-text class="font-bold text-0">Guardar Cambios</ion-text>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

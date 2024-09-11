@@ -1,0 +1,11 @@
+<ion-card>
+  <ion-card-content
+    class="text-center cursor-pointer"
+    [ngClass]="style"
+    (click)="change_time.emit(time)"
+  >
+    <ion-label class="text-5xl">
+      {{ time }}
+    </ion-label>
+  </ion-card-content>
+</ion-card>

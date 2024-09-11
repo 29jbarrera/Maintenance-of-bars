@@ -1,0 +1,155 @@
+<p-accordion class="p-3">
+  <p-accordionTab>
+    <!-- Header del Acordeon -->
+    <ng-template pTemplate="header">
+      <div class="ml-4 flex flex-column gap-3 w-full lg:flex-row lg:ml-0">
+        <div class="flex align-items-center gap-2">
+          Filtrar pedidos <i class="pi pi-search" style="font-size: 1.2rem"></i>
+        </div>
+        <div class="lg:ml-auto">
+          Desde
+          <span>{{ filters.from | date : 'dd/MM/yyyy' }} </span>
+          hasta
+          <span>{{ filters.to | date : 'dd/MM/yyyy' }}</span>
+        </div>
+      </div>
+    </ng-template>
+
+    <!-- Filtro entre fechas -->
+    <ion-grid
+      class="surface-100 px-5 p-2 mb-3 border-round-xl border-2 border-300 border-dashed"
+    >
+      <ion-row>
+        <div class="col-12 md:col-6">
+          <p-calendar
+            [(ngModel)]="filters.from"
+            [showTime]="true"
+            hourFormat="24"
+            placeholder="Desde"
+            styleClass="w-full calendar-km-custom"
+            [showIcon]="true"
+            id="orders-filters-calendar-input-from"
+          />
+        </div>
+        <div class="col-12 md:col-6">
+          <p-calendar
+            [(ngModel)]="filters.to"
+            [showTime]="true"
+            hourFormat="24"
+            placeholder="Hasta"
+            styleClass="w-full calendar-km-custom"
+            [showIcon]="true"
+            id="orders-filters-calendar-input-to"
+          />
+        </div>
+      </ion-row>
+    </ion-grid>
+
+    <!-- Estado -->
+    <ion-grid
+      class="surface-100 px-5 p-2 mb-3 border-round-xl border-2 border-300 border-dashed"
+    >
+      <ion-row>
+        <div class="flex flex-wrap gap-3 align-items-center">
+          <span><strong> Estado: </strong></span>
+          <ion-checkbox
+            mode="ios"
+            labelPlacement="end"
+            justify="space-between"
+            (ionChange)="selectAllStatus($event)"
+            [checked]="get_if_checked_all_status()"
+            id="orders-filters-status-input-checkbox-all"
+          >
+            Todos
+          </ion-checkbox>
+          <app-item-checkbox-status
+            *ngFor="let state of status"
+            [state]="state"
+            [checked]="get_if_checked_status(state.value)"
+            (selectStatus)="selectStatus($event)"
+          >
+          </app-item-checkbox-status>
+        </div>
+      </ion-row>
+    </ion-grid>
+
+    <!-- Forma de Pago -->
+    <ion-grid
+      class="surface-100 px-5 p-2 mb-3 border-round-xl border-2 border-300 border-dashed"
+    >
+      <ion-row>
+        <div class="flex flex-wrap gap-3">
+          <span><strong> Forma de Pago: </strong></span>
+          <app-item-radio-payment-method
+            *ngFor="let payment of payment_methods"
+            [name]="payment.label"
+            [value]="payment.value"
+            [filters]="filters"
+          ></app-item-radio-payment-method>
+        </div>
+      </ion-row>
+    </ion-grid>
+
+    <!-- Forma de Envio -->
+    <ion-grid
+      class="surface-100 px-5 p-2 mb-3 border-round-xl border-2 border-300 border-dashed"
+    >
+      <ion-row>
+        <div class="flex flex-wrap gap-3">
+          <span><strong> Forma de Envío: </strong></span>
+          <app-item-radio-delivery
+            *ngFor="let delivery of types_of_delivery"
+            [name]="delivery.label"
+            [value]="delivery.value"
+            [filters]="filters"
+          >
+          </app-item-radio-delivery>
+        </div>
+      </ion-row>
+    </ion-grid>
+
+    <!-- Origen -->
+    <ion-grid
+      class="surface-100 px-5 p-2 mb-3 border-round-xl border-2 border-300 border-dashed"
+    >
+      <ion-row>
+        <div class="flex flex-wrap gap-5">
+          <span><strong> Origen: </strong></span>
+          <app-item-radio-origin
+            *ngFor="let origin of origins"
+            [name]="origin.label"
+            [value]="origin.value"
+            [filters]="filters"
+          ></app-item-radio-origin>
+        </div>
+      </ion-row>
+    </ion-grid>
+
+    
+    <ion-row>
+      <div class="col-12 md:col-6 text-center">
+        <ion-button
+          fill="solid"
+          size="default"
+          (click)="apply_filters()"
+          id="orders-filters-button-apply-filters"
+        >
+          <ion-icon name="search"></ion-icon>
+          <ion-label>Aplicar filtros</ion-label>
+        </ion-button>
+      </div>
+      <div class="col-12 md:col-6 text-center">
+        <ion-button
+          fill="solid"
+          color="danger"
+          size="default"
+          (click)="cleanFilters()"
+          id="orders-filters-button-clean-filters"
+        >
+          <ion-icon name="close"></ion-icon>
+          <ion-label>Limpiar filtros</ion-label>
+        </ion-button>
+      </div>
+    </ion-row>
+  </p-accordionTab>
+</p-accordion>

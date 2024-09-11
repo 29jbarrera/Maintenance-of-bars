@@ -1,0 +1,113 @@
+<app-header-app
+  [title]="organization?.name || ''"
+  (go_back)="goBack()"
+  [can_back]="true"
+>
+</app-header-app>
+
+<ion-content class="ion-padding" *ngIf="organization">
+  <p-toast position="bottom-center"></p-toast>
+  <section class="container-router-outlet">
+    <div class="m-auto w-full md:w-5">
+      <ion-card>
+        <ion-card-content>
+          <p><strong>ID:</strong> {{ organization.id }}</p>
+          <p>
+            <strong>Identificador de facturación:</strong>
+            {{ organization.billing_identifier }}
+          </p>
+          <p>
+            <strong>Nombre del responsable de facturación:</strong>
+            {{ organization.billing_name }}
+          </p>
+          <p>
+            <strong>Dirección de facturación:</strong>
+            {{ organization.billing_address }}
+          </p>
+
+          <div class="text-center">
+            <ion-button
+              fill="clear"
+              expand="block"
+              [id]="'home-admin-button-edit-organization-' + organization.id "
+              (click)="edit_organization()"
+            >
+              <ion-icon slot="start" name="pencil"></ion-icon>
+              Editar Organización
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <div class="grid my-3">
+      <app-home-organization-menu-item
+        *ngFor="let module of modules_organization"
+        class="col-12 md:col-6 xl:col-4"
+        [menu_item]="module"
+        (navigate_to)="navigate_to($event)"
+      >
+      </app-home-organization-menu-item>
+    </div>
+
+    <div class="py-3">
+      <p-table
+        [value]="users_have_access"
+        dataKey="user.id"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        styleClass="p-datatable-striped"
+        [rows]="3"
+        [paginator]="true"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th></th>
+            <th style="width: 25%">ID</th>
+            <th pSortableColumn="user.displayName" style="width: 25%">
+              <div class="flex align-items-center gap-4">
+                <p-sortIcon field="user.displayName"></p-sortIcon>
+                Nombre
+                <p-columnFilter
+                  type="text"
+                  field="user.displayName"
+                  display="menu"
+                >
+                </p-columnFilter>
+              </div>
+            </th>
+            <th pSortableColumn="user.email" style="width: 25%">
+              <div class="flex align-items-center gap-4">
+                <p-sortIcon field="user.email"></p-sortIcon>
+                Email
+                <p-columnFilter type="text" field="user.email" display="menu">
+                </p-columnFilter>
+              </div>
+            </th>
+            <th style="width: 20%">Teléfono</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-access>
+          <tr [id]="'home-admin-table-user-access-' + access.id">
+            <td>
+              <ion-buttons>
+                <ion-button
+                  fill="clear"
+                  color="primary"
+                  (click)="view_user(access.user)"
+                  [id]="'home-admin-table-user-access-button-view' + access.id"
+                  class="mr-2"
+                >
+                  <ion-icon slot="icon-only" name="eye-outline"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </td>
+            <td>{{ access.user.id }}</td>
+            <td>{{ access.user.displayName }}</td>
+            <td>{{ access.user.email }}</td>
+            <td>{{ access.user.phone }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </section>
+</ion-content>

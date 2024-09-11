@@ -1,0 +1,121 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">
+      {{ getUserNameOrEmail() }}
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button
+        (click)="closeModal()"
+        id="modal-user-view-button-close-modal"
+      >
+        <ion-icon
+          color="danger"
+          slot="icon-only"
+          name="close-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<p-toast
+  [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"
+></p-toast>
+<ion-content class="ion-padding" *ngIf="!loading">
+  <ion-grid>
+    <form [formGroup]="form_edit_user">
+      <ion-row>
+        <div class="col-12">
+          <div class="text-left text-sm mb-2 pl-1 font-light text-700">Id</div>
+          <input type="text" pInputText formControlName="id" class="w-full" />
+        </div>
+      </ion-row>
+      <ion-row>
+        <div class="col-12">
+          <div class="text-left text-sm mb-2 pl-1 font-light text-700">UID</div>
+          <input type="text" pInputText formControlName="uid" class="w-full" />
+        </div>
+      </ion-row>
+      <ion-row>
+        <div class="col-12">
+          <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+            Email
+          </div>
+          <input
+            type="text"
+            pInputText
+            formControlName="email"
+            class="w-full"
+          />
+        </div>
+      </ion-row>
+      <ion-row>
+        <div class="col-12">
+          <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+            DisplayName
+          </div>
+          <input
+            type="text"
+            pInputText
+            formControlName="displayName"
+            class="w-full"
+            id="modal-user-view-input-display-name"
+          />
+          <div
+            *ngIf="getFormErrorMessage('displayName')"
+            class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2"
+          >
+            <div class="p-element p-icon-wrapper ng-star-inserted">
+              <i class="pi pi-times"></i>
+            </div>
+            {{ getFormErrorMessage('displayName') }}
+          </div>
+        </div>
+      </ion-row>
+    </form>
+  </ion-grid>
+
+  <!-- Header Añadir Acceso a una Organización -->
+  <div class="flex align-items-center justify-content-between ion-padding">
+    <h4>Organizaciones con acceso</h4>
+
+    <ion-button
+      fill="clear"
+      mode="ios"
+      color="secondary"
+      (click)="add_organizations_user()"
+      id="modal-user-view-button-add-organization"
+    >
+      <ion-icon name="add"></ion-icon>
+    </ion-button>
+  </div>
+
+  <!-- Componente Organizaciones con Acceso Items -->
+  <app-organization-with-access
+    *ngFor="let organization_access of organizations_have_access"
+    [organization_access]="organization_access"
+    [checked_access]="getChecked(organization_access.disabled)"
+    (change_access_to_organization)="change_access_to_organization($event)"
+    (delete_access_to_organization)="delete_access_to_organization($event)"
+  ></app-organization-with-access>
+
+  <!-- Si no hay organizaciones que tenga acceso -->
+  <app-no-results
+    *ngIf="!organizations_have_access.length"
+    [text]="'Actualmente no dispone de acceso a organizaciones'"
+  ></app-no-results>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button
+      expand="block"
+      fill="solid"
+      color="primary"
+      [disabled]="form_edit_user.invalid"
+      (click)="updateChanges()"
+      id="modal-user-view-button-save-changes"
+    >
+      <ion-text class="font-bold text-0">Guardar Cambios</ion-text>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

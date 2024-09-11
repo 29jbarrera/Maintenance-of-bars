@@ -1,0 +1,61 @@
+<app-header-app
+  [title]="name_of_category_product"
+  (go_back)="goBack()"
+  [can_back]="true"
+>
+</app-header-app>
+
+<ion-content class="ion-padding">
+  <section class="container-router-outlet">
+    <p-progressBar
+      *ngIf="loading"
+      mode="indeterminate"
+      [style]="{ height: '6px' }"
+    />
+
+    <ion-card *ngIf="!loading">
+      <ion-card-content>
+        <div class="text-left ion-padding">
+          <ion-toggle [enableOnOffLabels]="true" (ionChange)="reorder()">
+            Ordenar
+          </ion-toggle>
+        </div>
+
+        <div class="text-center">
+          <ion-text *ngIf="order_products">
+            Pulsa y arrastra para ordenar
+          </ion-text>
+        </div>
+
+        <!-- Componente listado de productos dentro de la categoría -->
+        <app-list-products-in-category
+          [products]="products"
+          [order_products]="order_products"
+          [allergens]="allergens"
+          (handleReorder)="handleReorder($event)"
+          (activeAllergen)="activeAllergen($event)"
+          (change_order_of_products)="change_order_of_products($event)"
+        >
+        </app-list-products-in-category>
+      </ion-card-content>
+    </ion-card>
+  </section>
+</ion-content>
+
+<ion-footer *ngIf="order_products">
+  <ion-toolbar>
+    <div class="grid py-3 text-center">
+      <div class="col-12 md:col-6">
+        <ion-button color="primary" fill="solid" (click)="reset_order()">
+          Restaurar orden
+        </ion-button>
+      </div>
+      <div class="col-12 md:col-6">
+        <ion-button color="primary" fill="solid" (click)="save_order()">
+          Guardar Orden
+        </ion-button>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-footer>
+<p-toast position="bottom-center"></p-toast>

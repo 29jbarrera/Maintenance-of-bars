@@ -1,0 +1,111 @@
+<app-header-app [title]="'Configuración Local Impresoras'"></app-header-app>
+<p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"></p-toast>
+<ion-content class="ion-padding">
+  <section class="container-router-outlet">
+    <div class="col-12 px-0 mb-2 py-2">
+      <div
+        class="surface-300 border-2 border-500 border-dashed border-round-2xl p-3 text-center"
+      >
+        <div *ngIf="can_to_load_json">
+          <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+            Cargar JSON
+          </div>
+          <textarea
+            rows="10"
+            cols="30"
+            pInputTextarea
+            class="w-full"
+            style="resize: none"
+            [(ngModel)]="json_input"
+            id="local-configuration-printer-textarea-json-input"
+          ></textarea>
+        </div>
+
+        <p-button
+          *ngIf="!can_to_load_json"
+          label="Cargar JSON"
+          severity="secondary"
+          (onClick)="enable_charge_JSON()"
+          icon="pi pi-upload"
+          id="local-configuration-printer-enable-charge-JSON"
+        />
+
+        <div
+          *ngIf="error_not_json"
+          class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2"
+        >
+          <div class="p-element p-icon-wrapper ng-star-inserted">
+            <i class="pi pi-times"></i>
+          </div>
+          {{ error_not_json }}
+        </div>
+
+        <div
+          class="flex align-items-center justify-content-center gap-2"
+          *ngIf="can_to_load_json"
+        >
+          <p-button
+            [disabled]="!json_input.length"
+            label="Generar"
+            styleClass="mt-2"
+            severity="secondary"
+            (onClick)="charge_JSON()"
+            icon="pi pi-spinner-dotted"
+            id="local-configuration-printer-button-charge_json"
+          />
+          <p-button
+            [disabled]="!json_input.length"
+            label="Limpiar"
+            styleClass="mt-2"
+            severity="danger"
+            (onClick)="clean_charge_JSON()"
+            icon="pi pi-times"
+            id="local-configuration-printer-button-clean-charge-json"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Formulario Configuración Impresora -->
+    <app-form-configuration-printer
+      [form]="form_local_configuration_printers"
+      (remove_printer)="remove_printer($event)"
+      (add_printer)="add_printer()"
+    ></app-form-configuration-printer>
+
+    <ion-grid class="mt-5">
+      <ion-row>
+        <ion-col>
+          <div class="container_json">
+            <div
+              class="top-0 w-full container_json_buttons flex justify-content-between align-items-center p-2"
+            >
+              <p-button
+                icon="pi pi-download"
+                severity="secondary"
+                [rounded]="true"
+                [text]="true"
+                (onClick)="downloadJSON()"
+                id="local-configuration-printer-button-download-json"
+              />
+
+              <p-button
+                icon="pi pi-copy"
+                severity="secondary"
+                [rounded]="true"
+                [text]="true"
+                (onClick)="copyToClipBoard()"
+                id="local-configuration-printer-button-copy-to-clipboard-json"
+              />
+            </div>
+            <div class="display_json mt-3">
+              <code class="text-0">
+                {{form_local_configuration_printers.value | json }}
+              </code>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </section>
+</ion-content>

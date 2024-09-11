@@ -1,0 +1,113 @@
+<form [formGroup]="form_oidokocina" class="flex-column">
+  <ion-row>
+    <ion-col size="12">
+      <div class="text-left text-sm my-3 pl-1 font-light text-700">Usuario</div>
+
+      <input type="text" formControlName="a" pInputText class="w-full" />
+      <div
+        *ngIf="getFormErrorMessage('a')"
+        class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2"
+      >
+        <div class="p-element p-icon-wrapper ng-star-inserted">
+          <i class="pi pi-times"></i>
+        </div>
+        {{ getFormErrorMessage('a') }}
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="12">
+      <div class="text-left text-sm my-3 pl-1 font-light text-700">
+        Contraseña
+      </div>
+
+      <input
+        [type]="input_password"
+        pInputText
+        formControlName="p"
+        class="w-full"
+      />
+
+      <span class="p-input-icon-right">
+        <i
+          class="pi pi-eye cursor-pointer"
+          (click)="change_view_password()"
+        ></i>
+      </span>
+      <div
+        *ngIf="getFormErrorMessage('p')"
+        class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2"
+      >
+        <div class="p-element p-icon-wrapper ng-star-inserted">
+          <i class="pi pi-times"></i>
+        </div>
+        {{ getFormErrorMessage('p') }}
+      </div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col size="12">
+      <div class="text-left text-sm my-3 pl-1 font-light text-700">
+        Número Configuración
+      </div>
+
+      <input
+        type="text"
+        formControlName="numconfig"
+        pInputText
+        class="w-full"
+      />
+      <div
+        *ngIf="getFormErrorMessage('numconfig')"
+        class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2"
+      >
+        <div class="p-element p-icon-wrapper ng-star-inserted">
+          <i class="pi pi-times"></i>
+        </div>
+        {{ getFormErrorMessage('numconfig') }}
+      </div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col size="12">
+      <div class="text-left text-sm my-3 pl-1 font-light text-700">
+        Modelo Impresora
+      </div>
+
+      <input
+        type="text"
+        formControlName="modeloImpresora"
+        pInputText
+        class="w-full"
+      />
+      <div
+        *ngIf="getFormErrorMessage('modeloImpresora')"
+        class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2"
+      >
+        <div class="p-element p-icon-wrapper ng-star-inserted">
+          <i class="pi pi-times"></i>
+        </div>
+        {{ getFormErrorMessage('modeloImpresora') }}
+      </div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col size="12">
+      <div class="text-left text-sm my-3 pl-1 font-light text-700">Versión</div>
+
+      <input type="text" formControlName="version" pInputText class="w-full" />
+      <div
+        *ngIf="getFormErrorMessage('version')"
+        class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2"
+      >
+        <div class="p-element p-icon-wrapper ng-star-inserted">
+          <i class="pi pi-times"></i>
+        </div>
+        {{ getFormErrorMessage('version') }}
+      </div>
+    </ion-col>
+  </ion-row>
+</form>

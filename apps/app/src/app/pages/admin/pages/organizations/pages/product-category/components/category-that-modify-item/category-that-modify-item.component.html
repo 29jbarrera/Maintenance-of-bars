@@ -1,0 +1,36 @@
+<ion-item
+  mode="md"
+  [lines]="line"
+  [id]="'product-category-that-modify-item-' + category.id"
+  class="my-2"
+>
+  <ion-label class="py-1">
+    <h3>
+      {{
+        category
+          .product_category_product_category_has_other_product_category_pc_idToproduct_category
+          .name
+      }}
+    </h3>
+    <p>Orden: {{ category.o }}</p>
+    <p>Incremento de precio: {{ category.pi }}</p>
+    <p>Precio añadido: {{ category.not_add_princing }}</p>
+  </ion-label>
+
+  <ion-buttons slot="end">
+    <ion-button
+      (click)="delete_category_that_modify.emit(category)"
+      [id]="'product-category-button-delete-category-that-modify' + category.id"
+    >
+      <ion-icon slot="icon-only" color="danger" name="trash"></ion-icon>
+    </ion-button>
+
+    <ion-button
+      (click)="view_modal_edit.emit(category)"
+      [id]="'product-categories-button-edit-product-category-' + category.id"
+    >
+      <ion-icon slot="icon-only" color="primary" name="pencil"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-item>
+

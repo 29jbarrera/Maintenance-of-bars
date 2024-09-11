@@ -1,0 +1,27 @@
+<app-header-app
+  [title]="'OIDOKOCINA - ' + organization_name"
+  (go_back)="goBack()"
+  [can_back]="true"
+>
+</app-header-app>
+
+<ion-content class="ion-padding">
+  <section class="container-router-outlet">
+    <app-oidokocina-form
+      [form_oidokocina]="form_oidokocina"
+      (saveConfigEvent)="save_config()"
+    >
+    </app-oidokocina-form>
+  </section>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div class="flex justify-content-center">
+      <ion-button fill="solid" color="primary" (click)="save_config()">
+        <ion-text>Guardar Configuración</ion-text>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>
+<p-toast position="bottom-center"></p-toast>

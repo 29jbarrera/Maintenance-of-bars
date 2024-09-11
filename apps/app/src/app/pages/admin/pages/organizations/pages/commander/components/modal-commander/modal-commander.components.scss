@@ -1,0 +1,38 @@
+ion-chip.chip-status {
+  --background: #cfcfcf;
+  --color: #5e5e5e;
+  font-weight: bold;
+  padding: 4px 24px;
+}
+
+ion-chip.chip-status:hover {
+  --background: #b1b1b1;
+  --color: #5e5e5e;
+}
+
+ion-chip.chip-status.pending {
+  --background: burlywood;
+  --color: #181818;
+}
+
+ion-chip.chip-status.prepared {
+  --background: rgb(115, 232, 232);
+  --color: #181818;
+}
+
+ion-chip.chip-status.ready {
+  --background: lightgreen;
+  --color: #181818;
+}
+
+ion-chip.chip-status.pending.opacity-full,
+.chip-status.prepared.opacity-full,
+.chip-status.ready.opacity-full {
+  opacity: 1;
+}
+
+ion-chip.chip-status.pending.opacity-light,
+.chip-status.prepared.opacity-light,
+.chip-status.ready.opacity-light {
+  opacity: 0.3;
+}

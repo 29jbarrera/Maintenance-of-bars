@@ -1,0 +1,11 @@
+.allergen-icon {
+  img.active {
+    opacity: 1;
+  }
+  img.no-active {
+    opacity: 0.5;
+  }
+  img:hover {
+    opacity: 1;
+  }
+}

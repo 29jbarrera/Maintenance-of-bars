@@ -1,0 +1,375 @@
+<!-- TODO: Traer o Pintar NOMBRE  -->
+<app-header-app
+  [title]="'PRODUCTO ' + product_name"
+  (go_back)="goBack()"
+  [can_back]="true"
+>
+</app-header-app>
+
+<ion-content class="ion-padding">
+  <p-toast position="bottom-center"></p-toast>
+  <section class="container-router-outlet">
+    <p-toast position="bottom-center"></p-toast>
+
+    <ion-grid>
+      <!-- DATOS BASICOS -->
+      <ion-row>
+        <ion-col size="12">
+          <ion-item-divider color="dark" class="ion-padding" mode="ios">
+            <ion-label class="text-xl"> Datos Básicos </ion-label>
+          </ion-item-divider>
+
+          <div
+            class="surface-ground border-2 border-dashed surface-border my-2 p-3 border-round-2xl"
+          >
+            <app-form-product
+              [form_product]="basic_data_form"
+              [categories]="categories"
+            >
+            </app-form-product>
+
+            <ion-button
+              class="px-2 pt-2 m-auto justify-content-center lg:w-3"
+              expand="block"
+              fill="solid"
+              color="primary"
+              (click)="save_changes_basic_data(product)"
+            >
+              <ion-text class="font-bold text-0">Guardar Cambios</ion-text>
+            </ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <!-- TAMAÑOS DEL PRODUCTO -->
+      <ion-row>
+        <ion-col size="12">
+          <!-- Divisor y Componente Tamaños del Producto -->
+          <ion-item-divider color="dark" class="ion-padding" mode="ios">
+            <ion-label class="text-xl">
+              <h1>Tamaños del Producto</h1>
+              <ion-text *ngIf="!are_sizes_available()">
+                <small>Todos los tamaños se han asignado</small>
+              </ion-text>
+            </ion-label>
+            <ion-button
+              slot="end"
+              fill="clear"
+              color="light"
+              size="medium"
+              (click)="view_modal_add_sizes()"
+              [disabled]="disable_add_product_size()"
+            >
+              <ion-icon name="add-outline"></ion-icon>
+              <ion-label> AÑADIR TAMAÑOS</ion-label>
+            </ion-button>
+          </ion-item-divider>
+
+          <div
+            class="surface-ground border-2 border-dashed surface-border my-2 p-3 border-round-2xl"
+          >
+            <ion-item *ngFor="let size of product_size">
+              <ion-label>
+                <p>{{ size.product_size.name }}: {{ size.price / 100 }} €</p>
+              </ion-label>
+              <ion-buttons>
+                <ion-button
+                  fill="clear"
+                  color="danger"
+                  class="mr-2"
+                  (click)="delete_product_size(size)"
+                >
+                  <ion-icon slot="icon-only" name="trash"></ion-icon>
+                </ion-button>
+                <ion-button
+                  fill="clear"
+                  color="primary"
+                  (click)="view_modal_edit_product_size_price(size)"
+                >
+                  <ion-icon slot="icon-only" name="pencil"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </ion-item>
+
+            <div *ngIf="!product_size.length" class="text-center p-1">
+              <p>No hay tamaños asignados a este producto.</p>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <!-- MODIFICADORES DEL PRODUCTO -->
+      <ion-row>
+        <ion-col size="12">
+          <ion-item-divider color="dark" class="ion-padding" mode="ios">
+            <ion-label class="text-xl"> Modificadores del Producto </ion-label>
+
+            <ion-button
+              slot="end"
+              fill="clear"
+              color="light"
+              size="medium"
+              (click)="add_modifiers_to_product()"
+            >
+              <ion-icon name="add-outline"></ion-icon>
+              <ion-label> AÑADIR MODIFICADORES</ion-label>
+            </ion-button>
+          </ion-item-divider>
+
+          <div
+            class="surface-ground border-2 border-dashed surface-border my-2 p-3 border-round-2xl"
+          >
+            <ion-item
+              *ngFor="let modification of modifications; let i = index"
+              [lines]="i < modifications.length - 1 ? 'full':'none'"
+            >
+              <ion-label>
+                <h3>{{ modification.app_product_modification.name }}</h3>
+                <div class="text-500 text-xs">
+                  Incremento Precio: {{modification.pi | centToEur}}€
+                </div>
+                <div class="text-500 text-xs">Orden: {{modification.o}}</div>
+              </ion-label>
+              <ion-buttons slot="end">
+                <!-- TODO EDITAR -->
+                <ion-button color="primary" (click)="edit_product_modification(modification)">
+                  <ion-icon fill="clear" name="pencil"></ion-icon>
+                </ion-button>
+
+                <ion-button
+                  color="danger"
+                  (click)="remove_product_modifcation(modification)"
+                >
+                  <ion-icon fill="clear" name="trash"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </ion-item>
+
+            <div *ngIf="!modifications.length" class="text-center p-1">
+              <p>No hay modificadores para este producto.</p>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <!-- LISTADO DE INGREDIENTES -->
+      <!-- TODO: Componente -->
+      <ion-row>
+        <ion-col size="12">
+          <ion-item-divider color="dark" class="ion-padding" mode="ios">
+            <ion-label class="text-xl"> Ingredientes del Producto </ion-label>
+            <ion-button
+              slot="end"
+              fill="clear"
+              color="light"
+              size="medium"
+              (click)="add_ingredients()"
+            >
+              <ion-icon name="add-outline"></ion-icon>
+              <ion-label> AÑADIR INGREDIENTES</ion-label>
+            </ion-button>
+          </ion-item-divider>
+          <div
+            class="surface-ground border-2 border-dashed surface-border my-2 p-3 border-round-2xl"
+          >
+            <ion-item
+              *ngFor="let ingredient of ingredients; let i = index"
+              [lines]="i < ingredients.length - 1 ? 'full':'none'"
+            >
+              <ion-label>
+                {{ ingredient.ingredient.name }}
+                <p>{{ ingredient.price | centToEur }}€</p>
+              </ion-label>
+
+              <ion-buttons>
+                <ion-button
+                  size="default"
+                  color="primary"
+                  fill="clear"
+                  (click)="edit_ingredient(ingredient)"
+                >
+                  <ion-icon name="pencil"></ion-icon>
+                </ion-button>
+                <ion-button
+                  size="default"
+                  fill="clear"
+                  color="danger"
+                  (click)="delete_ingredient(ingredient)"
+                >
+                  <ion-icon name="trash"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </ion-item>
+
+            <div *ngIf="!ingredients.length" class="text-center p-1">
+              <p>No hay ingredientes para este producto.</p>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <!-- INGREDIENTES POR DEFECTO DEL PRODUCTO -->
+      <!-- TODO: Componente -->
+      <ion-row>
+        <ion-col size="12">
+          <ion-item-divider color="dark" class="ion-padding" mode="ios">
+            <ion-label class="text-xl">
+              Ingredientes por defecto del Producto
+            </ion-label>
+          </ion-item-divider>
+
+          <div
+            class="surface-ground border-2 border-dashed surface-border my-2 p-3 border-round-2xl"
+          >
+            <div
+              class="flex flex-wrap align-items-center justify-content-center gap-3"
+            >
+              <app-pill-checkbox-component
+                *ngFor="let ingredient of ingredients"
+                [is_active]="ingredient.default"
+                [name]="ingredient.ingredient.name"
+                [item]="ingredient"
+                (add_or_remove)="active_or_desactive_ingredient_product($event)"
+              ></app-pill-checkbox-component>
+            </div>
+
+            <div *ngIf="!ingredients.length" class="text-center p-1">
+              <p>No hay ingredientes para este producto.</p>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <!-- ORDEN Y VISUALIZACION -->
+      <!-- TODO: Componente -->
+      <ion-row>
+        <ion-col size="12">
+          <ion-item-divider color="dark" class="ion-padding" mode="ios">
+            <ion-label class="text-xl"> Orden y Visualización </ion-label>
+          </ion-item-divider>
+
+          <div
+            class="surface-ground border-2 border-dashed surface-border my-2 p-3 border-round-2xl"
+          >
+            <form [formGroup]="form_order_and_visualization">
+              <ion-row>
+                <div class="col-12">
+                  <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+                    Priority
+                  </div>
+                  <input
+                    type="number"
+                    pInputText
+                    formControlName="priority"
+                    class="w-full"
+                  />
+                </div>
+                <div
+                  *ngIf="getFormErrorMessage('priority')"
+                  class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2 w-full"
+                >
+                  <div class="p-element p-icon-wrapper ng-star-inserted">
+                    <i class="pi pi-times"></i>
+                  </div>
+                  {{ getFormErrorMessage('priority') }}
+                </div>
+              </ion-row>
+              <ion-row>
+                <div class="col-12">
+                  <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+                    Priority KO
+                  </div>
+                  <input
+                    type="number"
+                    pInputText
+                    formControlName="priority_ko"
+                    class="w-full"
+                  />
+                </div>
+                <div
+                  *ngIf="getFormErrorMessage('priority_ko')"
+                  class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2 w-full"
+                >
+                  <div class="p-element p-icon-wrapper ng-star-inserted">
+                    <i class="pi pi-times"></i>
+                  </div>
+                  {{ getFormErrorMessage('priority_ko') }}
+                </div>
+              </ion-row>
+              <ion-row>
+                <div class="col-12">
+                  <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+                    Priority U
+                  </div>
+                  <input
+                    type="number"
+                    pInputText
+                    formControlName="priority_u"
+                    class="w-full"
+                  />
+                </div>
+                <div
+                  *ngIf="getFormErrorMessage('priority_u')"
+                  class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2 w-full"
+                >
+                  <div class="p-element p-icon-wrapper ng-star-inserted">
+                    <i class="pi pi-times"></i>
+                  </div>
+                  {{ getFormErrorMessage('priority_u') }}
+                </div>
+              </ion-row>
+              <ion-row>
+                <div class="col-12">
+                  <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+                    QR_V
+                  </div>
+                  <input
+                    type="number"
+                    pInputText
+                    formControlName="qr_o"
+                    class="w-full"
+                  />
+                </div>
+                <div
+                  *ngIf="getFormErrorMessage('qr_o')"
+                  class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2 w-full"
+                >
+                  <div class="p-element p-icon-wrapper ng-star-inserted">
+                    <i class="pi pi-times"></i>
+                  </div>
+                  {{ getFormErrorMessage('qr_o') }}
+                </div>
+              </ion-row>
+              <ion-row>
+                <div class="col-12">
+                  <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+                    W_V
+                  </div>
+                  <p-inputSwitch formControlName="w_v" />
+                </div>
+                <div
+                  *ngIf="getFormErrorMessage('w_v')"
+                  class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2 w-full"
+                >
+                  <div class="p-element p-icon-wrapper ng-star-inserted">
+                    <i class="pi pi-times"></i>
+                  </div>
+                  {{ getFormErrorMessage('w_v') }}
+                </div>
+              </ion-row>
+            </form>
+            <ion-button
+              class="px-2 pt-2 m-auto justify-content-center lg:w-3"
+              expand="block"
+              fill="solid"
+              color="primary"
+              (click)="edit_order_and_visualization()"
+            >
+              <ion-text class="font-bold text-0">Guardar Cambios</ion-text>
+            </ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </section>
+</ion-content>

@@ -1,0 +1,65 @@
+<div class="overflow-auto">
+  <table class="table-products">
+    <thead>
+      <th>Producto</th>
+      <th>Cant.</th>
+      <th class="sm-hidden">PVP</th>
+      <th>Subtotal</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let detail of details" [ngClass]="{'danger-row': detail.observaciones}">
+        <td>
+          <!-- Nombre Producto -->
+          <div class="flex align-items-center gap-1">
+            <img src="/assets/icons/oidokocina/food.png" />
+            <span>
+              {{ detail.producto.nombre }}
+            </span>
+          </div>
+          <!-- Observaciones -->
+          <div
+            class="flex align-items-center gap-1"
+            *ngIf="detail.observaciones"
+          >
+            <img src="/assets/icons/oidokocina/alert.png" />
+            <span class="text-red-500 font-bold">
+              {{ detail.observaciones }}
+            </span>
+          </div>
+          <!-- Ingredientes Extras -->
+          <div
+            class="my-1 flex align-items-start gap-1 flex-column justify-content-start md:flex-row md:align-items-center"
+            *ngIf="get_product_options(detail.productoOpciones).length"
+          >
+            <img class="hidden md:block" src="/assets/icons/oidokocina/plus-ingredients.png" />
+            <span class="font-bold block md:hidden mr-2">
+              Ingredientes Extras:
+            </span>
+
+            <p-tag
+              *ngFor="
+                let option of get_product_options(detail.productoOpciones)
+              "
+              [value]="option.nombreopcion"
+              styleClass="mr-1"
+            />
+          </div>
+        </td>
+        <td>
+          {{ detail.cantidad }}
+        </td>
+        <td class="sm-hidden">
+          {{ format_price(detail.pvpunidad + detail.incrementopreciototal) }}
+        </td>
+        <td>
+          {{
+            format_price(
+              detail.cantidad *
+                (detail.pvpunidad + detail.incrementopreciototal)
+            )
+          }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

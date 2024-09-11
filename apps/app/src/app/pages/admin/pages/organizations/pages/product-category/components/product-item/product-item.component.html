@@ -1,0 +1,17 @@
+<ion-item
+  mode="ios"
+  [lines]="line"
+  [id]="'product-category-product-item-' + product.id"
+>
+  <ion-label>
+    <h3>{{ product.name }}</h3>
+  </ion-label>
+  <ion-buttons slot="end">
+    <ion-button
+      (click)="delete_product.emit(product)"
+      [id]="'product-category-button-delete-product-' + product.id"
+    >
+      <ion-icon slot="icon-only" color="danger" name="trash"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-item>

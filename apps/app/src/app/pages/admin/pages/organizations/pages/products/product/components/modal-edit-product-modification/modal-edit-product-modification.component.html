@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Editando Modificador </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close_modal()">
+        <ion-icon
+          color="danger"
+          slot="icon-only"
+          name="close-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-grid>
+    <form [formGroup]="form_edit_product_modification">
+      <div class="col-12">
+        <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+          Nombre
+        </div>
+        <input
+          type="text"
+          [value]="modification.app_product_modification.name"
+          pInputText
+          class="w-full"
+          [disabled]="true"
+        />
+      </div>
+      <div class="col-12">
+        <div class="text-left text-sm mb-2 pl-1 font-light text-700">
+          Incremento de Precio
+        </div>
+        <input type="number" formControlName="pi" pInputText class="w-full" />
+        <div
+          *ngIf="getFormErrorMessage('pi')"
+          class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2"
+        >
+          <div class="p-element p-icon-wrapper ng-star-inserted">
+            <i class="pi pi-times"></i>
+          </div>
+          {{ getFormErrorMessage('pi') }}
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="text-left text-sm mb-2 pl-1 font-light text-700">Orden</div>
+        <input type="number" formControlName="o" pInputText class="w-full" />
+        <div
+          *ngIf="getFormErrorMessage('o')"
+          class="p-inline-message p-component p-inline-message-error flex align-items-center gap-2 mt-2"
+        >
+          <div class="p-element p-icon-wrapper ng-star-inserted">
+            <i class="pi pi-times"></i>
+          </div>
+          {{ getFormErrorMessage('o') }}
+        </div>
+      </div>
+    </form>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button
+      class="font-bold text-0"
+      expand="block"
+      fill="solid"
+      color="primary"
+      (click)="update_product_modification()"
+    >
+      <ion-text class="font-bold text-0">Guardar Cambios</ion-text>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

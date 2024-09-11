@@ -1,0 +1,100 @@
+<app-header-app
+  [title]="'OIDOKOCINA DE LA ORGANIZACION  - ' + organization_name"
+  (go_back)="goBack()"
+  [can_back]="true"
+>
+</app-header-app>
+
+<ion-content class="ion-padding">
+  <section class="container-router-outlet">
+    <app-order-filter
+      (filter_data)="apply_filter_data($event)"
+      [filters]="filters"
+    ></app-order-filter>
+
+    <!-- TODO: Añadir lógica de búsqueda -->
+    <ion-row>
+      <textarea
+        rows="3"
+        cols="60"
+        pInputTextarea
+        class="textarea-oido-kocina-search-to-table mb-3"
+        placeholder="Puedes introducir varios (añadir lógica de búsqueda)... "
+        [(ngModel)]="search_term"
+        id="'organization-oidokocina-input-textarea-search-to-table'"
+      >
+      </textarea>
+    </ion-row>
+
+    <p-table
+      #dt
+      [value]="orders"
+      [paginator]="true"
+      [rows]="10"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} pedidos"
+      selectionMode="single"
+      dataKey="id"
+      (onRowSelect)="onRowSelect($event)"
+      [tableStyle]="{'min-width': '50rem'}"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="createdAt">
+            Fecha <p-sortIcon field="createdAt" />
+          </th>
+          <th pSortableColumn="estado.id">
+            Estado <p-sortIcon field="estado.id" />
+          </th>
+          <th pSortableColumn="establecimiento.arecoger">
+            Dirección <p-sortIcon field="establecimiento.arecoger" />
+          </th>
+          <th pSortableColumn="quienreparte">
+            Reparte <p-sortIcon field="quienreparte" />
+          </th>
+          <th pSortableColumn="numeropedidoest">
+            Número <p-sortIcon field="numeropedidoest" />
+          </th>
+          <th pSortableColumn="tiempoestimado">
+            Tiempo estimado <p-sortIcon field="tiempoestimado" />
+          </th>
+          <th pSortableColumn="importeproductos">
+            Imp. Productos <p-sortIcon field="importeproductos" />
+          </th>
+          <th pSortableColumn="importeenvio">
+            Imp. Envío <p-sortIcon field="importeenvio" />
+          </th>
+          <th pSortableColumn="preciototal">
+            Total <p-sortIcon field="preciototal" />
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-order>
+        <tr [pSelectableRow]="order" [id]="'organization-oido-kocina-table-orders-order-' + order.id">
+          <td>{{ order.createdAt | date : 'HH:mm' }}</td>
+          <td>
+            <p-tag
+              [severity]="get_severity_status(order.estado.id)"
+              [ngClass]="{'blink': get_severity_status(order.estado.id) === 'new'}"
+            >
+              {{ order.estado.nombre }}
+            </p-tag>
+          </td>
+          <td>{{ get_method_delivery(order.formaentrega) }}</td>
+          <td>{{ get_who_delivery(order.quienreparte) }}</td>
+          <td>{{order.numeropedidoest}}</td>
+          <td>{{order.tiempoestimado}} Minutos</td>
+          <td>{{format_price(order.importeproductos)}}€</td>
+          <td>{{format_price(order.importeenvio)}}€</td>
+          <td>{{format_price(order.preciototal)}}€</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="10" class="text-center">No hay datos para mostrar</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </section>
+</ion-content>
