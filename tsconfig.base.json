@@ -1,0 +1,28 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@komandero/clientTRPC": ["apps/app/src/app/clientTrpc.ts"],
+      "@komandero/commons": ["libs/commons/src/index.ts"],
+      "@komandero/prisma": ["libs/server/src/lib/prisma.ts"],
+      "@komandero/server": ["libs/server/src/index.ts"],
+      "@komandero/serverTRPC": ["libs/server/src/lib/trpc/utils/index.ts"],
+      "@komandero/utils": ["apps/app/src/app/utils.ts"],
+      "@komandero/web-share": ["apps/app/src/app/components/shared"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

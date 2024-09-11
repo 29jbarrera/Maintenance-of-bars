@@ -1,0 +1,89 @@
+[
+  {
+    "id": "5731c678-6e4c-4aa3-a018-cf5587cec423",
+    "name": "CASA CARRILLO",
+    "order_num": 20907,
+    "image_main": null,
+    "invoice_num": 7051,
+    "cash_closure_num": 426,
+    "at_id": null,
+    "atr_id": null,
+    "phone": "",
+    "address": "",
+    "description": "",
+    "enabled": true,
+    "prioriry_u": 1000,
+    "enabled_u": false,
+    "invoice_num_c": 17,
+    "billing_address": "JUAN XXIII, BLOQUE 5 -PRIMERO IZQUIERDA 41620 MARCHENA - (SEVILLA)",
+    "billing_name": "CARRIBER 2023, SOCIEDAD LIMITADA",
+    "billing_identifier": "B44639888",
+    "default_tax": 10,
+    "sa": null,
+    "email": null,
+    "bank_account_number": null,
+    "facebook": null,
+    "twitter": null,
+    "instagram": null,
+    "youtube": null,
+    "has_products": false,
+    "has_services": false,
+    "has_catering": true,
+    "web": null,
+    "image_header": null,
+    "whatsapp": null,
+    "last_update_products": "2024-04-06T08:41:28.101Z",
+    "last_update_product_categories": "2024-04-02T11:04:31.916Z",
+    "gocardless": null,
+    "letterhead": [
+      {
+        "style": "B",
+        "text": "Casa Carrillo",
+        "size_x": 3,
+        "align": "ct",
+        "size_y": 2,
+        "font": "B"
+      },
+      {
+        "style": "NORMAL",
+        "text": "",
+        "size_x": 1,
+        "align": "ct",
+        "size_y": 1,
+        "font": "a"
+      },
+      {
+        "style": "NORMAL",
+        "text": "",
+        "size_x": 1,
+        "align": "ct",
+        "size_y": 1,
+        "font": "a"
+      },
+      {
+        "style": "NORMAL",
+        "text": "B446398888",
+        "size_x": 1,
+        "align": "ct",
+        "size_y": 1,
+        "font": "a"
+      },
+      {
+        "style": "NORMAL",
+        "text": "Las Torres, 39, Marchena 41620",
+        "size_x": 1,
+        "align": "ct",
+        "size_y": 1,
+        "font": "a"
+      },
+      {
+        "style": "NORMAL",
+        "text": "",
+        "size_x": 1,
+        "align": "ct",
+        "size_y": 1,
+        "font": "a"
+      }
+    ]
+  }
+]
